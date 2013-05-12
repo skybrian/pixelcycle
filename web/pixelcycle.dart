@@ -6,6 +6,7 @@ class PixelRect {
   int height;
   int pixelsize;
   List<String> pixels;
+  bool willRender = false;
   
   PixelRect(this.width, this.height, this.pixelsize, String color) {
     pixels = new List<String>(width * height);
@@ -24,7 +25,7 @@ class PixelRect {
   
   bool set(int x, int y, String color) {
     if (!inRange(x, y)) {
-      throw new Exception("out of range: ${x},${y}");      
+      return false;
     }
     num i = x + y*width;
     if (color == pixels[i]) {
@@ -54,15 +55,16 @@ class PixelRect {
   void onMouseDraw(MouseEvent e, String color, CanvasRenderingContext2D c) {
     int x = (e.offsetX / pixelsize).toInt();
     int y = (e.offsetY / pixelsize).toInt();
-    if (!inRange(x, y)) {
-      return;
-    }
     if (!set(x, y, color)) {
       return;
     }
-    window.requestAnimationFrame((t) {
-      render(c);
-    });    
+    if (!willRender) {
+      window.requestAnimationFrame((t) {
+        render(c);
+        willRender = false;
+      });
+      willRender = true;
+    }
   }  
 }
 
@@ -91,6 +93,7 @@ void main() {
   elt.onMouseDown.listen((MouseEvent e) {
     if (e.button == 0) {
       stopDrawing = startDrawing(p, elt);
+      e.preventDefault(); // don't change the cursor
     }
   });
   
