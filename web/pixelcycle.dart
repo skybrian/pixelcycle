@@ -1,15 +1,19 @@
 import 'dart:html';
 import 'dart:async' as async;
 
+class Swatch {
+  final String color;
+  Swatch(this.color);
+}
+
 class GridModel {
-  int width;
-  int height;
-  List<String> pixels;
+  final int width;
+  final int height;
+  final List<String> pixels;
   async.Stream<GridModel> onChange;
   async.EventSink<GridModel> onChangeSink;
   
-  GridModel(this.width, this.height, String color) {
-    pixels = new List<String>(width * height);
+  GridModel(int width, int height, String color) : this.width = width, this.height = height, pixels = new List<String>(width * height) {
     for (num i = 0; i < pixels.length; i++) {
       pixels[i] = color;
     }
@@ -52,14 +56,13 @@ class GridModel {
 typedef void cancelFunc();
 
 class GridView {
-  GridModel m;
-  int pixelsize;
-  CanvasElement elt;
+  final GridModel m;
+  final int pixelsize;
+  final CanvasElement elt;
   bool willRender = false;
   cancelFunc stopDrawing = () {};
   
-  GridView(this.m, this.pixelsize) {
-    elt = new CanvasElement();
+  GridView(this.m, this.pixelsize) : elt = new CanvasElement() {
     elt.width = m.width * pixelsize;
     elt.height = m.height * pixelsize;
     
