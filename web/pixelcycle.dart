@@ -4,14 +4,19 @@ import 'dart:async' as async;
 class GridModel {
   int width;
   int height;
-  int pixelsize;
   List<String> pixels;
+  async.Stream<GridModel> onChange;
+  async.EventSink<GridModel> onChangeSink;
   
-  GridModel(this.width, this.height, this.pixelsize, String color) {
+  GridModel(this.width, this.height, String color) {
     pixels = new List<String>(width * height);
     for (num i = 0; i < pixels.length; i++) {
       pixels[i] = color;
     }
+    
+    var controller = new async.StreamController<GridModel>();
+    onChange = controller.stream.asBroadcastStream();
+    onChangeSink = controller.sink;
   }
 
   bool inRange(int x, int y) {
@@ -22,27 +27,19 @@ class GridModel {
     return pixels[x + y*width];    
   }
   
-  bool set(int x, int y, String color) {
+  void set(int x, int y, String color) {
     if (!inRange(x, y)) {
-      return false;
+      return;
     }
     num i = x + y*width;
     if (color == pixels[i]) {
-      return false;
+      return;
     }
     pixels[i] = color;
-    return true;
+    onChangeSink.add(this);
   }
   
-  int renderWidth() {
-    return width * pixelsize;
-  }
-  
-  int renderHeight() {
-    return height * pixelsize;
-  }
-  
-  void render(CanvasRenderingContext2D c) {
+  void render(CanvasRenderingContext2D c, int pixelsize) {
     for (num y = 0; y < height; y++) {
       for (num x = 0; x < width; x++) {
         c.fillStyle = get(x,y);
@@ -56,15 +53,20 @@ typedef void cancelFunc();
 
 class GridView {
   GridModel m;
+  int pixelsize;
   CanvasElement elt;
   bool willRender = false;
   cancelFunc stopDrawing = () {};
   
-  GridView(this.m) {
+  GridView(this.m, this.pixelsize) {
     elt = new CanvasElement();
-    elt.width = m.renderWidth();
-    elt.height = m.renderWidth();
+    elt.width = m.width * pixelsize;
+    elt.height = m.height * pixelsize;
     
+    m.onChange.listen((GridModel) {
+      renderAsync();  
+    });
+
     elt.onMouseDown.listen((MouseEvent e) {
       if (e.button == 0) {
         var sub = elt.onMouseMove.listen((MouseEvent e) {
@@ -89,25 +91,28 @@ class GridView {
       return;
     }
     window.requestAnimationFrame((t) {
-      m.render(elt.context2D);
+      m.render(elt.context2D, pixelsize);
       willRender = false;
     });
     willRender = true;   
   }
   
   void paint(MouseEvent e, String color) {
-    int x = (e.offsetX / m.pixelsize).toInt();
-    int y = (e.offsetY / m.pixelsize).toInt();
-    if (m.set(x, y, color)) {
-      renderAsync();
-    }
+    int x = (e.offsetX / pixelsize).toInt();
+    int y = (e.offsetY / pixelsize).toInt();
+    m.set(x, y, color);
   }
 }
 
 void main() {
   
-  GridModel p = new GridModel(32, 32, 10, "#000");
-  GridView v = new GridView(p);
-  query("#canvas").append(v.elt);
-  v.renderAsync();  
+  GridModel m = new GridModel(100, 60, "#000");
+
+  GridView big = new GridView(m, 10);
+  query("#big").append(big.elt);
+  big.renderAsync();  
+
+  GridView small = new GridView(m, 1);
+  query("#small").append(small.elt);
+  small.renderAsync();
 }
