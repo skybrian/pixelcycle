@@ -6,6 +6,88 @@ class Swatch {
   Swatch(this.color);
 }
 
+class PaletteModel {
+  final swatches;
+  int selected = 1;
+  async.Stream<PaletteModel> onChange;
+  async.EventSink<PaletteModel> onChangeSink;
+  PaletteModel(List<String> colors) : swatches = new List<Swatch>(colors.length) {
+    for (int i = 0; i < colors.length; i++) {
+      swatches[i] = new Swatch(colors[i]);
+    }
+    
+    var controller = new async.StreamController<PaletteModel>();
+    onChange = controller.stream;
+    onChangeSink = controller.sink;
+  }
+  
+  void select(int id) {
+    this.selected = id;
+    onChangeSink.add(this);
+  }
+  
+  Swatch getSwatch() {
+    return swatches[selected];
+  }
+}
+
+class PaletteView {
+  final PaletteModel m;
+  final elt = new DivElement();
+  final cells;
+  PaletteView(PaletteModel model, int width) : m = model, cells = new List<TableCellElement>(model.swatches.length) {
+    elt.classes.add("palette");
+    elt.append(_makeTable(width));
+    elt.onClick.listen((MouseEvent e) {
+      Element t = e.target;
+      var id = t.dataset["id"];
+      if (id != null) {
+        m.select(int.parse(id));
+      }
+    });
+    
+    m.onChange.listen((m) {
+      render();  
+    });
+  }
+  
+  TableElement _makeTable(int width) {
+    var table = new TableElement();
+    var row = new TableRowElement();
+    for (int i = 0; i < m.swatches.length; i++) {
+      if (row.children.length == width) {
+        table.append(row);
+        row = new TableRowElement();
+      }
+      var td = new TableCellElement();
+      td.classes.add("paletteCell");
+      td.dataset["id"] = i.toString();
+      td.style.backgroundColor = m.swatches[i].color;
+      td.style.outlineColor = m.swatches[i].color;
+      cells[i] = td;
+      row.append(td);
+      renderCell(i);
+    }
+    table.append(row);
+    return table;  
+  }
+  
+  void render() {
+    for (int i = 0; i < m.swatches.length; i++) {
+      renderCell(i);
+    }
+  }
+  
+  void renderCell(int i) {
+    var td = cells[i];
+    if (i == m.selected) {
+      td.classes.add("paletteCellSelected");
+    } else {
+      td.classes.remove("paletteCellSelected");
+    }
+  }
+}
+
 class GridModel {
   final int width;
   final int height;
@@ -14,7 +96,7 @@ class GridModel {
   async.EventSink<GridModel> onChangeSink;
   
   GridModel(int width, int height, Swatch color) : this.width = width, this.height = height, pixels = new List<Swatch>(width * height) {
-    for (num i = 0; i < pixels.length; i++) {
+    for (int i = 0; i < pixels.length; i++) {
       pixels[i] = color;
     }
     
@@ -62,7 +144,7 @@ class GridView {
   bool willRender = false;
   cancelFunc stopDrawing = () {};
   
-  GridView(this.m, this.pixelsize, Swatch brushColor) : elt = new CanvasElement() {
+  GridView(this.m, PaletteModel palette, this.pixelsize) : elt = new CanvasElement() {
     elt.width = m.width * pixelsize;
     elt.height = m.height * pixelsize;
     
@@ -73,7 +155,7 @@ class GridView {
     elt.onMouseDown.listen((MouseEvent e) {
       if (e.button == 0) {
         var sub = elt.onMouseMove.listen((MouseEvent e) {
-          paint(e, brushColor);
+          paint(e, palette.getSwatch());
         });
         stopDrawing = sub.cancel;
         e.preventDefault(); // don't change the cursor
@@ -108,15 +190,18 @@ class GridView {
 }
 
 void main() {
-  Swatch background = new Swatch("#000");
+  PaletteModel pm = new PaletteModel(["#000", "#f00", "#0f0", "#00f", "#fff"]);
+  PaletteView pv = new PaletteView(pm, 10);
   
-  GridModel m = new GridModel(100, 60, background);
+  GridModel gm = new GridModel(100, 60, pm.swatches[0]);
 
-  GridView big = new GridView(m, 10, new Swatch("#fff"));
-  query("#big").append(big.elt);
+  GridView small = new GridView(gm, pm, 1);
+  GridView big = new GridView(gm, pm, 10);
+
+  query("#frames").append(small.elt);
+  query("#grid").append(big.elt);
+  query("#palette").append(pv.elt);
+  
   big.renderAsync();  
-
-  GridView small = new GridView(m, 1, new Swatch("#00f"));
-  query("#small").append(small.elt);
   small.renderAsync();
 }

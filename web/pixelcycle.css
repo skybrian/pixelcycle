@@ -11,3 +11,32 @@ body {
 h1, p {
   color: #333;
 }
+
+#grid {
+  margin-top: 1mm;
+}
+
+#palette {
+  margin-top: 2mm;
+}
+
+.palette {
+  border-collapse: collapse;
+}
+
+.paletteCell {
+  width: 12mm;
+  height: 12mm;
+  padding: 0;
+  border: 0;
+  outline:solid;
+  outline-width: 0;
+  -webkit-transition: outline-width .1s;
+}
+
+.paletteCellSelected {
+  outline-width: 2mm;
+}
+
+
+
