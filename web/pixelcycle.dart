@@ -33,11 +33,13 @@ class PaletteModel {
 
 class PaletteView {
   final PaletteModel m;
-  final elt = new DivElement();
+  final elt = new TableElement();
   final cells;
-  PaletteView(PaletteModel model, int width) : m = model, cells = new List<TableCellElement>(model.swatches.length) {
+  PaletteView(PaletteModel model, int width) :
+    m = model,
+    cells = new List<TableCellElement>(model.swatches.length) {
     elt.classes.add("palette");
-    elt.append(_makeTable(width));
+    _initTable(width);
     
     elt.onClick.listen((MouseEvent e) {
       Element t = e.target;
@@ -52,12 +54,11 @@ class PaletteView {
     });
   }
   
-  TableElement _makeTable(int width) {
-    var table = new TableElement();
+  _initTable(int width) {
     var row = new TableRowElement();
     for (int i = 0; i < m.swatches.length; i++) {
       if (row.children.length == width) {
-        table.append(row);
+        elt.append(row);
         row = new TableRowElement();
       }
       var td = new TableCellElement();
@@ -69,8 +70,7 @@ class PaletteView {
       row.append(td);
       renderCell(i);
     }
-    table.append(row);
-    return table;  
+    elt.append(row); 
   }
   
   void render() {
@@ -98,7 +98,8 @@ class GridModel {
   async.EventSink<Rect> onChangeSink;
   
   GridModel(int width, int height, Swatch color) : 
-    this.width = width, this.height = height,
+    this.width = width,
+    this.height = height,
     all = new Rect(0, 0, width, height),
     pixels = new List<Swatch>(width * height) {
     
@@ -213,9 +214,70 @@ class GridView {
   }
 }
 
+class Color {
+  final int r;
+  final int g;
+  final int b;
+  Color(this.r, this.g, this.b);
+}
+
+/// Returns fully saturated colors along red-yellow-green-blue-purple-red
+List<String> makeColors() {
+  var rotate = (List l) {
+    List r = [];
+    r.addAll(l.sublist(12));
+    r.addAll(l.sublist(0, 12));
+    return r;
+  };
+  
+  var reds = [0xff, 0xff, 0xff,
+              0xff, 0x98, 0x55,
+              0x00, 0x00, 0x00,
+              0x00, 0x00, 0x00,
+              0x00, 0x55, 0x98,
+              0xff, 0xff, 0xff];  
+  var greens = rotate(reds);
+  var blues = rotate(greens);
+  
+  var result = ["#000000", "#333333", "#666666"];
+  
+  
+  var addColor = (int r, int g, int b) {
+    if (r < 0 || r > 255) {
+      throw new Exception("out of range");
+    }
+    result.add("rgb(${r},${g},${b})");    
+  };
+  
+  var lighten = (v) => (v/2+0x80).floor();
+  for (var i = 0; i < 18; i++) {
+    addColor(lighten(reds[i]), lighten(greens[i]), lighten(blues[i]));
+  }
+
+  result.addAll(["#999999", "#cccccc", "#ffffff"]);
+  
+  for (var i = 0; i < 18; i++) {
+    addColor(reds[i], greens[i], blues[i]);
+  }
+
+  result.addAll(["#330000", "#333300", "#003300"]);
+
+  var darken = (v,m) => (v*m).floor();
+  for (var i = 0; i < 18; i++) {
+    addColor(darken(reds[i], 0.75), darken(greens[i], 0.75), darken(blues[i], 0.75));
+  }
+
+  result.addAll(["#003333", "#000033", "#330033"]);
+
+  for (var i = 0; i < 18; i++) {
+    addColor(darken(reds[i], 0.5), darken(greens[i], 0.5), darken(blues[i], 0.5));
+  }
+  return result;
+}
+
 void main() {
-  PaletteModel pm = new PaletteModel(["#000", "#f00", "#0f0", "#00f", "#fff"]);
-  query("#palette").append(new PaletteView(pm, 10).elt);
+  PaletteModel pm = new PaletteModel(makeColors());
+  query("#palette").append(new PaletteView(pm, 21).elt);
   
   final frames = new List<GridModel>();
   for (int i = 0; i < 8; i++) {
@@ -239,8 +301,4 @@ void main() {
   });
   
   query("#grid").append(big.elt);
-
-//  for (var f in frames) {
-//    f.fireChanged();
-//  }
 }
