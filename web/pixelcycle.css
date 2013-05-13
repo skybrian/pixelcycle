@@ -12,6 +12,10 @@ h1, p {
   color: #333;
 }
 
+.frame {
+  margin: 1mm;
+}
+
 #grid {
   margin-top: 1mm;
 }

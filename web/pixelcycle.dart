@@ -38,6 +38,7 @@ class PaletteView {
   PaletteView(PaletteModel model, int width) : m = model, cells = new List<TableCellElement>(model.swatches.length) {
     elt.classes.add("palette");
     elt.append(_makeTable(width));
+    
     elt.onClick.listen((MouseEvent e) {
       Element t = e.target;
       var id = t.dataset["id"];
@@ -91,16 +92,21 @@ class PaletteView {
 class GridModel {
   final int width;
   final int height;
+  final Rect all;
   final List<Swatch> pixels;
-  async.Stream<GridModel> onChange;
-  async.EventSink<GridModel> onChangeSink;
+  async.Stream<Rect> onChange;
+  async.EventSink<Rect> onChangeSink;
   
-  GridModel(int width, int height, Swatch color) : this.width = width, this.height = height, pixels = new List<Swatch>(width * height) {
+  GridModel(int width, int height, Swatch color) : 
+    this.width = width, this.height = height,
+    all = new Rect(0, 0, width, height),
+    pixels = new List<Swatch>(width * height) {
+    
     for (int i = 0; i < pixels.length; i++) {
       pixels[i] = color;
     }
     
-    var controller = new async.StreamController<GridModel>();
+    var controller = new async.StreamController<Rect>();
     onChange = controller.stream.asBroadcastStream();
     onChangeSink = controller.sink;
   }
@@ -122,64 +128,82 @@ class GridModel {
       return;
     }
     pixels[i] = color;
-    onChangeSink.add(this);
+    fireChanged(new Rect(x, y, 1, 1));
   }
   
-  void render(CanvasRenderingContext2D c, int pixelsize) {
-    for (num y = 0; y < height; y++) {
-      for (num x = 0; x < width; x++) {
+  void fireChanged(Rect rect) {
+    onChangeSink.add(rect);
+  }
+  
+  void render(CanvasRenderingContext2D c, int pixelsize, Rect clip) {
+    c.beginPath();
+    for (int y = clip.top; y < clip.bottom; y++) {
+      for (int x = clip.left; x < clip.right; x++) {
         c.fillStyle = get(x,y).color;
         c.fillRect(x * pixelsize, y * pixelsize, pixelsize, pixelsize);        
       }
     }
+    c.stroke();
   }
 }
 
-typedef void cancelFunc();
-
 class GridView {
-  final GridModel m;
+  GridModel m;
   final int pixelsize;
   final CanvasElement elt;
-  bool willRender = false;
-  cancelFunc stopDrawing = () {};
+  Rect damage = null;
+  var _cancelOnChange = () {};
   
-  GridView(this.m, PaletteModel palette, this.pixelsize) : elt = new CanvasElement() {
+  GridView(GridModel model, this.pixelsize) : elt = new CanvasElement() {       
+    elt.onMouseDown.listen((MouseEvent e) {
+      e.preventDefault(); // don't allow selection
+    });
+    setModel(model);
+  }
+  
+  void setModel(GridModel newM) {
+    _cancelOnChange();
+    m = newM;
     elt.width = m.width * pixelsize;
     elt.height = m.height * pixelsize;
-    
-    m.onChange.listen((GridModel) {
-      renderAsync();  
+    var sub = m.onChange.listen((Rect damage) {
+      renderAsync(damage);  
     });
-
+    _cancelOnChange = sub.cancel;
+    renderAsync(m.all);
+  }
+  
+  void renderAsync(Rect clip) {
+    if (damage != null) {
+      damage = damage.union(clip);
+      return;
+    }
+    damage = clip;
+    window.requestAnimationFrame((t) {
+      m.render(elt.context2D, pixelsize, damage);
+      damage = null;
+    });
+  }
+  
+  void enablePainting(PaletteModel palette) {
+    var stopPainting = () {};
     elt.onMouseDown.listen((MouseEvent e) {
       if (e.button == 0) {
         var sub = elt.onMouseMove.listen((MouseEvent e) {
           paint(e, palette.getSwatch());
         });
-        stopDrawing = sub.cancel;
+        stopPainting = sub.cancel;
         e.preventDefault(); // don't change the cursor
       }
     });
     
     query("body").onMouseUp.listen((MouseEvent e) {
-      stopDrawing();
+      stopPainting();
     });
     
     elt.onMouseOut.listen((MouseEvent e) {
-      stopDrawing();      
-    });
-  }
-
-  void renderAsync() {
-    if (willRender) {
-      return;
-    }
-    window.requestAnimationFrame((t) {
-      m.render(elt.context2D, pixelsize);
-      willRender = false;
-    });
-    willRender = true;   
+      stopPainting();      
+    });    
   }
   
   void paint(MouseEvent e, Swatch color) {
@@ -191,17 +215,32 @@ class GridView {
 
 void main() {
   PaletteModel pm = new PaletteModel(["#000", "#f00", "#0f0", "#00f", "#fff"]);
-  PaletteView pv = new PaletteView(pm, 10);
+  query("#palette").append(new PaletteView(pm, 10).elt);
   
-  GridModel gm = new GridModel(100, 60, pm.swatches[0]);
+  final frames = new List<GridModel>();
+  for (int i = 0; i < 8; i++) {
+    var f = new GridModel(100, 60, pm.swatches[0]);
+    frames.add(f);
+    var v = new GridView(f, 1);
+    v.elt.classes.add("frame");
+    v.elt.dataset["id"] = i.toString();
+    query("#frames").append(v.elt);
+  }
+  
+  GridView big = new GridView(frames[0], 10);
+  big.enablePainting(pm);
 
-  GridView small = new GridView(gm, pm, 1);
-  GridView big = new GridView(gm, pm, 10);
-
-  query("#frames").append(small.elt);
+  query("#frames").onClick.listen((e) {
+    Element elt = e.target;
+    var id = elt.dataset["id"];
+    if (id != null) {
+      big.setModel(frames[int.parse(id)]);       
+    }
+  });
+  
   query("#grid").append(big.elt);
-  query("#palette").append(pv.elt);
-  
-  big.renderAsync();  
-  small.renderAsync();
+
+//  for (var f in frames) {
+//    f.fireChanged();
+//  }
 }
