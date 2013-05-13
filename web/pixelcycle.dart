@@ -281,7 +281,7 @@ void main() {
   
   final frames = new List<GridModel>();
   for (int i = 0; i < 8; i++) {
-    var f = new GridModel(100, 60, pm.swatches[0]);
+    var f = new GridModel(60, 36, pm.swatches[0]);
     frames.add(f);
     var v = new GridView(f, 1);
     v.elt.classes.add("frame");
@@ -289,7 +289,7 @@ void main() {
     query("#frames").append(v.elt);
   }
   
-  GridView big = new GridView(frames[0], 10);
+  GridView big = new GridView(frames[0], 14);
   big.enablePainting(pm);
 
   query("#frames").onClick.listen((e) {
