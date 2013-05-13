@@ -301,4 +301,35 @@ void main() {
   });
   
   query("#grid").append(big.elt);
+
+  InputElement fpsSlider = query("#fps");
+  ButtonElement play = query("#play");
+  async.Timer playing;
+  play.onClick.listen((e) {
+    if (playing != null) {
+      playing.cancel();
+      playing = null;
+      play.text = "Play";
+      return;
+    }    
+    
+    var i = 0;
+    big.setModel(frames[0]);
+
+    var tickAsync;
+    tickAsync = () {
+      int fps = int.parse(fpsSlider.value);
+      Duration tick = new Duration(milliseconds: (1000/fps).toInt());
+      playing = new async.Timer(tick, () {
+        i++;
+        if (i >= frames.length) {
+          i = 0;
+        }
+        big.setModel(frames[i]);
+        tickAsync();
+      });    
+    };    
+    play.text = "Stop";
+    tickAsync();
+  });
 }

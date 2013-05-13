@@ -12,9 +12,18 @@ h1, p {
   color: #333;
 }
 
-.frame {
-  margin: 1mm;
+.framebar {
+  width: 840px;
 }
+
+.frame {
+  margin-right: 2mm;
+}
+
+.rightside {
+  float: right;
+}
+
 
 #grid {
   margin-top: 1mm;
