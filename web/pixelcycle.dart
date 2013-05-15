@@ -215,69 +215,118 @@ class GridView {
 }
 
 class Color {
-  final int r;
-  final int g;
-  final int b;
-  Color(this.r, this.g, this.b);
+  int r;
+  int g;
+  int b;
+  
+  Color.rgb(this.r, this.g, this.b);
+  
+  /// Each component has range 0 to 1.
+  Color.hsv(double h, double s, double v) {
+    assert(h >= 0 && h <= 1);
+    assert(s >= 0 && h <= 1);
+    assert(v >= 0 && h <= 1);
+    
+    // Normalize hue to a number from 0 to 6 (exclusive).
+    // This is so we can divide the circle into 6 60-degree pieces.
+    h = (h - h.floor()) * 6.0;
+
+    // The distance from the previous 60-degree axis on the hue's circle. (Range 0 to 1 exclusive.)
+    num d = h - h.floor();
+    
+    // Clamp the others.
+    s = s.clamp(0.0, 1.0);
+    v = v.clamp(0.0, 1.0);
+    
+    // Chroma is the difference between the lowest and highest component. (Range 0 to 1.)
+    num c = v * s;
+    
+    // The two unchanging components in each piece. (Range 0 to 255.)
+    int min = ((v - c) * 255.0).floor();
+    int max = min + (c * 255.0).floor();
+    
+    // Distance from starting point for the changing component. (Range 0 to 254.)
+    num ramp = (d * c * 255.0).floor();
+    
+    // Use a separate case for each piece.
+    switch (h.floor()) {
+      case 0: // red to yellow
+        r = max;
+        g = min + ramp;
+        b = min;
+        break;
+      case 1: // yellow to green
+        r = max - ramp;
+        g = max;
+        b = min;
+        break;
+      case 2: // green to cyan
+        r = min;
+        g = max;
+        b = min + ramp;
+        break;       
+      case 3: // cyan to blue
+        r = min;
+        g = max - ramp;
+        b = max;
+        break;       
+      case 4: // blue to magenta
+        r = min + ramp;
+        g = min;
+        b = max;
+        break;       
+      case 5: // magenta to red
+        r = max;
+        g = min;
+        b = max - ramp;
+        break;
+      default:
+        assert(false);
+    }  
+    print("h=${h} s=${s} v=${v} c=${c} min=${min} max=${max} ramp=${ramp} r=${r} g=${g} b=${b}");
+  }
+
+  String toString() {
+    return "rgb(${r},${g},${b})";
+  }
 }
 
-/// Returns fully saturated colors along red-yellow-green-blue-purple-red
-List<String> makeColors() {
-  var rotate = (List l) {
-    List r = [];
-    r.addAll(l.sublist(12));
-    r.addAll(l.sublist(0, 12));
-    return r;
-  };
-  
-  var reds = [0xff, 0xff, 0xff,
-              0xff, 0x98, 0x55,
-              0x00, 0x00, 0x00,
-              0x00, 0x00, 0x00,
-              0x00, 0x55, 0x98,
-              0xff, 0xff, 0xff];  
-  var greens = rotate(reds);
-  var blues = rotate(greens);
-  
-  var result = ["#000000", "#333333", "#666666"];
-  
-  
-  var addColor = (int r, int g, int b) {
-    if (r < 0 || r > 255) {
-      throw new Exception("out of range");
-    }
-    result.add("rgb(${r},${g},${b})");    
-  };
-  
-  var lighten = (v) => (v/2+0x80).floor();
-  for (var i = 0; i < 18; i++) {
-    addColor(lighten(reds[i]), lighten(greens[i]), lighten(blues[i]));
-  }
-
-  result.addAll(["#999999", "#cccccc", "#ffffff"]);
-  
-  for (var i = 0; i < 18; i++) {
-    addColor(reds[i], greens[i], blues[i]);
-  }
-
-  result.addAll(["#330000", "#333300", "#003300"]);
-
-  var darken = (v,m) => (v*m).floor();
-  for (var i = 0; i < 18; i++) {
-    addColor(darken(reds[i], 0.75), darken(greens[i], 0.75), darken(blues[i], 0.75));
-  }
-
-  result.addAll(["#003333", "#000033", "#330033"]);
-
-  for (var i = 0; i < 18; i++) {
-    addColor(darken(reds[i], 0.5), darken(greens[i], 0.5), darken(blues[i], 0.5));
+/// Creates a list of colors in a spectrum with constant saturation and value.
+List<String> spectrum(double s, double v) {
+  final result = new List<String>();
+  var hues =
+      [0, 15, 30, 45,
+       60, 80,
+       120, 160,
+       180, 200, 220,
+       240, 260, 280,
+       300, 330];  
+  for (var h in hues) {
+    result.add(new Color.hsv(h/360.0, s, v).toString());
   }
   return result;
 }
 
+List<String> makePaletteColors() { 
+  var result = new List<String>();
+  result.addAll(["#000000", "#333333", "#666666"]);
+  result.addAll(spectrum(0.5, 0.8));
+  
+  result.addAll(["#999999", "#cccccc", "#ffffff"]);
+  result.addAll(spectrum(1.0, 1.0));
+  
+  result.addAll(["#330000", "#333300", "#003300"]);
+  result.addAll(spectrum(1.0, 0.75));
+
+  result.addAll(["#003333", "#000033", "#330033"]);
+  result.addAll(spectrum(1.0, 0.5));
+
+  return result;
+}
+
 void main() {
-  PaletteModel pm = new PaletteModel(makeColors());
-  query("#palette").append(new PaletteView(pm, 21).elt);
+  PaletteModel pm = new PaletteModel(makePaletteColors());
+  query("#palette").append(new PaletteView(pm, pm.swatches.length~/4).elt);
   
   final frames = new List<GridModel>();
   for (int i = 0; i < 8; i++) {
