@@ -1,24 +1,19 @@
 import 'dart:html';
 import 'dart:async' as async;
 
-class Swatch {
-  String color;
-  Swatch(this.color);
-}
-
 class PaletteModel {
-  final swatches;
+  final List<String> colors;
   int selected = 1;
   async.Stream<PaletteModel> onChange;
   async.EventSink<PaletteModel> onChangeSink;
-  PaletteModel(List<String> colors) : swatches = new List<Swatch>(colors.length) {
-    for (int i = 0; i < colors.length; i++) {
-      swatches[i] = new Swatch(colors[i]);
-    }
-    
+  PaletteModel(this.colors) {    
     var controller = new async.StreamController<PaletteModel>();
     onChange = controller.stream;
     onChangeSink = controller.sink;
+  }
+  
+  String getColor(int index) {
+    return colors[index];
   }
   
   void select(int id) {
@@ -26,8 +21,8 @@ class PaletteModel {
     onChangeSink.add(this);
   }
   
-  Swatch getSwatch() {
-    return swatches[selected];
+  int getSelection() {
+    return selected;
   }
 }
 
@@ -37,7 +32,7 @@ class PaletteView {
   final cells;
   PaletteView(PaletteModel model, int width) :
     m = model,
-    cells = new List<TableCellElement>(model.swatches.length) {
+    cells = new List<TableCellElement>(model.colors.length) {
     elt.classes.add("palette");
     _initTable(width);
     
@@ -56,7 +51,7 @@ class PaletteView {
   
   _initTable(int width) {
     var row = new TableRowElement();
-    for (int i = 0; i < m.swatches.length; i++) {
+    for (int i = 0; i < m.colors.length; i++) {
       if (row.children.length == width) {
         elt.append(row);
         row = new TableRowElement();
@@ -64,8 +59,8 @@ class PaletteView {
       var td = new TableCellElement();
       td.classes.add("paletteCell");
       td.dataset["id"] = i.toString();
-      td.style.backgroundColor = m.swatches[i].color;
-      td.style.outlineColor = m.swatches[i].color;
+      td.style.backgroundColor = m.colors[i];
+      td.style.outlineColor = m.colors[i];
       cells[i] = td;
       row.append(td);
       renderCell(i);
@@ -74,7 +69,7 @@ class PaletteView {
   }
   
   void render() {
-    for (int i = 0; i < m.swatches.length; i++) {
+    for (int i = 0; i < m.colors.length; i++) {
       renderCell(i);
     }
   }
@@ -90,21 +85,22 @@ class PaletteView {
 }
 
 class GridModel {
+  final PaletteModel palette;
+  final List<int> pixels;
   final int width;
   final int height;
   final Rect all;
-  final List<Swatch> pixels;
   async.Stream<Rect> onChange;
   async.EventSink<Rect> onChangeSink;
   
-  GridModel(int width, int height, Swatch color) : 
+  GridModel(this.palette, int width, int height, int startColor) : 
+    pixels = new List<int>(width * height),
     this.width = width,
     this.height = height,
-    all = new Rect(0, 0, width, height),
-    pixels = new List<Swatch>(width * height) {
+    all = new Rect(0, 0, width, height) {
     
     for (int i = 0; i < pixels.length; i++) {
-      pixels[i] = color;
+      pixels[i] = startColor;
     }
     
     var controller = new async.StreamController<Rect>();
@@ -116,20 +112,24 @@ class GridModel {
     return x >=0 && x < width && y >= 0 && y < height;
   }
   
-  Swatch get(num x, num y) {
+  int get(int x, int y) {
     return pixels[x + y*width];    
   }
   
-  void set(int x, int y, Swatch color) {
+  void set(int x, int y, int colorIndex) {
     if (!inRange(x, y)) {
       return;
     }
-    num i = x + y*width;
-    if (color == pixels[i]) {
+    int i = x + y*width;
+    if (colorIndex == pixels[i]) {
       return;
     }
-    pixels[i] = color;
+    pixels[i] = colorIndex;
     fireChanged(new Rect(x, y, 1, 1));
+  }
+
+  String getColor(num x, num y) {
+    return palette.getColor(get(x, y));    
   }
   
   void fireChanged(Rect rect) {
@@ -140,7 +140,7 @@ class GridModel {
     c.beginPath();
     for (int y = clip.top; y < clip.bottom; y++) {
       for (int x = clip.left; x < clip.right; x++) {
-        c.fillStyle = get(x,y).color;
+        c.fillStyle = getColor(x,y);
         c.fillRect(x * pixelsize, y * pixelsize, pixelsize, pixelsize);        
       }
     }
@@ -190,8 +190,9 @@ class GridView {
     var stopPainting = () {};
     elt.onMouseDown.listen((MouseEvent e) {
       if (e.button == 0) {
+        paint(e, palette.getSelection());
         var sub = elt.onMouseMove.listen((MouseEvent e) {
-          paint(e, palette.getSwatch());
+          paint(e, palette.getSelection());
         });
         stopPainting = sub.cancel;
         e.preventDefault(); // don't change the cursor
@@ -207,10 +208,10 @@ class GridView {
     });    
   }
   
-  void paint(MouseEvent e, Swatch color) {
+  void paint(MouseEvent e, int colorIndex) {
     int x = (e.offsetX / pixelsize).toInt();
     int y = (e.offsetY / pixelsize).toInt();
-    m.set(x, y, color);
+    m.set(x, y, colorIndex);
   }
 }
 
@@ -219,13 +220,14 @@ class Color {
   int g;
   int b;
   
+  /// Each argument has range 0 to 255.
   Color.rgb(this.r, this.g, this.b);
   
-  /// Each component has range 0 to 1.
+  /// Each argument has range 0 to 1.
   Color.hsv(double h, double s, double v) {
     assert(h >= 0 && h <= 1);
-    assert(s >= 0 && h <= 1);
-    assert(v >= 0 && h <= 1);
+    assert(s >= 0 && s <= 1);
+    assert(v >= 0 && v <= 1);
     
     // Normalize hue to a number from 0 to 6 (exclusive).
     // This is so we can divide the circle into 6 60-degree pieces.
@@ -234,11 +236,7 @@ class Color {
     // The distance from the previous 60-degree axis on the hue's circle. (Range 0 to 1 exclusive.)
     num d = h - h.floor();
     
-    // Clamp the others.
-    s = s.clamp(0.0, 1.0);
-    v = v.clamp(0.0, 1.0);
-    
-    // Chroma is the difference between the lowest and highest component. (Range 0 to 1.)
+    // Chroma is the difference between the lowest and highest color component. (Range 0 to 1.)
     num c = v * s;
     
     // The two unchanging components in each piece. (Range 0 to 255.)
@@ -326,11 +324,11 @@ List<String> makePaletteColors() {
 
 void main() {
   PaletteModel pm = new PaletteModel(makePaletteColors());
-  query("#palette").append(new PaletteView(pm, pm.swatches.length~/4).elt);
+  query("#palette").append(new PaletteView(pm, pm.colors.length~/4).elt);
   
   final frames = new List<GridModel>();
   for (int i = 0; i < 8; i++) {
-    var f = new GridModel(60, 36, pm.swatches[0]);
+    var f = new GridModel(pm, 60, 36, 0);
     frames.add(f);
     var v = new GridView(f, 1);
     v.elt.classes.add("frame");
