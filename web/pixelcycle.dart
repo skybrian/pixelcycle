@@ -10,6 +10,7 @@ class GridModel {
   final int width;
   final int height;
   final Rect all;
+  CanvasElement buffer;
   async.Stream<Rect> onChange;
   async.EventSink<Rect> onChangeSink;
   
@@ -17,17 +18,28 @@ class GridModel {
     pixels = new List<int>(width * height),
     this.width = width,
     this.height = height,
-    all = new Rect(0, 0, width, height) {
+    all = new Rect(0, 0, width, height),
+    buffer = new CanvasElement() {
     
-    for (int i = 0; i < pixels.length; i++) {
-      pixels[i] = startColor;
-    }
-    
+    buffer.width = width;
+    buffer.height = height;
+          
     var controller = new async.StreamController<Rect>();
     onChange = controller.stream.asBroadcastStream();
     onChangeSink = controller.sink;
+
+    clear(startColor);
   }
 
+  void clear(int colorIndex) {
+    for (int i = 0; i < pixels.length; i++) {
+      pixels[i] = colorIndex;
+    }
+    buffer.context2d.fillStyle = palette.getColor(colorIndex);
+    buffer.context2d.fillRect(0, 0, width, height);
+    onChangeSink.add(all);    
+  }
+    
   bool inRange(int x, int y) {
     return x >=0 && x < width && y >= 0 && y < height;
   }
@@ -45,26 +57,20 @@ class GridModel {
       return;
     }
     pixels[i] = colorIndex;
-    fireChanged(new Rect(x, y, 1, 1));
+    buffer.context2d.fillStyle = palette.getColor(colorIndex);
+    buffer.context2d.fillRect(x, y, 1, 1);        
+    onChangeSink.add(new Rect(x, y, 1, 1));
   }
 
   String getColor(num x, num y) {
     return palette.getColor(get(x, y));    
   }
   
-  void fireChanged(Rect rect) {
-    onChangeSink.add(rect);
-  }
-  
   void render(CanvasRenderingContext2D c, int pixelsize, Rect clip) {
-    c.beginPath();
-    for (int y = clip.top; y < clip.bottom; y++) {
-      for (int x = clip.left; x < clip.right; x++) {
-        c.fillStyle = getColor(x,y);
-        c.fillRect(x * pixelsize, y * pixelsize, pixelsize, pixelsize);        
-      }
-    }
-    c.stroke();
+    c.imageSmoothingEnabled = false;
+    c.drawImageScaledFromSource(buffer,
+        clip.left, clip.top, clip.width, clip.height,
+        clip.left * pixelsize, clip.top * pixelsize, clip.width * pixelsize, clip.height * pixelsize);
   }
 }
 
@@ -85,8 +91,14 @@ class GridView {
   void setModel(GridModel newM) {
     _cancelOnChange();
     m = newM;
-    elt.width = m.width * pixelsize;
-    elt.height = m.height * pixelsize;
+    var newWidth = m.width * pixelsize;
+    if (elt.width != newWidth) {
+      elt.width = newWidth;
+    }
+    var newHeight = m.height * pixelsize;
+    if (elt.height != newHeight) {
+      elt.height = newHeight;
+    }
     var sub = m.onChange.listen((Rect damage) {
       renderAsync(damage);  
     });
@@ -135,33 +147,69 @@ class GridView {
   }
 }
 
+class MovieModel {
+  final frames = new List<GridModel>();
+  MovieModel(PaletteModel palette, int width, int height, int frameCount, int colorIndex) {
+    for (int i = 0; i < frameCount; i++) {
+      var f = new GridModel(palette, width, height, colorIndex);
+      frames.add(f);
+    }   
+  }
+}
+
+class EditorModel {
+  int selected = 0;
+  async.Stream<EditorModel> onChange;
+  async.EventSink<EditorModel> onChangeSink;
+  
+  EditorModel() {
+    var controller = new async.StreamController<EditorModel>();
+    onChange = controller.stream.asBroadcastStream();
+    onChangeSink = controller.sink;    
+  }
+  
+  void setSelected(int frameIndex) {
+    this.selected = frameIndex;
+    onChangeSink.add(this);
+  }
+}
+
+class FrameListView {
+  final Element elt = new DivElement();
+  
+  FrameListView(MovieModel movie, EditorModel editor) {
+    var frames = movie.frames;
+    for (int i = 0; i < frames.length; i++) {
+      var v = new GridView(frames[i], 1);
+      v.elt.classes.add("frame");
+      v.elt.dataset["id"] = i.toString();
+      elt.append(v.elt);
+    }
+    
+    elt.onClick.listen((e) {
+      Element elt = e.target;
+      var id = elt.dataset["id"];
+      if (id != null) {
+        editor.setSelected(int.parse(id));
+      }
+    });    
+  }
+}
 
 void main() {
   PaletteModel pm = new PaletteModel.standard();
   query("#palette").append(new PaletteView(pm, pm.colors.length~/4).elt);
   
-  final frames = new List<GridModel>();
-  for (int i = 0; i < 8; i++) {
-    var f = new GridModel(pm, 60, 36, 0);
-    frames.add(f);
-    var v = new GridView(f, 1);
-    v.elt.classes.add("frame");
-    v.elt.dataset["id"] = i.toString();
-    query("#frames").append(v.elt);
-  }
+  MovieModel movie = new MovieModel(pm, 60, 36, 8, 0);
+  EditorModel editor = new EditorModel();
+  query("#frames").append(new FrameListView(movie, editor).elt);
   
-  GridView big = new GridView(frames[0], 14);
+  GridView big = new GridView(movie.frames[0], 14);
   big.enablePainting(pm);
-
-  query("#frames").onClick.listen((e) {
-    Element elt = e.target;
-    var id = elt.dataset["id"];
-    if (id != null) {
-      big.setModel(frames[int.parse(id)]);       
-    }
-  });
-  
   query("#grid").append(big.elt);
+  editor.onChange.listen((EditorModel e) {
+    big.setModel(movie.frames[e.selected]);  
+  });
 
   InputElement fpsSlider = query("#fps");
   ButtonElement play = query("#play");
@@ -175,7 +223,6 @@ void main() {
     }    
     
     var i = 0;
-    big.setModel(frames[0]);
 
     var tickAsync;
     tickAsync = () {
@@ -183,10 +230,10 @@ void main() {
       Duration tick = new Duration(milliseconds: (1000/fps).toInt());
       playing = new async.Timer(tick, () {
         i++;
-        if (i >= frames.length) {
+        if (i >= movie.frames.length) {
           i = 0;
         }
-        big.setModel(frames[i]);
+        big.setModel(movie.frames[i]);
         tickAsync();
       });    
     };    
