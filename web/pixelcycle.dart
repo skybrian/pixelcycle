@@ -234,15 +234,18 @@ class PlayerModel {
 }
 
 class FrameListView {
+  final PlayerModel player;
   final Element elt = new DivElement();
+  final views = new List<GridView>();
   
-  FrameListView(MovieModel movie, PlayerModel player) {
+  FrameListView(MovieModel movie, this.player) {
     var frames = movie.frames;
     for (int i = 0; i < frames.length; i++) {
       var v = new GridView(frames[i], 1);
       v.elt.classes.add("frame");
       v.elt.dataset["id"] = i.toString();
       elt.append(v.elt);
+      views.add(v);
     }
     
     elt.onClick.listen((e) {
@@ -252,7 +255,14 @@ class FrameListView {
         player.setPlaying(false);
         player.setFrame(int.parse(id));
       }
-    });    
+    });
+    
+    player.onFrameChange.listen((e) => render());
+  }
+  
+  void render() {
+    elt.queryAll(".selectedFrame").every((e) => e.classes.remove("selectedFrame"));
+    views[player.frame].elt.classes.add("selectedFrame");
   }
 }
 

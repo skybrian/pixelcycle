@@ -1,6 +1,6 @@
 
 body {
-  background-color: #F8F8F8;
+  background-color: #888;
   font-family: 'Open Sans', sans-serif;
   font-size: 14px;
   font-weight: normal;
@@ -18,6 +18,12 @@ h1, p {
 
 .frame {
   margin-right: 2mm;
+  border-bottom: 1px solid;
+  border-bottom-color: transparent;
+}
+
+.selectedFrame {
+  border-bottom-color: white;
 }
 
 .rightside {
@@ -50,6 +56,3 @@ h1, p {
 .paletteCellSelected {
   outline-width: 3mm;
 }
-
-
-
