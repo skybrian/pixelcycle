@@ -157,27 +157,86 @@ class MovieModel {
   }
 }
 
-class EditorModel {
-  int selected = 0;
-  async.Stream<EditorModel> onChange;
-  async.EventSink<EditorModel> onChangeSink;
+class PlayerModel {
+  final MovieModel movie;
+  int frame = 0;
+  async.Stream<int> onFrameChange;
+  async.EventSink<int> _onFrameChangeSink;
   
-  EditorModel() {
-    var controller = new async.StreamController<EditorModel>();
-    onChange = controller.stream.asBroadcastStream();
-    onChangeSink = controller.sink;    
+  bool playing = false;
+  int fps;
+  async.Stream<PlayerModel> onSettingChange;
+  async.EventSink<PlayerModel> _onSettingChangeSink;
+  async.Timer _ticker;
+  
+  PlayerModel(this.movie, this.fps) {
+    var controller = new async.StreamController<int>();
+    onFrameChange = controller.stream.asBroadcastStream();
+    _onFrameChangeSink = controller.sink;    
+    var controller2 = new async.StreamController<PlayerModel>();
+    onSettingChange = controller2.stream.asBroadcastStream();
+    _onSettingChangeSink = controller2.sink;    
   }
   
-  void setSelected(int frameIndex) {
-    this.selected = frameIndex;
-    onChangeSink.add(this);
+  void setFrame(int frameIndex) {
+    this.frame = frameIndex;
+    _onFrameChangeSink.add(frameIndex);
+  }
+  
+  void setFramesPerSecond(int newValue) {
+    if (fps != newValue) {
+      fps = newValue;
+      _onSettingChangeSink.add(this);
+    }
+  }
+  
+  void setPlaying(bool newValue) {
+    if (playing == newValue) {
+      return;
+    }
+    playing = newValue;
+    _onSettingChangeSink.add(this);
+    if (playing) {
+      _tick();
+    } else {
+      _cancelTick();
+    }
+  }
+
+  void _scheduleTick() {
+    _cancelTick();
+    int delay = (1000/fps).toInt();
+    _ticker = new async.Timer(new Duration(milliseconds: delay), _tick);    
+  }
+  
+  void _cancelTick() {
+    if (_ticker != null) {
+      _ticker.cancel();
+      _ticker = null;
+    }    
+  }
+  
+  void _tick() {
+    if (!playing) {
+      return;
+    }
+    _scheduleTick();
+    step();
+  }
+  
+  void step() {
+    int next = frame + 1;
+    if (next >= movie.frames.length) {
+      next = 0;
+    }
+    setFrame(next);    
   }
 }
 
 class FrameListView {
   final Element elt = new DivElement();
   
-  FrameListView(MovieModel movie, EditorModel editor) {
+  FrameListView(MovieModel movie, PlayerModel player) {
     var frames = movie.frames;
     for (int i = 0; i < frames.length; i++) {
       var v = new GridView(frames[i], 1);
@@ -190,54 +249,66 @@ class FrameListView {
       Element elt = e.target;
       var id = elt.dataset["id"];
       if (id != null) {
-        editor.setSelected(int.parse(id));
+        player.setPlaying(false);
+        player.setFrame(int.parse(id));
       }
     });    
   }
 }
 
+class PlayerView {
+  final PlayerModel player;
+  final Element elt = new DivElement();
+  final ButtonElement play;
+  final RangeInputElement slider;
+  
+  PlayerView(this.player) :
+    play = new ButtonElement(),
+    slider = new RangeInputElement()
+  {
+    slider ..min = "1" ..max = "60";
+    
+    elt ..append(play) ..append(slider);
+      
+    play.onClick.listen((e) {
+      player.setPlaying(!player.playing);
+    });
+    slider.onChange.listen((e) {
+      player.setFramesPerSecond(int.parse(slider.value));  
+    });
+    
+    player.onSettingChange.listen((e) => render());  
+    render();
+  }
+  
+  void render() {
+    if (player.playing) {
+      play.text = "Stop";
+    } else {
+      play.text = "Play";
+    }
+    slider.value = player.fps.toString();    
+  }
+}
+
 void main() {
   PaletteModel pm = new PaletteModel.standard();
-  query("#palette").append(new PaletteView(pm, pm.colors.length~/4).elt);
+  pm.select(51);
   
   MovieModel movie = new MovieModel(pm, 60, 36, 8, 0);
-  EditorModel editor = new EditorModel();
-  query("#frames").append(new FrameListView(movie, editor).elt);
   
   GridView big = new GridView(movie.frames[0], 14);
   big.enablePainting(pm);
+  
+  PlayerModel player = new PlayerModel(movie, 15);  
+  player.onFrameChange.listen((int frame) {
+    big.setModel(movie.frames[frame]);
+  });
+
+  query("#frames").append(new FrameListView(movie, player).elt);
+  query("#player").append(new PlayerView(player).elt);
   query("#grid").append(big.elt);
-  editor.onChange.listen((EditorModel e) {
-    big.setModel(movie.frames[e.selected]);  
-  });
-
-  InputElement fpsSlider = query("#fps");
-  ButtonElement play = query("#play");
-  async.Timer playing;
-  play.onClick.listen((e) {
-    if (playing != null) {
-      playing.cancel();
-      playing = null;
-      play.text = "Play";
-      return;
-    }    
-    
-    var i = 0;
-
-    var tickAsync;
-    tickAsync = () {
-      int fps = int.parse(fpsSlider.value);
-      Duration tick = new Duration(milliseconds: (1000/fps).toInt());
-      playing = new async.Timer(tick, () {
-        i++;
-        if (i >= movie.frames.length) {
-          i = 0;
-        }
-        big.setModel(movie.frames[i]);
-        tickAsync();
-      });    
-    };    
-    play.text = "Stop";
-    tickAsync();
-  });
+  query("#palette").append(new PaletteView(pm, pm.colors.length~/4).elt);
+  
+  player.setPlaying(true);
 }
