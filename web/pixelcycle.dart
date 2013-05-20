@@ -210,10 +210,17 @@ void main() {
   query("#grid").append(big.elt);
   query("#palette").append(new PaletteView(pm, pm.colors.length~/4).elt);
   
+  bool spaceDown = false;
   document.onKeyDown.listen((KeyboardEvent e) {
     switch (e.keyCode) {
       case KeyCode.RIGHT:
         player.step(1);
+        break;
+      case KeyCode.SPACE:
+        if (!spaceDown) {
+          player.step(-1);
+          spaceDown = true;
+        }
         break;
       case KeyCode.LEFT:
         player.step(-1);
@@ -221,10 +228,11 @@ void main() {
     }
   });
   
-  document.onKeyPress.listen((KeyboardEvent e) {
+  document.onKeyUp.listen((KeyboardEvent e) {
     switch (e.keyCode) {
       case KeyCode.SPACE:
         player.step(1);
+        spaceDown = false;
         break;
     }
   });
