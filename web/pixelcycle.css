@@ -1,6 +1,6 @@
 
 body {
-  background-color: #888;
+  background-color: #c0c8c8;
   font-family: 'Open Sans', sans-serif;
   font-size: 14px;
   font-weight: normal;
@@ -18,7 +18,7 @@ h1, p {
 
 .frame {
   margin-right: 2mm;
-  border-bottom: 1px solid;
+  border-bottom: 2px solid;
   border-bottom-color: transparent;
 }
 
@@ -29,7 +29,6 @@ h1, p {
 .rightside {
   float: right;
 }
-
 
 #grid {
   margin-top: 1mm;
