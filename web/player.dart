@@ -5,14 +5,15 @@ class PlayerModel {
   int frame = 0;
   async.Stream<int> onFrameChange;
   async.EventSink<int> _onFrameChangeSink;
-  
-  bool playing = false;
-  int fps;
+
+  bool _playing = false;
+  bool _reverse = false;
+  int fps = 15;
   async.Stream<PlayerModel> onSettingChange;
   async.EventSink<PlayerModel> _onSettingChangeSink;
   async.Timer _ticker;
   
-  PlayerModel(this.movie, this.fps) {
+  PlayerModel(this.movie) {
     var controller = new async.StreamController<int>();
     onFrameChange = controller.stream.asBroadcastStream();
     _onFrameChangeSink = controller.sink;    
@@ -27,29 +28,53 @@ class PlayerModel {
   }
   
   void setFramesPerSecond(int newValue) {
-    if (fps != newValue) {
-      fps = newValue;
-      _onSettingChangeSink.add(this);
+    if (fps == newValue) {
+      return;
+    }
+    fps = newValue;
+    _onSettingChangeSink.add(this);
+  }
+  
+  bool get playing {
+    return _playing;
+  }
+  
+  void set playing(bool newValue) {
+    if (_playing == newValue) {
+      return;
+    }
+    _playing = newValue;
+    _onSettingChangeSink.add(this);
+    tick();
+  }
+  
+  bool get reverse {
+    return _reverse;
+  }
+  
+  void set reverse(bool newValue) {
+    if (_reverse == newValue) {
+      return;
+    }
+    _reverse = newValue;
+    _onSettingChangeSink.add(this);
+  }
+  
+  void tick() {
+    if (playing) {
+      scheduleTick();
+    }
+    if (_reverse) {
+      _step(-1);      
+    } else {
+      _step(1);
     }
   }
   
-  void setPlaying(bool newValue) {
-    if (playing == newValue) {
-      return;
-    }
-    playing = newValue;
-    _onSettingChangeSink.add(this);
-    if (playing) {
-      _tick();
-    } else {
-      _cancelTick();
-    }
-  }
-
-  void _scheduleTick() {
+  void scheduleTick() {
     _cancelTick();
     int delay = (1000/fps).toInt();
-    _ticker = new async.Timer(new Duration(milliseconds: delay), _tick);    
+    _ticker = new async.Timer(new Duration(milliseconds: delay), tick);    
   }
   
   void _cancelTick() {
@@ -59,17 +84,9 @@ class PlayerModel {
     }    
   }
   
-  void _tick() {
-    if (!playing) {
-      return;
-    }
-    _scheduleTick();
-    _step(1);
-  }
-  
   void step(int amount) {
     _step(amount);
-    setPlaying(false);
+    playing = false;
   }
   
   void _step(int amount) {
@@ -85,18 +102,23 @@ class PlayerView {
   final step = new ButtonElement();
   final play = new ButtonElement();
   final slider = new RangeInputElement();
+  final reverse = new ButtonElement();
   
   PlayerView(this.player) {
     step.text = "Step";
     slider
       ..min = "1"
-      ..max = "60";  
-    elt..append(step)..append(play)..append(slider);
+      ..max = "60";
+    reverse
+      ..classes.add("toggle")
+      ..innerHtml = "&nbsp;"
+      ..title = "Reverses the animation (spacebar)";
+    elt..append(step)..append(play)..append(slider)..append(reverse);
       
     step.onClick.listen((e) => player.step(1));
-    play.onClick.listen((e) => player.setPlaying(!player.playing));
-    slider.onChange.listen((e) => player.setFramesPerSecond(int.parse(slider.value)));;
-    
+    play.onClick.listen((e) => player.playing = !player.playing);
+    slider.onChange.listen((e) => player.setFramesPerSecond(int.parse(slider.value)));
+    reverse.onClick.listen((e) => player.reverse = !player.reverse);     
     player.onSettingChange.listen((e) => render());  
     render();
   }
@@ -108,6 +130,11 @@ class PlayerView {
       play.text = "Play";
     }
     slider.value = player.fps.toString();    
+    if (player.reverse) {
+      reverse.classes.add("reverse");
+    } else {
+      reverse.classes.remove("reverse");
+    }
   }
 }
 

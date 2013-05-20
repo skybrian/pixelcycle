@@ -30,6 +30,19 @@ h1, p {
   float: right;
 }
 
+.toggle {
+  cursor: pointer;
+  border: 1px solid black;
+  border-left-width: 15px;
+  padding: 0 5px;
+  border-radius: 5px;
+}
+
+.toggle.reverse {
+  border-right-width: 15px;
+  border-left-width: 1px;
+}
+
 #grid {
   margin-top: 1mm;
 }

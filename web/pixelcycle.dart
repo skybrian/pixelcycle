@@ -177,7 +177,7 @@ class FrameListView {
       Element elt = e.target;
       var id = elt.dataset["id"];
       if (id != null) {
-        player.setPlaying(false);
+        player.playing = false;
         player.setFrame(int.parse(id));
       }
     });
@@ -200,7 +200,7 @@ void main() {
   GridView big = new GridView(movie.frames[0], 14);
   big.enablePainting(pm);
   
-  PlayerModel player = new PlayerModel(movie, 15);  
+  PlayerModel player = new PlayerModel(movie);  
   player.onFrameChange.listen((int frame) {
     big.setModel(movie.frames[frame]);
   });
@@ -211,6 +211,7 @@ void main() {
   query("#palette").append(new PaletteView(pm, pm.colors.length~/4).elt);
   
   bool spaceDown = false;
+  int spaceDownFrame = -1;
   document.onKeyDown.listen((KeyboardEvent e) {
     switch (e.keyCode) {
       case KeyCode.RIGHT:
@@ -218,8 +219,11 @@ void main() {
         break;
       case KeyCode.SPACE:
         if (!spaceDown) {
-          player.step(-1);
           spaceDown = true;
+          spaceDownFrame = player.frame;
+          player.reverse = true;
+          player.tick();
+          player.scheduleTick();
         }
         break;
       case KeyCode.LEFT:
@@ -231,11 +235,15 @@ void main() {
   document.onKeyUp.listen((KeyboardEvent e) {
     switch (e.keyCode) {
       case KeyCode.SPACE:
-        player.step(1);
+        player.reverse = false;
+        player.tick();
+        if (player.frame != spaceDownFrame) {
+          player.scheduleTick();
+        }
         spaceDown = false;
         break;
     }
   });
   
-  player.setPlaying(true);
+  player.playing = true;
 }
