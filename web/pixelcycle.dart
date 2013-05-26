@@ -152,12 +152,20 @@ void main() {
   ed.onCanUndo.listen((bool v) {
     undo.disabled = !v;
   });
+
+  ButtonElement redo = new ButtonElement();
+  redo.text = "Redo";
+  redo.disabled = true;
+  redo.onClick.listen((e) => ed.redo());
+  ed.onCanRedo.listen((bool v) {
+    redo.disabled = !v;
+  });
   
   query("#frames").append(new FrameListView(movie, ed, player).elt);
   query("#player").append(new PlayerView(player).elt);
   query("#grid").append(big.elt);
   query("#palette").append(new PaletteView(pm, pm.colors.length~/4).elt);
-  query("#undo").append(undo);  
+  query("#undo")..append(undo)..append(redo);  
   
   bool spaceDown = false;
   int spaceDownFrame = -1;
