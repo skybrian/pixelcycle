@@ -149,8 +149,8 @@ void main() {
   undo.text = "Undo";
   undo.disabled = true;
   undo.onClick.listen((e) => ed.undo());
-  ed.onChange.listen((e) {
-    undo.disabled = !ed.canUndo();
+  ed.onCanUndo.listen((bool v) {
+    undo.disabled = !v;
   });
   
   query("#frames").append(new FrameListView(movie, ed, player).elt);
