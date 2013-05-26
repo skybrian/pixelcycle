@@ -74,7 +74,11 @@ class PlayerModel {
   void scheduleTick() {
     _cancelTick();
     int delay = (1000/fps).toInt();
-    _ticker = new async.Timer(new Duration(milliseconds: delay), tick);    
+    _ticker = new async.Timer(new Duration(milliseconds: delay), () {
+      if (playing) {
+        tick();  
+      }
+    });    
   }
   
   void _cancelTick() {

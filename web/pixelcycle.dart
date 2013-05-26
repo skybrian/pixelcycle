@@ -4,107 +4,42 @@ import 'dart:async' as async;
 
 part 'palette.dart';
 part 'player.dart';
-
-class GridModel {
-  final PaletteModel palette;
-  final List<int> pixels;
-  final int width;
-  final int height;
-  final Rect all;
-  CanvasElement buffer;
-  async.Stream<Rect> onChange;
-  async.EventSink<Rect> onChangeSink;
-  
-  GridModel(this.palette, int width, int height, int startColor) : 
-    pixels = new List<int>(width * height),
-    this.width = width,
-    this.height = height,
-    all = new Rect(0, 0, width, height),
-    buffer = new CanvasElement() {
-    
-    buffer.width = width;
-    buffer.height = height;
-          
-    var controller = new async.StreamController<Rect>();
-    onChange = controller.stream.asBroadcastStream();
-    onChangeSink = controller.sink;
-
-    clear(startColor);
-  }
-
-  void clear(int colorIndex) {
-    for (int i = 0; i < pixels.length; i++) {
-      pixels[i] = colorIndex;
-    }
-    buffer.context2d.fillStyle = palette.getColor(colorIndex);
-    buffer.context2d.fillRect(0, 0, width, height);
-    onChangeSink.add(all);    
-  }
-    
-  bool inRange(int x, int y) {
-    return x >=0 && x < width && y >= 0 && y < height;
-  }
-  
-  int get(int x, int y) {
-    return pixels[x + y*width];    
-  }
-  
-  void set(int x, int y, int colorIndex) {
-    if (!inRange(x, y)) {
-      return;
-    }
-    int i = x + y*width;
-    if (colorIndex == pixels[i]) {
-      return;
-    }
-    pixels[i] = colorIndex;
-    buffer.context2d.fillStyle = palette.getColor(colorIndex);
-    buffer.context2d.fillRect(x, y, 1, 1);        
-    onChangeSink.add(new Rect(x, y, 1, 1));
-  }
-
-  String getColor(num x, num y) {
-    return palette.getColor(get(x, y));    
-  }
-  
-  void render(CanvasRenderingContext2D c, int pixelsize, Rect clip) {
-    c.imageSmoothingEnabled = false;
-    c.drawImageScaledFromSource(buffer,
-        clip.left, clip.top, clip.width, clip.height,
-        clip.left * pixelsize, clip.top * pixelsize, clip.width * pixelsize, clip.height * pixelsize);
-  }
-}
+part 'grid.dart';
 
 class GridView {
-  GridModel m;
+  StrokeGrid grid;
+  Editor editor;
   final int pixelsize;
   final CanvasElement elt;
   Rect damage = null;
   var _cancelOnChange = () {};
   
-  GridView(GridModel model, this.pixelsize) : elt = new CanvasElement() {       
+  GridView(StrokeGrid g, this.editor, this.pixelsize) : elt = new CanvasElement() {       
     elt.onMouseDown.listen((MouseEvent e) {
       e.preventDefault(); // don't allow selection
     });
-    setModel(model);
+    setModel(g);
   }
   
-  void setModel(GridModel newM) {
+  void setModel(StrokeGrid newG) {
+    if (grid == newG) {
+      return;
+    }
     _cancelOnChange();
-    m = newM;
-    var newWidth = m.width * pixelsize;
+    grid = newG;
+    var newWidth = grid.width * pixelsize;
     if (elt.width != newWidth) {
       elt.width = newWidth;
     }
-    var newHeight = m.height * pixelsize;
+    var newHeight = grid.height * pixelsize;
     if (elt.height != newHeight) {
       elt.height = newHeight;
     }
-    var sub = m.onChange.listen((Rect damage) {
+    var sub = grid.onChange.listen((Rect damage) {
       renderAsync(damage);  
     });
     _cancelOnChange = sub.cancel;
-    renderAsync(m.all);
+    renderAsync(grid.all);
   }
   
   void renderAsync(Rect clip) {
@@ -114,7 +49,7 @@ class GridView {
     }
     damage = clip;
     window.requestAnimationFrame((t) {
-      m.render(elt.context2D, pixelsize, damage);
+      grid.render(elt.context2D, pixelsize, damage);
       damage = null;
     });
   }
@@ -123,11 +58,14 @@ class GridView {
     var stopPainting = () {};
     elt.onMouseDown.listen((MouseEvent e) {
       if (e.button == 0) {
-        paint(e, palette.getSelection());
+        _paint(e, palette.selected);
         var sub = elt.onMouseMove.listen((MouseEvent e) {
-          paint(e, palette.getSelection());
+          _paint(e, palette.selected);
         });
-        stopPainting = sub.cancel;
+        stopPainting = () {
+          editor.endPaint();
+          sub.cancel();
+        };
         e.preventDefault(); // don't change the cursor
       }
     });
@@ -141,19 +79,20 @@ class GridView {
     });    
   }
   
-  void paint(MouseEvent e, int colorIndex) {
+  void _paint(MouseEvent e, int colorIndex) {
     int x = (e.offsetX / pixelsize).toInt();
     int y = (e.offsetY / pixelsize).toInt();
-    m.set(x, y, colorIndex);
+    editor.paint(grid, x, y, colorIndex);
   }
 }
 
 class MovieModel {
-  final frames = new List<GridModel>();
-  MovieModel(PaletteModel palette, int width, int height, int frameCount, int colorIndex) {
+  final frames = new List<StrokeGrid>();
+  MovieModel(PaletteModel palette, int width, int height, int frameCount) {
     for (int i = 0; i < frameCount; i++) {
-      var f = new GridModel(palette, width, height, colorIndex);
-      frames.add(f);
+      var cg = new ColorGrid(palette, width, height, 0);
+      var sg = new StrokeGrid(cg);
+      frames.add(sg);
     }   
   }
 }
@@ -163,10 +102,10 @@ class FrameListView {
   final Element elt = new DivElement();
   final views = new List<GridView>();
   
-  FrameListView(MovieModel movie, this.player) {
+  FrameListView(MovieModel movie, Editor ed, this.player) {
     var frames = movie.frames;
     for (int i = 0; i < frames.length; i++) {
-      var v = new GridView(frames[i], 1);
+      var v = new GridView(frames[i], ed, 1);
       v.elt.classes.add("frame");
       v.elt.dataset["id"] = i.toString();
       elt.append(v.elt);
@@ -195,9 +134,10 @@ void main() {
   PaletteModel pm = new PaletteModel.standard();
   pm.select(51);
   
-  MovieModel movie = new MovieModel(pm, 60, 36, 8, 0);
+  MovieModel movie = new MovieModel(pm, 60, 36, 8);
+  Editor ed = new Editor();
   
-  GridView big = new GridView(movie.frames[0], 14);
+  GridView big = new GridView(movie.frames[0], ed, 14);
   big.enablePainting(pm);
   
   PlayerModel player = new PlayerModel(movie);  
@@ -205,10 +145,19 @@ void main() {
     big.setModel(movie.frames[frame]);
   });
 
-  query("#frames").append(new FrameListView(movie, player).elt);
+  ButtonElement undo = new ButtonElement();
+  undo.text = "Undo";
+  undo.disabled = true;
+  undo.onClick.listen((e) => ed.undo());
+  ed.onChange.listen((e) {
+    undo.disabled = !ed.canUndo();
+  });
+  
+  query("#frames").append(new FrameListView(movie, ed, player).elt);
   query("#player").append(new PlayerView(player).elt);
   query("#grid").append(big.elt);
   query("#palette").append(new PaletteView(pm, pm.colors.length~/4).elt);
+  query("#undo").append(undo);  
   
   bool spaceDown = false;
   int spaceDownFrame = -1;
