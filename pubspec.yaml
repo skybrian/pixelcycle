@@ -3,3 +3,5 @@ author: Brian Slesinsky
 description: A simple animation editor.
 dependencies:
   browser: any
+  js: any
+  

@@ -1,10 +1,13 @@
 library pixelcycle;
 import 'dart:html';
 import 'dart:async' as async;
+import 'dart:uri' as uri;
+import 'package:js/js.dart' as js;
 
 part 'palette.dart';
 part 'player.dart';
 part 'grid.dart';
+part 'drive.dart';
 
 class GridView {
   StrokeGrid grid;
@@ -131,6 +134,39 @@ class FrameListView {
 }
 
 void main() {
+  var loc = window.location;
+  startDrive().then((Drive drive) {
+    var fileId = getFileId(loc);
+    if (fileId == null) {
+      drive.createDoc("PixelCycle Test").then((id) {
+        loc.replace(makeUrl(loc, id));
+      });
+    } else {
+      drive.loadDoc(fileId).then(startApp);      
+    }
+  });
+}
+
+// Returns null if not present.
+String getFileId(Location loc) {
+  if (loc.search == "") {
+    return null;
+  }
+  return loc.search.substring(1);
+}
+
+String makeUrl(Location loc, String fileId) {
+  var url = uri.Uri.parse(loc.toString());
+  url = new uri.Uri.fromComponents(
+      scheme: url.scheme,
+      domain: url.domain,
+      port: url.port,
+      path: url.path,
+      query: fileId);
+  return url.toString();
+}
+
+void startApp(Doc doc) {
   PaletteModel pm = new PaletteModel.standard();
   pm.select(51);
   

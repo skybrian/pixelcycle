@@ -68,3 +68,7 @@ h1, p {
 .paletteCellSelected {
   outline-width: 3mm;
 }
+
+.hidden {
+  display: none;
+}
