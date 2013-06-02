@@ -3,14 +3,15 @@ part of pixelcycle;
 async.Future<Drive> startDrive() {
   
   async.Future initApis() {
-    print("initApis called");
     var c = new async.Completer();
-    js.context.gapi.load("auth:client,drive-realtime", once(c.complete));
+    js.context.gapi.load("auth:client,drive-realtime", once(() {
+      print("apis loaded");
+      c.complete(); 
+    }));
     return c.future;
   }
   
   async.Future authorize(bool immediate) {
-    print("authorize called");
     var c = new async.Completer();
     js.context.authorize(js.map({
     //js.context.gapi.auth.authorize(js.map({
@@ -23,10 +24,10 @@ async.Future<Drive> startDrive() {
       ],
     }), once((authResult) {
       if (authResult != null && !js.context.propExists(authResult, "error")) {
-        print("authorize succeeded");
+        print("got authorization");
         c.complete();
       } else if (immediate) {
-        print("authorize failed; showing prompt");
+        print("need authorization; showing prompt");
         // Immediate failed, so ask user to authenticate.
         var button = query("#authorize");
         button.onClick.take(1).listen((e) {
@@ -56,16 +57,15 @@ class Drive {
 
   // Returns file id
   async.Future<String> createDoc(String title) {
-    print("createDoc called");
     var c = new async.Completer();
     _loadApi("drive", "v2").then((x) {
-      print("drive API loaded");
       gapi.client.drive.files.insert(js.map({
         'resource': {
           "mimeType": 'application/vnd.google-apps.drive-sdk',
           "title": title
         }
       })).execute(once((fileInfo,unused) {
+        print("document ${fileInfo.id} created");        
         c.complete(fileInfo.id);  
       }));      
     });
@@ -73,10 +73,11 @@ class Drive {
   }
   
   async.Future<Doc> loadDoc(String fileId) {
-    print("loadDoc called");
     var c = new async.Completer<Doc>();
-    onLoad(doc) {
-      c.complete(new Doc(gapi, js.retain(doc)));
+    onLoad(jsDoc) {
+      var doc = new Doc(gapi, js.retain(jsDoc));
+      print("document ${fileId} loaded");
+      c.complete(doc);
     }
     onError(err) {
       window.alert(err.message);
@@ -87,9 +88,11 @@ class Drive {
   }
   
   async.Future _loadApi(String name, String version) {
-    print("loadApi called");
     var c = new async.Completer();
-    gapi.client.load(name, version, new js.Callback.once(c.complete));
+    gapi.client.load(name, version, new js.Callback.once(() {
+      print("${name} api loaded");     
+      c.complete();
+    }));
     return c.future;
   }
   
