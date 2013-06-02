@@ -2,12 +2,14 @@ library pixelcycle;
 import 'dart:html';
 import 'dart:async' as async;
 import 'dart:uri' as uri;
+import 'dart:json' as json;
 import 'package:js/js.dart' as js;
 
 part 'palette.dart';
 part 'player.dart';
 part 'grid.dart';
 part 'drive.dart';
+part 'doc.dart';
 
 class GridView {
   StrokeGrid grid;
@@ -89,26 +91,15 @@ class GridView {
   }
 }
 
-class MovieModel {
-  final frames = new List<StrokeGrid>();
-  MovieModel(PaletteModel palette, int width, int height, int frameCount) {
-    for (int i = 0; i < frameCount; i++) {
-      var cg = new ColorGrid(palette, width, height, 0);
-      var sg = new StrokeGrid(cg);
-      frames.add(sg);
-    }   
-  }
-}
-
 class FrameListView {
   final PlayerModel player;
   final Element elt = new DivElement();
   final views = new List<GridView>();
   
   FrameListView(MovieModel movie, Editor ed, this.player) {
-    var frames = movie.frames;
-    for (int i = 0; i < frames.length; i++) {
-      var v = new GridView(frames[i], ed, 1);
+    var grids = movie.grids;
+    for (int i = 0; i < grids.length; i++) {
+      var v = new GridView(grids[i], ed, 1);
       v.elt.classes.add("frame");
       v.elt.dataset["id"] = i.toString();
       elt.append(v.elt);
@@ -139,6 +130,7 @@ void main() {
     var fileId = getFileId(loc);
     if (fileId == null) {
       drive.createDoc("PixelCycle Test").then((id) {
+        print("reloading page");
         loc.replace(makeUrl(loc, id));
       });
     } else {
@@ -170,15 +162,15 @@ void startApp(Doc doc) {
   PaletteModel pm = new PaletteModel.standard();
   pm.select(51);
   
-  MovieModel movie = new MovieModel(pm, 60, 36, 8);
-  Editor ed = new Editor();
+  MovieModel movie = new MovieModel(pm, 60, 36, doc);
+  Editor ed = new Editor(movie);
   
-  GridView big = new GridView(movie.frames[0], ed, 14);
+  GridView big = new GridView(movie.grids[0], ed, 14);
   big.enablePainting(pm);
   
   PlayerModel player = new PlayerModel(movie);  
   player.onFrameChange.listen((int frame) {
-    big.setModel(movie.frames[frame]);
+    big.setModel(movie.grids[frame]);
   });
 
   ButtonElement undo = new ButtonElement();

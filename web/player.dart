@@ -94,7 +94,7 @@ class PlayerModel {
   }
   
   void _step(int amount) {
-    int len = movie.frames.length;
+    int len = movie.grids.length;
     int next = (frame + amount + len) % len;
     setFrame(next);    
   }
