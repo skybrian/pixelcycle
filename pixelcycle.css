@@ -1,0 +1,74 @@
+
+body {
+  background-color: #c0c8c8;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.2em;
+  margin: 15px;
+}
+
+h1, p {
+  color: #333;
+}
+
+.fullwidth {
+  width: 840px;
+}
+
+.frame {
+  margin-right: 2mm;
+  border-bottom: 2px solid;
+  border-bottom-color: transparent;
+}
+
+.selectedFrame {
+  border-bottom-color: white;
+}
+
+.rightside {
+  float: right;
+}
+
+.toggle {
+  cursor: pointer;
+  border: 1px solid black;
+  border-left-width: 15px;
+  padding: 0 5px;
+  border-radius: 5px;
+}
+
+.toggle.reverse {
+  border-right-width: 15px;
+  border-left-width: 1px;
+}
+
+#grid {
+  margin-top: 1mm;
+}
+
+#palette {
+  margin-top: 3mm;
+}
+
+.palette {
+  border-collapse: collapse;
+}
+
+.paletteCell {
+  width: 10mm;
+  height: 10mm;
+  padding: 0;
+  border: 0;
+  outline:solid;
+  outline-width: 0;
+  -webkit-transition: outline-width .1s;
+}
+
+.paletteCellSelected {
+  outline-width: 3mm;
+}
+
+.hidden {
+  display: none;
+}
