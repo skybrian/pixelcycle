@@ -1,6 +1,6 @@
 name: pixelcycle
 author: Brian Slesinsky
-description: A simple animation editor.
+description: A lo res animation editor.
 dependencies:
   browser: any
   js: any
