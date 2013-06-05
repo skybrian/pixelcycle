@@ -1,10 +1,10 @@
 part of pixelcycle;
 
 class Doc {
-  final js.Proxy doc;
+  final js.Proxy model;
   final Map<String, Frame> frameById = new Map<String, Frame>();
 
-  Doc(this.doc) {
+  Doc(js.Proxy jsDoc) : this.model = js.retain(jsDoc["getModel"]()) {
     for (var f in _list.map((p) {
       return new Frame(this, new CollaborativeList(p));    
     })) {
@@ -17,8 +17,12 @@ class Doc {
     return _list.map((p) => frameById[p.id]);
   }
   
+  CollaborativeMap createMap() {
+    return new CollaborativeMap(model["createMap"]());
+  }
+  
   CollaborativeList get _list {
-    return new CollaborativeList(doc.getModel().getRoot().get("frames"));    
+    return new CollaborativeList(model["getRoot"]()["get"]("frames"));    
   }
 }
 
@@ -37,7 +41,7 @@ class Frame {
     onChangeSink = control.sink;
     
     EventListener forward = (js.Proxy e) {
-      onChangeSink.add(new FrameChange(this, e.index));      
+      onChangeSink.add(new FrameChange(this, e["index"]));      
     };
     
     var EventType = gapi["drive"]["realtime"]["EventType"];
@@ -53,7 +57,7 @@ class Frame {
     var out = new List<Stroke>(len - startIndex);
     for (int i = startIndex; i < len; i++) {
       var proxy = _strokes[i];
-      var id = proxy.id;
+      var id = proxy["id"];
       strokeById.putIfAbsent(id, () => new Stroke.deserialize(proxy));
       out[i - startIndex] = strokeById[id];
     }
@@ -61,8 +65,7 @@ class Frame {
   }
   
   Stroke createStroke(int colorIndex) {
-    var map = new CollaborativeMap(doc.doc.getModel().createMap());
-    var s = new Stroke(map, colorIndex);
+    var s = new Stroke(doc.createMap(), colorIndex);
     strokeById[s.id] = s;
     return s;
   }

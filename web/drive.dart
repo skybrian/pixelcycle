@@ -76,7 +76,7 @@ class Drive {
   async.Future<Doc> loadDoc(String fileId) {
     var c = new async.Completer<Doc>();
     onLoad(jsDoc) {
-      var doc = new Doc(js.retain(jsDoc));
+      var doc = new Doc(jsDoc);
       print("document ${fileId} loaded");
       c.complete(doc);
     }
@@ -98,38 +98,44 @@ class Drive {
   }
   
   void _initializeModel(js.Proxy model) {
-    var frames = model.createList();
+    var createList = model["createList"];
+    var frames = createList();
     for (int i = 0; i < 8; i++) {
-      frames.push(model.createList());
+      frames.push(createList());
     }
-    model.getRoot().set("frames", frames);
+    model["getRoot"]()["set"]("frames", frames);
   }
 }
+
+typedef void EventListener(js.Proxy p);
 
 class CollaborativeList {
   final js.Proxy proxy;
   
   CollaborativeList(this.proxy);
   
-  String get id => proxy.id;
-  int get length => proxy.length;
+  String get id => proxy["id"];
+  int get length => proxy["length"];
   
   operator [](int index) {
-    return proxy.get(index);
+    return proxy["get"](index);
   }
   
-  List map(mapper(proxy)) => new List.generate(proxy.length, (i) => mapper(proxy.get(i)));  
+  List map(mapper(proxy)) {
+    var get = proxy["get"];
+    return new List.generate(length, (i) => mapper(get(i)));  
+  }
   
   void push(item) {
-    proxy.push(item);
+    proxy["push"](item);
   }
   
   void removeValue(item) {
-    proxy.removeValue(item);
+    proxy["removeValue"](item);
   }
   
   void addEventListener(String eventType, EventListener callback) {
-    proxy.addEventListener(eventType, new js.Callback.many(callback));    
+    proxy["addEventListener"](eventType, new js.Callback.many(callback));    
   }
   
   void retain() {
@@ -141,20 +147,17 @@ class CollaborativeMap {
   final js.Proxy proxy;
   CollaborativeMap(this.proxy);
 
-  String get id => proxy.id;
+  String get id => proxy["id"];
 
   operator [](String key) {
-    return proxy.get(key);
+    return proxy["get"](key);
   }
 
   operator []=(String key, dynamic value) {
-    return proxy.set(key, value);
+    return proxy["set"](key, value);
   }  
 
   void retain() {
     js.retain(proxy);
   }
 }
-
-typedef void EventListener(js.Proxy p);
-
