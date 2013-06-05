@@ -72,11 +72,11 @@ class Frame {
   
   void push(Stroke s) {
     s.save();
-    _strokes.push(s.map.proxy);
+    _strokes.push(s.shared.proxy);
   }
   
   void remove(Stroke s) {
-    _strokes.removeValue(s.map.proxy);
+    _strokes.removeValue(s.shared.proxy);
   }
 }
 
@@ -87,26 +87,26 @@ class FrameChange {
 }
 
 class Stroke {
-  final CollaborativeMap map;
+  final CollaborativeMap shared;
   int colorIndex;
   List<int> xs;
   List<int> ys;
   Map<String,dynamic> data;
   
-  Stroke(this.map, this.colorIndex) : xs = new List<int>(), ys = new List<int>(), data = new Map() {
-    map.retain();
+  Stroke(this.shared, this.colorIndex) : xs = new List<int>(), ys = new List<int>(), data = new Map() {
+    shared.retain();
     data["c"] = colorIndex;
     data["xs"] = xs;
     data["ys"] = ys;
   }
   
-  Stroke.deserialize(js.Proxy p) : map = new CollaborativeMap(p) {
-    map.retain();
+  Stroke.deserialize(js.Proxy p) : shared = new CollaborativeMap(p) {
+    shared.retain();
     load();
   }
   
   String get id {
-    return map.id;
+    return shared.id;
   }
   
   int get length {
@@ -114,13 +114,13 @@ class Stroke {
   }
   
   void load() {
-    data = json.parse(map["d"]);
+    data = json.parse(shared["d"]);
     colorIndex = data["c"];
     xs = data["xs"];
     ys = data["ys"];
   }
   
   String save() {
-    map["d"] = json.stringify(data);
+    shared["d"] = json.stringify(data);
   }
 }
