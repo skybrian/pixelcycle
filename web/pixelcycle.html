@@ -21,20 +21,8 @@
       <div id="palette"></div>
     </div>
 
-    <script type="application/dart" src="pixelcycle.dart"></script>
     <script type="text/javascript" src="https://apis.google.com/js/api.js"></script>
-    <script>
-      function propExists(obj, name) {
-        return name in obj;
-      }
-      function authorize(opts, callback) {
-        function docall(result) {
-          callback(result);
-        }
-        var res = gapi.auth.authorize(opts, docall);
-        return res;
-      }
-    </script>
+    <script type="application/dart" src="pixelcycle.dart"></script>
     <script src="packages/browser/dart.js"></script>
   </body>
 </html>

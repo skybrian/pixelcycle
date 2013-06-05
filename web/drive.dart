@@ -1,10 +1,14 @@
 part of pixelcycle;
 
+var gapi = js.retain(js.context["gapi"]);
+
+once(x) => new js.Callback.once(x);
+
 async.Future<Drive> startDrive() {
   
   async.Future initApis() {
     var c = new async.Completer();
-    js.context.gapi.load("auth:client,drive-realtime", once(() {
+    gapi["load"]("auth:client,drive-realtime", once(() {
       print("apis loaded");
       c.complete(); 
     }));
@@ -13,8 +17,8 @@ async.Future<Drive> startDrive() {
   
   async.Future authorize(bool immediate) {
     var c = new async.Completer();
-    js.context.authorize(js.map({
-    //js.context.gapi.auth.authorize(js.map({
+    //js.context.authorize(js.map({
+    gapi["auth"]["authorize"](js.map({
       "client_id": "659568974202.apps.googleusercontent.com",
       "immediate": immediate,
       "scope": [
@@ -23,7 +27,7 @@ async.Future<Drive> startDrive() {
           // "openid"
       ],
     }), once((authResult) {
-      if (authResult != null && !js.context.propExists(authResult, "error")) {
+      if (authResult != null && authResult["error"] == null) {
         print("got authorization");
         c.complete();
       } else if (immediate) {
@@ -46,27 +50,24 @@ async.Future<Drive> startDrive() {
   var c = new async.Completer<Drive>();
   initApis()
     .then((x) => authorize(true))
-    .then((x) => c.complete(new Drive(js.retain(js.context.gapi))));
+    .then((x) => c.complete(new Drive()));
   return c.future;
 }
 
 class Drive {
-  final js.Proxy gapi;
-  
-  Drive(this.gapi);
 
   // Returns file id
   async.Future<String> createDoc(String title) {
     var c = new async.Completer();
     _loadApi("drive", "v2").then((x) {
-      gapi.client.drive.files.insert(js.map({
+      gapi["client"]["drive"]["files"]["insert"](js.map({
         'resource': {
           "mimeType": 'application/vnd.google-apps.drive-sdk',
           "title": title
         }
-      })).execute(once((fileInfo,unused) {
-        print("document ${fileInfo.id} created");        
-        c.complete(fileInfo.id);  
+      })).execute(once((fileInfo, unused) {
+        print("document ${fileInfo["id"]} created");        
+        c.complete(fileInfo["id"]);  
       }));      
     });
     return c.future;
@@ -75,7 +76,7 @@ class Drive {
   async.Future<Doc> loadDoc(String fileId) {
     var c = new async.Completer<Doc>();
     onLoad(jsDoc) {
-      var doc = new Doc(gapi, js.retain(jsDoc));
+      var doc = new Doc(js.retain(jsDoc));
       print("document ${fileId} loaded");
       c.complete(doc);
     }
@@ -83,13 +84,13 @@ class Drive {
       window.alert(err.message);
       window.location.reload();
     }
-    gapi.drive.realtime.load(fileId, once(onLoad), once(_initializeModel), once(onError));
+    gapi["drive"]["realtime"]["load"](fileId, once(onLoad), once(_initializeModel), once(onError));
     return c.future;
   }
   
   async.Future _loadApi(String name, String version) {
     var c = new async.Completer();
-    gapi.client.load(name, version, new js.Callback.once(() {
+    gapi["client"]["load"](name, version, new js.Callback.once(() {
       print("${name} api loaded");     
       c.complete();
     }));
@@ -157,4 +158,3 @@ class CollaborativeMap {
 
 typedef void EventListener(js.Proxy p);
 
-once(x) => new js.Callback.once(x);

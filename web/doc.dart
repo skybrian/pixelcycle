@@ -1,11 +1,10 @@
 part of pixelcycle;
 
 class Doc {
-  final js.Proxy gapi;
   final js.Proxy doc;
   final Map<String, Frame> frameById = new Map<String, Frame>();
 
-  Doc(this.gapi, this.doc) {
+  Doc(this.doc) {
     for (var f in _list.map((p) {
       return new Frame(this, new CollaborativeList(p));    
     })) {
@@ -41,9 +40,10 @@ class Frame {
       onChangeSink.add(new FrameChange(this, e.index));      
     };
     
-    _strokes.addEventListener(doc.gapi.drive.realtime.EventType.VALUES_ADDED, forward);
-    _strokes.addEventListener(doc.gapi.drive.realtime.EventType.VALUES_SET, forward); 
-    _strokes.addEventListener(doc.gapi.drive.realtime.EventType.VALUES_REMOVED, forward);
+    var EventType = gapi["drive"]["realtime"]["EventType"];
+    _strokes.addEventListener(EventType["VALUES_ADDED"], forward);
+    _strokes.addEventListener(EventType["VALUES_SET"], forward); 
+    _strokes.addEventListener(EventType["VALUES_REMOVED"], forward);
   }
   
   String get id => _strokes.id;
