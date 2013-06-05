@@ -1,7 +1,6 @@
 library pixelcycle;
 import 'dart:html';
 import 'dart:async' as async;
-import 'dart:uri' as uri;
 import 'dart:json' as json;
 import 'package:js/js.dart' as js;
 
@@ -148,10 +147,10 @@ String getFileId(Location loc) {
 }
 
 String makeUrl(Location loc, String fileId) {
-  var url = uri.Uri.parse(loc.toString());
-  url = new uri.Uri.fromComponents(
+  var url = Uri.parse(loc.toString());
+  url = new Uri(
       scheme: url.scheme,
-      domain: url.domain,
+      host: url.host,
       port: url.port,
       path: url.path,
       query: fileId);
