@@ -1,6 +1,7 @@
 part of pixelcycle;
 
 var gapi = js.retain(js.context["gapi"]);
+var debug = js.retain(js.context["debug"]);
 
 once(x) => new js.Callback.once(x);
 
@@ -17,7 +18,6 @@ async.Future<Drive> startDrive() {
   
   async.Future authorize(bool immediate) {
     var c = new async.Completer();
-    //js.context.authorize(js.map({
     gapi["auth"]["authorize"](js.map({
       "client_id": "659568974202.apps.googleusercontent.com",
       "immediate": immediate,
@@ -75,15 +75,27 @@ class Drive {
   
   async.Future<Doc> loadDoc(String fileId) {
     var c = new async.Completer<Doc>();
-    onLoad(jsDoc) {
+    onLoad(js.Proxy jsDoc) {
       var doc = new Doc(jsDoc);
       print("document ${fileId} loaded");
       c.complete(doc);
     }
-    onError(err) {
-      window.alert(err.message);
-      window.location.reload();
+    
+    var ErrorType = gapi["drive"]["realtime"]["ErrorType"];
+    onError(js.Proxy err) {
+      var type = err["type"];
+      if (type == ErrorType["TOKEN_REFRESH_REQUIRED"]) {
+        window.location.reload();
+      } else {
+        print("error type: ${type}");
+        if (window.confirm(err["message"] + " Reload the page?")) {
+          window.location.reload();
+          return;
+        }
+        debug(err);
+      }
     }
+  
     gapi["drive"]["realtime"]["load"](fileId, once(onLoad), once(_initializeModel), once(onError));
     return c.future;
   }

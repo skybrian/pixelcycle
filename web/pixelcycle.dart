@@ -123,38 +123,70 @@ class FrameListView {
   }
 }
 
+class StateToken {
+  final String action;
+  final List<String> ids;
+  final String parentId;
+  
+  StateToken(this.action, this.ids, this.parentId);
+  
+  factory StateToken.deserialize(String data) {
+    var map = json.parse(data);
+    return new StateToken(map["action"], map["ids"], map["parentId"]);
+  }
+  
+  factory StateToken.load(Location loc) {
+    if (loc.search == "") {
+      return new StateToken(null, [], null);
+    }
+    Uri url = new Uri(query: loc.search.substring(1));
+    var state = url.queryParameters["state"];
+    if (state == null) {
+      return new StateToken(null, [], null);
+    }
+    return new StateToken.deserialize(state);
+  }
+  
+  String serialize() { 
+    return json.stringify({"action": action, "ids": ids, "parentId": parentId});
+  }
+  
+  String toUrl(Location loc) {
+    var old = Uri.parse(loc.toString());
+    return new Uri(
+        scheme: old.scheme,
+        host: old.host,
+        port: old.port,
+        path: old.path,
+        queryParameters: {"state": serialize()}).toString();    
+  }
+}
+
 void main() {
   var loc = window.location;
   startDrive().then((Drive drive) {
-    var fileId = getFileId(loc);
-    if (fileId == null) {
+    var state = new StateToken.load(loc);
+    if (state.ids.isEmpty) {
       drive.createDoc("PixelCycle Test").then((id) {
         print("reloading page");
-        loc.replace(makeUrl(loc, id));
+        state = new StateToken("open", [id], null);
+        var newUrl = state.toUrl(loc);
+        loc.replace(newUrl);
       });
     } else {
-      drive.loadDoc(fileId).then(startApp);      
+      drive.loadDoc(state.ids[0]).then(startApp);      
     }
   });
 }
 
-// Returns null if not present.
-String getFileId(Location loc) {
-  if (loc.search == "") {
-    return null;
-  }
-  return loc.search.substring(1);
-}
-
 String makeUrl(Location loc, String fileId) {
-  var url = Uri.parse(loc.toString());
-  url = new Uri(
-      scheme: url.scheme,
-      host: url.host,
-      port: url.port,
-      path: url.path,
-      query: fileId);
-  return url.toString();
+  var old = Uri.parse(loc.toString());
+  return new Uri(
+      scheme: old.scheme,
+      host: old.host,
+      port: old.port,
+      path: old.path,
+      queryParameters: {"id": fileId}).toString();
 }
 
 void startApp(Doc doc) {
