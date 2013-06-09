@@ -11,6 +11,15 @@ part 'drive.dart';
 part 'doc.dart';
 
 void main() {
+  var jsLoaded = js.context["jsApiLoaded"];
+  if (jsLoaded) {
+    startDart();
+  } else {
+    js.context["startDart"] = once(startDart);
+  }
+}
+
+void startDart() {
   var loc = window.location;
   startDrive().then((Drive drive) {
     var state = new StateToken.load(loc);
@@ -26,7 +35,7 @@ void main() {
       });
       button.classes.remove("hidden");
     }
-  });
+  });  
 }
 
 class StateToken {
