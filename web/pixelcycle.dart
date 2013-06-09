@@ -13,13 +13,13 @@ part 'doc.dart';
 void main() {
   var jsLoaded = js.context["jsApiLoaded"];
   if (jsLoaded) {
-    startDart();
+    start();
   } else {
-    js.context["startDart"] = once(startDart);
+    js.context["startDart"] = once(start);
   }
 }
 
-void startDart() {
+void start() {
   var loc = window.location;
   startDrive().then((Drive drive) {
     var state = new StateToken.load(loc);

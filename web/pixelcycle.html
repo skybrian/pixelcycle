@@ -24,10 +24,14 @@
 
     <script type="text/javascript">
     jsApiLoaded = false;
+    
     startDart = function() {} 
+    
     function onApiLoaded() {
-      jsApiLoaded = true;
-      startDart();
+      gapi.load("auth:client,drive-realtime", function() {
+        jsApiLoaded = true;
+        startDart();
+      });
     }
     </script>
     

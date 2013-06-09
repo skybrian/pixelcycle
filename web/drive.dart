@@ -5,16 +5,7 @@ var gapi = js.retain(js.context["gapi"]);
 once(x) => new js.Callback.once(x);
 
 async.Future<Drive> startDrive() {
-  
-  async.Future initApis() {
-    var c = new async.Completer();
-    gapi["load"]("auth:client,drive-realtime", once(() {
-      print("apis loaded");
-      c.complete(); 
-    }));
-    return c.future;
-  }
-  
+    
   async.Future authorize(bool immediate) {
     var c = new async.Completer();
     gapi["auth"]["authorize"](js.map({
@@ -47,9 +38,7 @@ async.Future<Drive> startDrive() {
   }
     
   var c = new async.Completer<Drive>();
-  initApis()
-    .then((x) => authorize(true))
-    .then((x) => c.complete(new Drive()));
+  authorize(true).then((x) => c.complete(new Drive()));
   return c.future;
 }
 
