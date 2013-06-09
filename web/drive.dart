@@ -72,6 +72,16 @@ class Drive {
     return c.future;
   }
   
+  async.Future<FileMeta> loadFileMeta(String fileId) {
+    var c = new async.Completer();
+    _loadApi("drive", "v2").then((x) {
+      gapi["client"]["drive"]["files"]["get"](js.map({
+        'fileId': fileId
+      })).execute(once((file, unused) => c.complete(new FileMeta(file))));        
+    });
+    return c.future;
+  }
+  
   async.Future<Doc> loadDoc(String fileId) {
     var c = new async.Completer<Doc>();
     onLoad(js.Proxy jsDoc) {
@@ -116,6 +126,11 @@ class Drive {
     }
     model["getRoot"]()["set"]("frames", frames);
   }
+}
+
+class FileMeta {
+  final String title;
+  FileMeta(js.Proxy file) : title = file["title"];
 }
 
 typedef void EventListener(js.Proxy p);
