@@ -130,7 +130,8 @@ class Drive {
 
 class FileMeta {
   final String title;
-  FileMeta(js.Proxy file) : title = file["title"];
+  final bool editable;
+  FileMeta(js.Proxy file) : title = file["title"], editable = file["editable"];
 }
 
 typedef void EventListener(js.Proxy p);

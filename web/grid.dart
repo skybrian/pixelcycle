@@ -5,10 +5,10 @@ class FrameListView {
   final Element elt = new DivElement();
   final views = new List<GridView>();
   
-  FrameListView(MovieModel movie, Editor ed, this.player) {
+  FrameListView(MovieModel movie, this.player) {
     var grids = movie.grids;
     for (int i = 0; i < grids.length; i++) {
-      var v = new GridView(grids[i], ed, 1);
+      var v = new GridView(grids[i], 1);
       v.elt.classes.add("frame");
       v.elt.dataset["id"] = i.toString();
       elt.append(v.elt);
@@ -35,17 +35,20 @@ class FrameListView {
 
 class GridView {
   StrokeGrid grid;
-  Editor editor;
   final int pixelsize;
   final CanvasElement elt;
   Rect damage = null;
   var _cancelOnChange = () {};
   
-  GridView(StrokeGrid g, this.editor, this.pixelsize) : elt = new CanvasElement() {       
+  GridView(StrokeGrid g, this.pixelsize) : elt = new CanvasElement() {       
     elt.onMouseDown.listen((MouseEvent e) {
       e.preventDefault(); // don't allow selection
     });
     setModel(g);
+  }
+  
+  factory GridView.big(MovieModel movie) {
+    return new GridView(movie.grids[0], 14);
   }
   
   void setModel(StrokeGrid newG) {
@@ -81,7 +84,14 @@ class GridView {
     });
   }
   
-  void enablePainting(PaletteModel palette) {
+  void enablePainting(Editor editor, PaletteModel palette) {
+    
+    void _paint(MouseEvent e, int colorIndex) {
+      int x = (e.offsetX / pixelsize).toInt();
+      int y = (e.offsetY / pixelsize).toInt();
+      editor.paint(grid, x, y, colorIndex);
+    }
+
     var stopPainting = () {};
     elt.onMouseDown.listen((MouseEvent e) {
       if (e.button == 0) {
@@ -104,12 +114,6 @@ class GridView {
     elt.onMouseOut.listen((MouseEvent e) {
       stopPainting();      
     });    
-  }
-  
-  void _paint(MouseEvent e, int colorIndex) {
-    int x = (e.offsetX / pixelsize).toInt();
-    int y = (e.offsetY / pixelsize).toInt();
-    editor.paint(grid, x, y, colorIndex);
   }
 }
 
@@ -199,17 +203,6 @@ class Editor {
   }
 }
 
-class MovieModel {
-  final grids = new List<StrokeGrid>();
-  MovieModel(PaletteModel palette, int width, int height, Doc doc) {
-    for (var f in doc.getFrames()) {
-      var cg = new ColorGrid(palette, width, height, 0);
-      var sg = new StrokeGrid(f, cg);
-      grids.add(sg);
-    }
-  }
-}
-
 class StrokeSet {
   final int colorIndex;
   final strokes = new Map<StrokeGrid, Stroke>();
@@ -243,6 +236,21 @@ class StrokeSet {
     for (var g in strokes.keys) {
       g.redo(strokes[g]);
     }
+  }
+}
+
+class MovieModel {
+  final PaletteModel palette;
+  final grids = new List<StrokeGrid>();
+  MovieModel(this.palette, int width, int height, Doc doc) {
+    for (var f in doc.getFrames()) {
+      var cg = new ColorGrid(palette, width, height, 0);
+      var sg = new StrokeGrid(f, cg);
+      grids.add(sg);
+    }
+  }
+  factory MovieModel.standard(Doc doc) {
+    return new MovieModel(new PaletteModel.standard(), 60, 36, doc);
   }
 }
 

@@ -10,6 +10,25 @@ part 'grid.dart';
 part 'drive.dart';
 part 'doc.dart';
 
+void main() {
+  var loc = window.location;
+  startDrive().then((Drive drive) {
+    var state = new StateToken.load(loc);
+    if (state.action == "create") {
+      createTestDoc(drive);
+    } else if (state.action == "open") {
+      openDoc(drive, state.ids[0]);
+    } else {
+      setTitle("PixelCycle");
+      Element button = query("#create");
+      button.onClick.listen((e) {
+        createTestDoc(drive);
+      });
+      button.classes.remove("hidden");
+    }
+  });
+}
+
 class StateToken {
   final String action;
   final List<String> ids;
@@ -53,43 +72,6 @@ class StateToken {
   }
 }
 
-void main() {
-  var loc = window.location;
-  startDrive().then((Drive drive) {
-    var state = new StateToken.load(loc);
-    if (state.action == "create") {
-      createTestDoc(drive);
-    } else if (state.action == "open") {
-      var meta = drive.loadFileMeta(state.ids[0]);
-      var doc = drive.loadDoc(state.ids[0]);
-      async.Future.wait([meta, doc]).then((fs) => setTitle(fs[0].title));
-      doc.then(startEditor);      
-    } else {
-      setTitle("PixelCycle");
-      Element button = query("#create");
-      button.onClick.listen((e) {
-        createTestDoc(drive);
-      });
-      button.classes.remove("hidden");
-    }
-  });
-}
-
-String makeUrl(Location loc, String fileId) {
-  var old = Uri.parse(loc.toString());
-  return new Uri(
-      scheme: old.scheme,
-      host: old.host,
-      port: old.port,
-      path: old.path,
-      queryParameters: {"id": fileId}).toString();
-}
-
-void setTitle(String title) {
-  query("title").text = title;
-  query("#title").text = title;
-}
-
 void createTestDoc(Drive drive) {
   drive.createDoc("PixelCycle Test").then((id) {
     print("reloading page");
@@ -99,21 +81,42 @@ void createTestDoc(Drive drive) {
   });  
 }
 
-void startEditor(Doc doc) {
-  PaletteModel pm = new PaletteModel.standard();
-  pm.select(51);
-  
-  MovieModel movie = new MovieModel(pm, 60, 36, doc);
-  Editor ed = new Editor(movie);
-  
-  GridView big = new GridView(movie.grids[0], ed, 14);
-  big.enablePainting(pm);
-  
-  PlayerModel player = new PlayerModel(movie);  
-  player.onFrameChange.listen((int frame) {
-    big.setModel(movie.grids[frame]);
+void openDoc(Drive drive, String fileId) {
+  async.Future.wait([
+    drive.loadFileMeta(fileId),
+    drive.loadDoc(fileId)
+  ]).then((futures) {
+    FileMeta meta = futures[0];
+    Doc doc = futures[1];
+    setTitle(meta.title);
+    if (meta.editable) {
+      startEditor(doc);      
+    } else {
+      startViewer(doc);
+    }
   });
+}
 
+void setTitle(String title) {
+  query("title").text = title;
+  query("#title").text = title;
+}
+
+void startViewer(Doc doc) {
+  MovieModel movie = new MovieModel.standard(doc);
+  GridView big = new GridView.big(movie);
+  startPlayer(movie, big);
+}
+
+void startEditor(Doc doc) {
+  MovieModel movie = new MovieModel.standard(doc);
+  GridView big = new GridView.big(movie);
+
+  PaletteModel pm = movie.palette;
+  pm.select(51);
+  Editor ed = new Editor(movie);
+  big.enablePainting(ed, pm);
+  
   ButtonElement undo = new ButtonElement();
   undo.text = "Undo";
   undo.disabled = true;
@@ -129,12 +132,22 @@ void startEditor(Doc doc) {
   ed.onCanRedo.listen((bool v) {
     redo.disabled = !v;
   });
-  
-  query("#frames").append(new FrameListView(movie, ed, player).elt);
-  query("#player").append(new PlayerView(player).elt);
-  query("#grid").append(big.elt);
+
   query("#palette").append(new PaletteView(pm, pm.colors.length~/4).elt);
   query("#undo")..append(undo)..append(redo);  
+  
+  startPlayer(movie, big);
+}
+
+void startPlayer(MovieModel movie, GridView big) {
+  PlayerModel player = new PlayerModel(movie);  
+  player.onFrameChange.listen((int frame) {
+    big.setModel(movie.grids[frame]);
+  });
+  
+  query("#frames").append(new FrameListView(movie, player).elt);
+  query("#player").append(new PlayerView(player).elt);
+  query("#grid").append(big.elt);
   
   bool spaceDown = false;
   int spaceDownFrame = -1;
@@ -171,5 +184,5 @@ void startEditor(Doc doc) {
     }
   });
   
-  player.playing = true;
+  player.playing = true;  
 }
