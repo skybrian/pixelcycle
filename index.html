@@ -15,26 +15,13 @@
       </div>
       <div id="frames"></div>
     </div>
-    <div id="grid"></div>    
+    <div id="grid"></div>
     <div class="fullwidth">
       <div id="undo" class="rightside"></div>
       <div id="palette"></div>
     </div>
 
-    <script type="text/javascript" src="pixelcycle.dart.js"></script>
     <script type="text/javascript" src="https://apis.google.com/js/api.js"></script>
-    <script>
-      function propExists(obj, name) {
-        return name in obj;
-      }
-      function authorize(opts, callback) {
-        function docall(result) {
-          callback(result);
-        }
-        var res = gapi.auth.authorize(opts, docall);
-        return res;
-      }
-    </script>
     <script src="packages/browser/dart.js"></script>
   </body>
 </html>
