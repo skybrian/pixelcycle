@@ -24,12 +24,12 @@ class StateToken {
   
   factory StateToken.load(Location loc) {
     if (loc.search == "") {
-      return new StateToken("create", [], null);
+      return new StateToken("none", [], null);
     }
     Uri url = new Uri(query: loc.search.substring(1));
     var state = url.queryParameters["state"];
     if (state == null) {
-      return new StateToken("create", [], null);
+      return new StateToken("none", [], null);
     }
     return new StateToken.deserialize(state);
   }
@@ -58,19 +58,19 @@ void main() {
   startDrive().then((Drive drive) {
     var state = new StateToken.load(loc);
     if (state.action == "create") {
-      drive.createDoc("PixelCycle Test").then((id) {
-        print("reloading page");
-        state = new StateToken("open", [id], null);
-        var newUrl = state.toUrl(loc);
-        loc.replace(newUrl);
-      });
+      createTestDoc(drive);
     } else if (state.action == "open") {
       var meta = drive.loadFileMeta(state.ids[0]);
       var doc = drive.loadDoc(state.ids[0]);
-      async.Future.wait([meta, doc]).then((both) => setTitle(both[0]));
-      doc.then(startApp);      
+      async.Future.wait([meta, doc]).then((fs) => setTitle(fs[0].title));
+      doc.then(startEditor);      
     } else {
-      window.alert("unknown action: ${state.action}");
+      setTitle("PixelCycle");
+      Element button = query("#create");
+      button.onClick.listen((e) {
+        createTestDoc(drive);
+      });
+      button.classes.remove("hidden");
     }
   });
 }
@@ -85,12 +85,21 @@ String makeUrl(Location loc, String fileId) {
       queryParameters: {"id": fileId}).toString();
 }
 
-void setTitle(FileMeta meta) {
-  query("title").text = meta.title;
-  query("#title").text = meta.title;
+void setTitle(String title) {
+  query("title").text = title;
+  query("#title").text = title;
 }
 
-void startApp(Doc doc) {
+void createTestDoc(Drive drive) {
+  drive.createDoc("PixelCycle Test").then((id) {
+    print("reloading page");
+    var state = new StateToken("open", [id], null);
+    var newUrl = state.toUrl(window.location);
+    window.location.replace(newUrl);
+  });  
+}
+
+void startEditor(Doc doc) {
   PaletteModel pm = new PaletteModel.standard();
   pm.select(51);
   
