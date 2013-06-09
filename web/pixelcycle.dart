@@ -137,18 +137,22 @@ class StateToken {
   
   factory StateToken.load(Location loc) {
     if (loc.search == "") {
-      return new StateToken(null, [], null);
+      return new StateToken("create", [], null);
     }
     Uri url = new Uri(query: loc.search.substring(1));
     var state = url.queryParameters["state"];
     if (state == null) {
-      return new StateToken(null, [], null);
+      return new StateToken("create", [], null);
     }
     return new StateToken.deserialize(state);
   }
   
-  String serialize() { 
-    return json.stringify({"action": action, "ids": ids, "parentId": parentId});
+  String serialize() {
+    if (parentId == null) {
+      return json.stringify({"action": action, "ids": ids});      
+    } else {
+      return json.stringify({"action": action, "ids": ids, "parentId": parentId});
+    }
   }
   
   String toUrl(Location loc) {
@@ -166,15 +170,17 @@ void main() {
   var loc = window.location;
   startDrive().then((Drive drive) {
     var state = new StateToken.load(loc);
-    if (state.ids.isEmpty) {
+    if (state.action == "create") {
       drive.createDoc("PixelCycle Test").then((id) {
         print("reloading page");
         state = new StateToken("open", [id], null);
         var newUrl = state.toUrl(loc);
         loc.replace(newUrl);
       });
-    } else {
+    } else if (state.action == "open") {
       drive.loadDoc(state.ids[0]).then(startApp);      
+    } else {
+      window.alert("unknown action: ${state.action}");
     }
   });
 }

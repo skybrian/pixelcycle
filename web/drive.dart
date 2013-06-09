@@ -85,6 +85,7 @@ class Drive {
     onError(js.Proxy err) {
       var type = err["type"];
       if (type == ErrorType["TOKEN_REFRESH_REQUIRED"]) {
+        print("token refresh required; reloading");
         window.location.reload();
       } else {
         print("error type: ${type}");
@@ -92,7 +93,6 @@ class Drive {
           window.location.reload();
           return;
         }
-        debug(err);
       }
     }
   
