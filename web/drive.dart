@@ -1,7 +1,6 @@
 part of pixelcycle;
 
 var gapi = js.retain(js.context["gapi"]);
-var debug = js.retain(js.context["debug"]);
 
 once(x) => new js.Callback.once(x);
 
