@@ -53,7 +53,7 @@ class Drive {
         "title": title
       };
       if (folderId != null) {
-        metadata["parents"] = js.array([folderId]);
+        metadata["parents"] = js.array([js.map({'id': folderId})]);
       }
       gapi["client"]["drive"]["files"]["insert"](js.map({'resource': metadata}))
         .execute(once((fileInfo, unused) {

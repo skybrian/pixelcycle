@@ -24,7 +24,7 @@ void start() {
   startDrive().then((Drive drive) {
     var state = new StateToken.load(loc);
     if (state.action == "create") {
-      createDoc(drive, "Untitled", state.parentId);
+      createDoc(drive, "Untitled", state.folderId);
     } else if (state.action == "open") {
       openDoc(drive, state.ids[0]);
     } else {
@@ -41,13 +41,13 @@ void start() {
 class StateToken {
   final String action;
   final List<String> ids;
-  final String parentId;
+  final String folderId;
   
-  StateToken(this.action, this.ids, this.parentId);
+  StateToken(this.action, this.ids, this.folderId);
   
   factory StateToken.deserialize(String data) {
     var map = json.parse(data);
-    return new StateToken(map["action"], map["ids"], map["parentId"]);
+    return new StateToken(map["action"], map["ids"], map["folderId"]);
   }
   
   factory StateToken.load(Location loc) {
@@ -63,10 +63,10 @@ class StateToken {
   }
   
   String serialize() {
-    if (parentId == null) {
+    if (folderId == null) {
       return json.stringify({"action": action, "ids": ids});      
     } else {
-      return json.stringify({"action": action, "ids": ids, "parentId": parentId});
+      return json.stringify({"action": action, "ids": ids, "folderId": folderId});
     }
   }
   
