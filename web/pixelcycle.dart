@@ -130,7 +130,7 @@ void startEditor(Doc doc) {
       showPrompt("Enter a new title for this animation:", meta.title).then((String newTitle) {
         if (newTitle != meta.title) {
           doc.setTitle(newTitle).then((FileMeta meta) {
-            query("#title").text = meta.title;  
+            setTitle(meta.title);
           });
         }
       });
