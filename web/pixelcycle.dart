@@ -24,14 +24,14 @@ void start() {
   startDrive().then((Drive drive) {
     var state = new StateToken.load(loc);
     if (state.action == "create") {
-      createTestDoc(drive);
+      createDoc(drive, "Untitled", state.parentId);
     } else if (state.action == "open") {
       openDoc(drive, state.ids[0]);
     } else {
       setTitle("PixelCycle");
       Element button = query("#create");
       button.onClick.listen((e) {
-        createTestDoc(drive);
+        createDoc(drive, "Test", null);
       });
       button.classes.remove("hidden");
     }
@@ -81,8 +81,8 @@ class StateToken {
   }
 }
 
-void createTestDoc(Drive drive) {
-  drive.createDoc("PixelCycle Test").then((id) {
+void createDoc(Drive drive, String name, String folderId) {
+  drive.createDoc(name, folderId).then((id) {
     print("reloading page");
     var state = new StateToken("open", [id], null);
     var newUrl = state.toUrl(window.location);

@@ -45,18 +45,21 @@ async.Future<Drive> startDrive() {
 class Drive {
 
   // Returns file id
-  async.Future<String> createDoc(String title) {
+  async.Future<String> createDoc(String title, String folderId) {
     var c = new async.Completer();
     _loadApi("drive", "v2").then((x) {
-      gapi["client"]["drive"]["files"]["insert"](js.map({
-        'resource': {
-          "mimeType": 'application/vnd.google-apps.drive-sdk',
-          "title": title
-        }
-      })).execute(once((fileInfo, unused) {
-        print("document ${fileInfo["id"]} created");        
-        c.complete(fileInfo["id"]);  
-      }));      
+      var metadata = {
+        "mimeType": 'application/vnd.google-apps.drive-sdk',
+        "title": title
+      };
+      if (folderId != null) {
+        metadata["parents"] = js.array([folderId]);
+      }
+      gapi["client"]["drive"]["files"]["insert"](js.map({'resource': metadata}))
+        .execute(once((fileInfo, unused) {
+          print("document ${fileInfo["id"]} created");        
+          c.complete(fileInfo["id"]);  
+        }));      
     });
     return c.future;
   }
