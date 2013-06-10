@@ -150,6 +150,7 @@ class Editor {
     if (couldRedo) {
       onCanRedoSink.add(false);
     }
+    movie.doc.touchLater();
     // postcondition: top not null, redo is empty
   }
   
@@ -182,6 +183,7 @@ class Editor {
     if (!couldRedo) {
       onCanRedoSink.add(true);
     }
+    movie.doc.touchLater();
     // postcondition: top is null, redo not empty
   }
   
@@ -200,7 +202,8 @@ class Editor {
     if (!couldUndo) {
       onCanUndoSink.add(true);
     }
-  }
+    movie.doc.touchLater();
+  }  
 }
 
 class StrokeSet {
@@ -242,7 +245,8 @@ class StrokeSet {
 class MovieModel {
   final PaletteModel palette;
   final grids = new List<StrokeGrid>();
-  MovieModel(this.palette, int width, int height, Doc doc) {
+  final Doc doc;
+  MovieModel(this.palette, int width, int height, this.doc) {
     for (var f in doc.getFrames()) {
       var cg = new ColorGrid(palette, width, height, 0);
       var sg = new StrokeGrid(f, cg);

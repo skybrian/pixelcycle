@@ -74,7 +74,7 @@ class Drive {
   async.Future<Doc> loadDoc(String fileId) {
     var c = new async.Completer<Doc>();
     onLoad(js.Proxy jsDoc) {
-      var doc = new Doc(jsDoc);
+      var doc = new Doc(this, fileId, jsDoc);
       print("document ${fileId} loaded");
       c.complete(doc);
     }
@@ -98,9 +98,19 @@ class Drive {
     return c.future;
   }
   
+  void touch(String fileId) {
+    _loadApi("drive", "v2").then((x) {
+      print("touching ${fileId}");
+      gapi["client"]["drive"]["files"]["touch"](js.map({"fileId": fileId}))
+        .execute(once((file, unused) {
+          print("touched");
+        }));
+    });    
+  }
+  
   async.Future _loadApi(String name, String version) {
     var c = new async.Completer();
-    gapi["client"]["load"](name, version, new js.Callback.once(() {
+    gapi["client"]["load"](name, version, once(() {
       print("${name} api loaded");     
       c.complete();
     }));

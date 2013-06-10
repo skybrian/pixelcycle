@@ -1,10 +1,13 @@
 part of pixelcycle;
 
 class Doc {
+  final Drive drive;
+  String fileId;
   final js.Proxy model;
   final Map<String, Frame> frameById = new Map<String, Frame>();
+  async.Timer _touchedTimer;
 
-  Doc(js.Proxy jsDoc) : this.model = js.retain(jsDoc["getModel"]()) {
+  Doc(this.drive, this.fileId, js.Proxy jsDoc) : this.model = js.retain(jsDoc["getModel"]()) {
     for (var f in _list.map((p) {
       return new Frame(this, new CollaborativeList(p));    
     })) {
@@ -23,6 +26,17 @@ class Doc {
   
   CollaborativeList get _list {
     return new CollaborativeList(model["getRoot"]()["get"]("frames"));    
+  }
+  
+  // Touch the file after waiting at least five seconds.
+  // (It will be delayed until there are no touch calls for five seconds.)
+  void touchLater() {
+    if (_touchedTimer != null) {
+      _touchedTimer.cancel();  
+    }
+    _touchedTimer = new async.Timer(new Duration(seconds: 5), () {
+      drive.touch(fileId);
+    });
   }
 }
 
