@@ -324,6 +324,9 @@ $$.Element = {"": "Node;$$dom_children:children=,id=,innerHtml:innerHTML},title%
   get$onChange: function(receiver) {
     return new $._EventStream(receiver, $.EventStreamProvider_change._eventType, false);
   },
+  get$onClick: function(receiver) {
+    return new $._EventStream(receiver, $.EventStreamProvider_click._eventType, false);
+  },
   $isElement: true,
   $asElement: null
 };
@@ -11418,6 +11421,9 @@ Object: {"": ";",
   setFramesPerSecond$1: function($0) {
     return this.noSuchMethod$1(this, $.createInvocationMirror("setFramesPerSecond", "setFramesPerSecond$1", 0, [$0], []));
   },
+  setTitle$1: function($0) {
+    return this.noSuchMethod$1(this, $.createInvocationMirror("setTitle", "setTitle$1", 0, [$0], []));
+  },
   skip$1: function($receiver, $0) {
     return this.noSuchMethod$1(this, $.createInvocationMirror("skip", "skip$1", 0, [$0], []));
   },
@@ -16009,6 +16015,12 @@ Doc: {"": "Object;drive<,fileId<,model,frameById<,_touchedTimer",
     var t1 = new $.CollaborativeList($.$index$asx($.$index$asx(this.model, "getRoot").call$0(), "get").call$1("frames"));
     return t1.map$1(t1, new $.Doc_getFrames_closure(this));
   },
+  loadFileMeta$0: function() {
+    return this.drive.loadFileMeta$1(this.fileId);
+  },
+  setTitle$1: function(newTitle) {
+    return this.drive.setTitle$2(this.fileId, newTitle);
+  },
   touchLater$0: function() {
     var t1, milliseconds;
     t1 = this._touchedTimer;
@@ -16273,6 +16285,11 @@ Drive: {"": "Object;",
     this._loadApi$2("drive", "v2").then$1(new $.Drive_loadFileMeta_closure(fileId, c));
     return c.future;
   },
+  setTitle$2: function(fileId, newTitle) {
+    var c = new $._AsyncCompleter(new $._FutureImpl(0, null), false);
+    this._loadApi$2("drive", "v2").then$1(new $.Drive_setTitle_closure(fileId, newTitle, c));
+    return c.future;
+  },
   loadDoc$1: function(fileId) {
     var c, ErrorType;
     c = new $._AsyncCompleter(new $._FutureImpl(0, null), false);
@@ -16360,6 +16377,35 @@ Drive_loadFileMeta__closure: {"": "Closure;c_2",
     t1._isComplete = true;
     t1._setFutureValue$1(new $.FileMeta(t3, t2));
     return;
+  },
+  $isFunction: true
+},
+
+Drive_setTitle_closure: {"": "Closure;fileId_0,newTitle_1,c_2",
+  call$1: function(x) {
+    var t1, t2, t3;
+    t1 = this.fileId_0;
+    t2 = this.newTitle_1;
+    $.Primitives_printString("updating title of " + $.S(t1) + " to " + $.S(t2));
+    t3 = $.$index$asx($.$index$asx($.$index$asx($.$index$asx($.get$gapi(), "client"), "drive"), "files"), "update");
+    t2 = $.makeLiteralMap(["fileId", t1, "resource", $.makeLiteralMap(["fileId", t1, "title", t2])]);
+    $._enterScopeIfNeeded();
+    t3.call$1($._deserialize($._jsPortConvert.callSync$1($.Proxy__serializeDataTree(t2)))).execute$1($.Callback$once(new $.Drive_setTitle__closure(this.c_2), false));
+  },
+  $isFunction: true
+},
+
+Drive_setTitle__closure: {"": "Closure;c_3",
+  call$2: function(file, unused) {
+    var t1, t2, t3;
+    t1 = this.c_3;
+    t2 = $.getInterceptor$asx(file);
+    t3 = t2.$index(file, "title");
+    t2 = t2.$index(file, "editable");
+    if (t1._isComplete)
+      $.throwExpression(new $.StateError("Future already completed"));
+    t1._isComplete = true;
+    t1._setFutureValue$1(new $.FileMeta(t3, t2));
   },
   $isFunction: true
 },
@@ -16470,6 +16516,314 @@ CollaborativeMap: {"": "Object;proxy<",
   },
   $indexSet: function(_, key, value) {
     return $.$index$asx(this.proxy, "set").call$2(key, value);
+  }
+},
+
+MovieModel: {"": "Object;palette,grids,doc",
+  MovieModel$4: function(palette, width, height, doc) {
+    var t1, t2, t3;
+    for (t1 = $.get$iterator$ax(this.doc.getFrames$0()), t2 = this.palette, t3 = this.grids; t1.moveNext$0() === true;)
+      t3.push($.StrokeGrid$(t1.get$current(), $.ColorGrid$(t2, width, height, 0)));
+  }
+},
+
+StrokeGrid: {"": "Object;frame<,grid<,pixelStacks,strokes<,top>",
+  get$width: function(_) {
+    return this.grid.width;
+  },
+  get$height: function(_) {
+    return this.grid.height;
+  },
+  get$onChange: function(_) {
+    return this.grid.onChange;
+  },
+  get$all: function() {
+    return this.grid.all;
+  },
+  render$3: function(c, pixelsize, clip) {
+    return this.grid.render$3(c, pixelsize, clip);
+  },
+  paint$3: function(x, y, colorIndex) {
+    var stack, t1;
+    stack = this.getStack$2(x, y);
+    t1 = $.getInterceptor$asx(stack);
+    if ($.$eq(t1.get$isEmpty(stack) === true ? null : t1.get$last(stack).get$colorIndex(), colorIndex))
+      return;
+    t1 = this.top;
+    if (t1 != null && !$.$eq(t1.get$colorIndex(), colorIndex))
+      this.endPaint$0();
+    if (this.top == null)
+      this.top = this.frame.createStroke$1(colorIndex);
+    $.add$1$ax(this.top.get$xs(), x);
+    $.add$1$ax(this.top.get$ys(), y);
+    t1 = this.top;
+    $.add$1$ax(this.getStack$2(x, y), t1);
+    this.grid.setColor$3(x, y, t1.get$colorIndex());
+    return this.top;
+  },
+  endPaint$0: function() {
+    var t1 = this.top;
+    if (t1 == null)
+      return;
+    this._undo$1(t1);
+    if ($.$eq(t1, this.top))
+      this.top = null;
+    if ($.JSArray_methods.remove$1(this.strokes, t1))
+      $.remove$1$ax(this.frame, t1);
+    this.frame.push$1(t1);
+  },
+  undo$1: function(s) {
+    this._undo$1(s);
+    if ($.$eq(s, this.top))
+      this.top = null;
+    if ($.JSArray_methods.remove$1(this.strokes, s))
+      $.remove$1$ax(this.frame, s);
+  },
+  redo$1: function(s) {
+    if (this.top != null)
+      throw $.wrapException(new $._ExceptionImplementation("can't redo while painting"));
+    this._redo$1(s);
+    this.strokes.push(s);
+    this.frame.push$1(s);
+  },
+  _undo$1: function(s) {
+    var t1, t2, i, t3, x, y, stack;
+    t1 = this.grid;
+    t2 = t1.bgColor;
+    i = 0;
+    while (true) {
+      t3 = $.get$length$asx(s);
+      if (typeof t3 !== "number")
+        throw $.iae(t3);
+      if (!(i < t3))
+        break;
+      t3 = s.get$xs();
+      if (typeof t3 !== "string" && (typeof t3 !== "object" || t3 === null || t3.constructor !== Array && !$.isJsIndexable(t3, t3[$.dispatchPropertyName])))
+        return this._undo$1$bailout(1, t2, s, t3, t1, i);
+      if (i >= t3.length)
+        throw $.ioore(i);
+      x = t3[i];
+      t3 = s.get$ys();
+      if (typeof t3 !== "string" && (typeof t3 !== "object" || t3 === null || t3.constructor !== Array && !$.isJsIndexable(t3, t3[$.dispatchPropertyName])))
+        return this._undo$1$bailout(2, t2, s, t3, t1, i, x);
+      if (i >= t3.length)
+        throw $.ioore(i);
+      y = t3[i];
+      stack = this.getStack$2(x, y);
+      t3 = $.getInterceptor$ax(stack);
+      t3.remove$1(stack, s);
+      if (t3.get$isEmpty(stack) === true)
+        t1.setColor$3(x, y, t2);
+      else
+        t1.setColor$3(x, y, t3.get$last(stack).get$colorIndex());
+      ++i;
+    }
+  },
+  _undo$1$bailout: function(state0, t2, s, t3, t1, i, x) {
+    switch (state0) {
+      case 0:
+        t1 = this.grid;
+        t2 = t1.bgColor;
+        i = 0;
+      default:
+        var y, stack;
+        L0:
+          while (true)
+            switch (state0) {
+              case 0:
+                t3 = $.get$length$asx(s);
+                if (typeof t3 !== "number")
+                  throw $.iae(t3);
+                if (!$.JSInt_methods.$lt(i, t3))
+                  break L0;
+                t3 = s.get$xs();
+              case 1:
+                state0 = 0;
+                x = $.$index$asx(t3, i);
+                t3 = s.get$ys();
+              case 2:
+                state0 = 0;
+                y = $.$index$asx(t3, i);
+                stack = this.getStack$2(x, y);
+                t3 = $.getInterceptor$ax(stack);
+                t3.remove$1(stack, s);
+                if (t3.get$isEmpty(stack) === true)
+                  t1.setColor$3(x, y, t2);
+                else
+                  t1.setColor$3(x, y, t3.get$last(stack).get$colorIndex());
+                ++i;
+            }
+    }
+  },
+  _redo$1: function(s) {
+    var t1, i, t2, x, y;
+    t1 = this.grid;
+    i = 0;
+    while (true) {
+      t2 = $.get$length$asx(s);
+      if (typeof t2 !== "number")
+        throw $.iae(t2);
+      if (!(i < t2))
+        break;
+      t2 = s.get$xs();
+      if (typeof t2 !== "string" && (typeof t2 !== "object" || t2 === null || t2.constructor !== Array && !$.isJsIndexable(t2, t2[$.dispatchPropertyName])))
+        return this._redo$1$bailout(1, s, t1, t2, i);
+      if (i >= t2.length)
+        throw $.ioore(i);
+      x = t2[i];
+      t2 = s.get$ys();
+      if (typeof t2 !== "string" && (typeof t2 !== "object" || t2 === null || t2.constructor !== Array && !$.isJsIndexable(t2, t2[$.dispatchPropertyName])))
+        return this._redo$1$bailout(2, s, t1, t2, i, x);
+      if (i >= t2.length)
+        throw $.ioore(i);
+      y = t2[i];
+      $.add$1$ax(this.getStack$2(x, y), s);
+      t1.setColor$3(x, y, s.get$colorIndex());
+      ++i;
+    }
+  },
+  _redo$1$bailout: function(state0, s, t1, t2, i, x) {
+    switch (state0) {
+      case 0:
+        t1 = this.grid;
+        i = 0;
+      default:
+        var y;
+        L0:
+          while (true)
+            switch (state0) {
+              case 0:
+                t2 = $.get$length$asx(s);
+                if (typeof t2 !== "number")
+                  throw $.iae(t2);
+                if (!$.JSInt_methods.$lt(i, t2))
+                  break L0;
+                t2 = s.get$xs();
+              case 1:
+                state0 = 0;
+                x = $.$index$asx(t2, i);
+                t2 = s.get$ys();
+              case 2:
+                state0 = 0;
+                y = $.$index$asx(t2, i);
+                $.add$1$ax(this.getStack$2(x, y), s);
+                t1.setColor$3(x, y, s.get$colorIndex());
+                ++i;
+            }
+    }
+  },
+  getStack$2: function(x, y) {
+    var t1, t2;
+    if (x !== (x | 0))
+      return this.getStack$2$bailout(1, x, y);
+    if (y !== (y | 0))
+      return this.getStack$2$bailout(1, x, y);
+    if (x >= 0)
+      if (y >= 0) {
+        t1 = this.grid;
+        t1 = x >= t1.width || y >= t1.height;
+      } else
+        t1 = true;
+    else
+      t1 = true;
+    if (t1)
+      throw $.wrapException(new $._ExceptionImplementation("invalid point: x=" + x + ", y=" + y));
+    t1 = this.pixelStacks;
+    t2 = x + y * this.grid.width;
+    if (t2 < 0 || t2 >= t1.length)
+      throw $.ioore(t2);
+    return t1[t2];
+  },
+  getStack$2$bailout: function(state0, x, y) {
+    var t1, t2, t3;
+    t1 = $.getInterceptor$n(x);
+    if (t1.$lt(x, 0) !== true) {
+      t2 = $.getInterceptor$n(y);
+      if (t2.$lt(y, 0) !== true) {
+        t3 = this.grid;
+        t2 = t1.$ge(x, t3.width) === true || t2.$ge(y, t3.height) === true;
+      } else
+        t2 = true;
+    } else
+      t2 = true;
+    if (t2)
+      throw $.wrapException(new $._ExceptionImplementation("invalid point: x=" + $.S(x) + ", y=" + $.S(y)));
+    t2 = this.pixelStacks;
+    t1 = t1.$add(x, $.$mul$n(y, this.grid.width));
+    if (t1 >>> 0 !== t1 || t1 >= t2.length)
+      throw $.ioore(t1);
+    return t2[t1];
+  },
+  StrokeGrid$2: function(frame, grid) {
+    var t1, t2, i, t3, s;
+    for (t1 = this.pixelStacks, t2 = t1.length, i = 0; i < t2; ++i)
+      t1[i] = $.List_List($);
+    for (t1 = this.frame, t2 = $.get$iterator$ax(t1.strokesFrom$1(0)), t3 = this.strokes; t2.moveNext$0() === true;) {
+      s = t2.get$current();
+      this._redo$1(s);
+      t3.push(s);
+    }
+    $.get$onChange$x(t1).listen$1(new $.StrokeGrid_closure(this));
+  }
+},
+
+StrokeGrid_closure: {"": "Closure;this_0",
+  call$1: function(c) {
+    var t1, t2, t3, s;
+    t1 = this.this_0;
+    t2 = $.getInterceptor$x(t1);
+    t3 = t2.get$top(t1);
+    if (t3 != null)
+      t1._undo$1(t3);
+    for (; $.$gt$n($.get$length$asx(t1.get$strokes()), c.get$startIndex()) === true;)
+      t1._undo$1($.removeLast$0$ax(t1.get$strokes()));
+    for (t3 = $.get$iterator$ax(t1.get$frame().strokesFrom$1(c.get$startIndex())); t3.moveNext$0() === true;) {
+      s = t3.get$current();
+      t1._redo$1(s);
+      $.add$1$ax(t1.get$strokes(), s);
+    }
+    t2 = t2.get$top(t1);
+    if (t2 != null)
+      t1._redo$1(t2);
+  },
+  $isFunction: true
+},
+
+ColorGrid: {"": "Object;palette,width>,height>,bgColor,all<,buf,onChange>,onChangeSink<",
+  setColor$3: function(x, y, colorIndex) {
+    var c, t1;
+    c = $.get$context2D$x(this.buf);
+    t1 = this.palette.colors;
+    if (colorIndex >>> 0 !== colorIndex || colorIndex >= t1.length)
+      throw $.ioore(colorIndex);
+    c.fillStyle = t1[colorIndex];
+    c.fillRect(x, y, 1, 1);
+    t1 = this.onChangeSink._sink;
+    t1.add$1(t1, new $.Rect(x, y, 1, 1));
+  },
+  render$3: function(c, pixelsize, clip) {
+    var t1;
+    c.webkitImageSmoothingEnabled = false;
+    t1 = $.getInterceptor$x(clip);
+    c.drawImage(this.buf, t1.get$left(clip), t1.get$top(clip), t1.get$width(clip), t1.get$height(clip), $.$mul$n(t1.get$left(clip), pixelsize), $.$mul$n(t1.get$top(clip), pixelsize), $.$mul$n(t1.get$width(clip), pixelsize), $.$mul$n(t1.get$height(clip), pixelsize));
+  },
+  ColorGrid$4: function(palette, width, height, bgColor) {
+    var t1, t2, c, controller;
+    t1 = this.buf;
+    t2 = $.getInterceptor$x(t1);
+    t2.set$width(t1, width);
+    t2.set$height(t1, height);
+    c = t2.get$context2D(t1);
+    t1 = this.palette.colors;
+    t2 = this.bgColor;
+    if (t2 < 0 || t2 >= t1.length)
+      throw $.ioore(t2);
+    c.fillStyle = t1[t2];
+    c.fillRect(0, 0, width, height);
+    controller = new $._AsyncStreamController(null, null, null, null, null, null, 0, null);
+    controller._stream = new $._ControllerStream(controller, false);
+    this.onChange = controller._stream.asBroadcastStream$0();
+    this.onChangeSink = new $._EventSinkView(controller);
   }
 },
 
@@ -16842,314 +17196,6 @@ StrokeSet: {"": "Object;colorIndex<,strokes<",
   }
 },
 
-MovieModel: {"": "Object;palette,grids,doc",
-  MovieModel$4: function(palette, width, height, doc) {
-    var t1, t2, t3;
-    for (t1 = $.get$iterator$ax(this.doc.getFrames$0()), t2 = this.palette, t3 = this.grids; t1.moveNext$0() === true;)
-      t3.push($.StrokeGrid$(t1.get$current(), $.ColorGrid$(t2, width, height, 0)));
-  }
-},
-
-StrokeGrid: {"": "Object;frame<,grid<,pixelStacks,strokes<,top>",
-  get$width: function(_) {
-    return this.grid.width;
-  },
-  get$height: function(_) {
-    return this.grid.height;
-  },
-  get$onChange: function(_) {
-    return this.grid.onChange;
-  },
-  get$all: function() {
-    return this.grid.all;
-  },
-  render$3: function(c, pixelsize, clip) {
-    return this.grid.render$3(c, pixelsize, clip);
-  },
-  paint$3: function(x, y, colorIndex) {
-    var stack, t1;
-    stack = this.getStack$2(x, y);
-    t1 = $.getInterceptor$asx(stack);
-    if ($.$eq(t1.get$isEmpty(stack) === true ? null : t1.get$last(stack).get$colorIndex(), colorIndex))
-      return;
-    t1 = this.top;
-    if (t1 != null && !$.$eq(t1.get$colorIndex(), colorIndex))
-      this.endPaint$0();
-    if (this.top == null)
-      this.top = this.frame.createStroke$1(colorIndex);
-    $.add$1$ax(this.top.get$xs(), x);
-    $.add$1$ax(this.top.get$ys(), y);
-    t1 = this.top;
-    $.add$1$ax(this.getStack$2(x, y), t1);
-    this.grid.setColor$3(x, y, t1.get$colorIndex());
-    return this.top;
-  },
-  endPaint$0: function() {
-    var t1 = this.top;
-    if (t1 == null)
-      return;
-    this._undo$1(t1);
-    if ($.$eq(t1, this.top))
-      this.top = null;
-    if ($.JSArray_methods.remove$1(this.strokes, t1))
-      $.remove$1$ax(this.frame, t1);
-    this.frame.push$1(t1);
-  },
-  undo$1: function(s) {
-    this._undo$1(s);
-    if ($.$eq(s, this.top))
-      this.top = null;
-    if ($.JSArray_methods.remove$1(this.strokes, s))
-      $.remove$1$ax(this.frame, s);
-  },
-  redo$1: function(s) {
-    if (this.top != null)
-      throw $.wrapException(new $._ExceptionImplementation("can't redo while painting"));
-    this._redo$1(s);
-    this.strokes.push(s);
-    this.frame.push$1(s);
-  },
-  _undo$1: function(s) {
-    var t1, t2, i, t3, x, y, stack;
-    t1 = this.grid;
-    t2 = t1.bgColor;
-    i = 0;
-    while (true) {
-      t3 = $.get$length$asx(s);
-      if (typeof t3 !== "number")
-        throw $.iae(t3);
-      if (!(i < t3))
-        break;
-      t3 = s.get$xs();
-      if (typeof t3 !== "string" && (typeof t3 !== "object" || t3 === null || t3.constructor !== Array && !$.isJsIndexable(t3, t3[$.dispatchPropertyName])))
-        return this._undo$1$bailout(1, t2, s, t3, t1, i);
-      if (i >= t3.length)
-        throw $.ioore(i);
-      x = t3[i];
-      t3 = s.get$ys();
-      if (typeof t3 !== "string" && (typeof t3 !== "object" || t3 === null || t3.constructor !== Array && !$.isJsIndexable(t3, t3[$.dispatchPropertyName])))
-        return this._undo$1$bailout(2, t2, s, t3, t1, i, x);
-      if (i >= t3.length)
-        throw $.ioore(i);
-      y = t3[i];
-      stack = this.getStack$2(x, y);
-      t3 = $.getInterceptor$ax(stack);
-      t3.remove$1(stack, s);
-      if (t3.get$isEmpty(stack) === true)
-        t1.setColor$3(x, y, t2);
-      else
-        t1.setColor$3(x, y, t3.get$last(stack).get$colorIndex());
-      ++i;
-    }
-  },
-  _undo$1$bailout: function(state0, t2, s, t3, t1, i, x) {
-    switch (state0) {
-      case 0:
-        t1 = this.grid;
-        t2 = t1.bgColor;
-        i = 0;
-      default:
-        var y, stack;
-        L0:
-          while (true)
-            switch (state0) {
-              case 0:
-                t3 = $.get$length$asx(s);
-                if (typeof t3 !== "number")
-                  throw $.iae(t3);
-                if (!$.JSInt_methods.$lt(i, t3))
-                  break L0;
-                t3 = s.get$xs();
-              case 1:
-                state0 = 0;
-                x = $.$index$asx(t3, i);
-                t3 = s.get$ys();
-              case 2:
-                state0 = 0;
-                y = $.$index$asx(t3, i);
-                stack = this.getStack$2(x, y);
-                t3 = $.getInterceptor$ax(stack);
-                t3.remove$1(stack, s);
-                if (t3.get$isEmpty(stack) === true)
-                  t1.setColor$3(x, y, t2);
-                else
-                  t1.setColor$3(x, y, t3.get$last(stack).get$colorIndex());
-                ++i;
-            }
-    }
-  },
-  _redo$1: function(s) {
-    var t1, i, t2, x, y;
-    t1 = this.grid;
-    i = 0;
-    while (true) {
-      t2 = $.get$length$asx(s);
-      if (typeof t2 !== "number")
-        throw $.iae(t2);
-      if (!(i < t2))
-        break;
-      t2 = s.get$xs();
-      if (typeof t2 !== "string" && (typeof t2 !== "object" || t2 === null || t2.constructor !== Array && !$.isJsIndexable(t2, t2[$.dispatchPropertyName])))
-        return this._redo$1$bailout(1, s, t1, t2, i);
-      if (i >= t2.length)
-        throw $.ioore(i);
-      x = t2[i];
-      t2 = s.get$ys();
-      if (typeof t2 !== "string" && (typeof t2 !== "object" || t2 === null || t2.constructor !== Array && !$.isJsIndexable(t2, t2[$.dispatchPropertyName])))
-        return this._redo$1$bailout(2, s, t1, t2, i, x);
-      if (i >= t2.length)
-        throw $.ioore(i);
-      y = t2[i];
-      $.add$1$ax(this.getStack$2(x, y), s);
-      t1.setColor$3(x, y, s.get$colorIndex());
-      ++i;
-    }
-  },
-  _redo$1$bailout: function(state0, s, t1, t2, i, x) {
-    switch (state0) {
-      case 0:
-        t1 = this.grid;
-        i = 0;
-      default:
-        var y;
-        L0:
-          while (true)
-            switch (state0) {
-              case 0:
-                t2 = $.get$length$asx(s);
-                if (typeof t2 !== "number")
-                  throw $.iae(t2);
-                if (!$.JSInt_methods.$lt(i, t2))
-                  break L0;
-                t2 = s.get$xs();
-              case 1:
-                state0 = 0;
-                x = $.$index$asx(t2, i);
-                t2 = s.get$ys();
-              case 2:
-                state0 = 0;
-                y = $.$index$asx(t2, i);
-                $.add$1$ax(this.getStack$2(x, y), s);
-                t1.setColor$3(x, y, s.get$colorIndex());
-                ++i;
-            }
-    }
-  },
-  getStack$2: function(x, y) {
-    var t1, t2;
-    if (x !== (x | 0))
-      return this.getStack$2$bailout(1, x, y);
-    if (y !== (y | 0))
-      return this.getStack$2$bailout(1, x, y);
-    if (x >= 0)
-      if (y >= 0) {
-        t1 = this.grid;
-        t1 = x >= t1.width || y >= t1.height;
-      } else
-        t1 = true;
-    else
-      t1 = true;
-    if (t1)
-      throw $.wrapException(new $._ExceptionImplementation("invalid point: x=" + x + ", y=" + y));
-    t1 = this.pixelStacks;
-    t2 = x + y * this.grid.width;
-    if (t2 < 0 || t2 >= t1.length)
-      throw $.ioore(t2);
-    return t1[t2];
-  },
-  getStack$2$bailout: function(state0, x, y) {
-    var t1, t2, t3;
-    t1 = $.getInterceptor$n(x);
-    if (t1.$lt(x, 0) !== true) {
-      t2 = $.getInterceptor$n(y);
-      if (t2.$lt(y, 0) !== true) {
-        t3 = this.grid;
-        t2 = t1.$ge(x, t3.width) === true || t2.$ge(y, t3.height) === true;
-      } else
-        t2 = true;
-    } else
-      t2 = true;
-    if (t2)
-      throw $.wrapException(new $._ExceptionImplementation("invalid point: x=" + $.S(x) + ", y=" + $.S(y)));
-    t2 = this.pixelStacks;
-    t1 = t1.$add(x, $.$mul$n(y, this.grid.width));
-    if (t1 >>> 0 !== t1 || t1 >= t2.length)
-      throw $.ioore(t1);
-    return t2[t1];
-  },
-  StrokeGrid$2: function(frame, grid) {
-    var t1, t2, i, t3, s;
-    for (t1 = this.pixelStacks, t2 = t1.length, i = 0; i < t2; ++i)
-      t1[i] = $.List_List($);
-    for (t1 = this.frame, t2 = $.get$iterator$ax(t1.strokesFrom$1(0)), t3 = this.strokes; t2.moveNext$0() === true;) {
-      s = t2.get$current();
-      this._redo$1(s);
-      t3.push(s);
-    }
-    $.get$onChange$x(t1).listen$1(new $.StrokeGrid_closure(this));
-  }
-},
-
-StrokeGrid_closure: {"": "Closure;this_0",
-  call$1: function(c) {
-    var t1, t2, t3, s;
-    t1 = this.this_0;
-    t2 = $.getInterceptor$x(t1);
-    t3 = t2.get$top(t1);
-    if (t3 != null)
-      t1._undo$1(t3);
-    for (; $.$gt$n($.get$length$asx(t1.get$strokes()), c.get$startIndex()) === true;)
-      t1._undo$1($.removeLast$0$ax(t1.get$strokes()));
-    for (t3 = $.get$iterator$ax(t1.get$frame().strokesFrom$1(c.get$startIndex())); t3.moveNext$0() === true;) {
-      s = t3.get$current();
-      t1._redo$1(s);
-      $.add$1$ax(t1.get$strokes(), s);
-    }
-    t2 = t2.get$top(t1);
-    if (t2 != null)
-      t1._redo$1(t2);
-  },
-  $isFunction: true
-},
-
-ColorGrid: {"": "Object;palette,width>,height>,bgColor,all<,buf,onChange>,onChangeSink<",
-  setColor$3: function(x, y, colorIndex) {
-    var c, t1;
-    c = $.get$context2D$x(this.buf);
-    t1 = this.palette.colors;
-    if (colorIndex >>> 0 !== colorIndex || colorIndex >= t1.length)
-      throw $.ioore(colorIndex);
-    c.fillStyle = t1[colorIndex];
-    c.fillRect(x, y, 1, 1);
-    t1 = this.onChangeSink._sink;
-    t1.add$1(t1, new $.Rect(x, y, 1, 1));
-  },
-  render$3: function(c, pixelsize, clip) {
-    var t1;
-    c.webkitImageSmoothingEnabled = false;
-    t1 = $.getInterceptor$x(clip);
-    c.drawImage(this.buf, t1.get$left(clip), t1.get$top(clip), t1.get$width(clip), t1.get$height(clip), $.$mul$n(t1.get$left(clip), pixelsize), $.$mul$n(t1.get$top(clip), pixelsize), $.$mul$n(t1.get$width(clip), pixelsize), $.$mul$n(t1.get$height(clip), pixelsize));
-  },
-  ColorGrid$4: function(palette, width, height, bgColor) {
-    var t1, t2, c, controller;
-    t1 = this.buf;
-    t2 = $.getInterceptor$x(t1);
-    t2.set$width(t1, width);
-    t2.set$height(t1, height);
-    c = t2.get$context2D(t1);
-    t1 = this.palette.colors;
-    t2 = this.bgColor;
-    if (t2 < 0 || t2 >= t1.length)
-      throw $.ioore(t2);
-    c.fillStyle = t1[t2];
-    c.fillRect(0, 0, width, height);
-    controller = new $._AsyncStreamController(null, null, null, null, null, null, 0, null);
-    controller._stream = new $._ControllerStream(controller, false);
-    this.onChange = controller._stream.asBroadcastStream$0();
-    this.onChangeSink = new $._EventSinkView(controller);
-  }
-},
-
 PaletteModel: {"": "Object;colors,selected',onChange>,onChangeSink<"},
 
 PaletteView: {"": "Object;m<,elt<,cells",
@@ -17251,7 +17297,7 @@ start_closure: {"": "Closure;loc_0",
     state = $.StateToken_StateToken$load(this.loc_0);
     t1 = $.getInterceptor$x(state);
     if ($.$eq(t1.get$action(state), "create"))
-      $.createDoc(drive, "Untitled", state.get$folderId());
+      $.createDoc(drive, "Untitled animation", state.get$folderId());
     else if ($.$eq(t1.get$action(state), "open"))
       $.openDoc(drive, $.$index$asx(state.get$ids(), 0));
     else {
@@ -17340,30 +17386,60 @@ openDoc_closure: {"": "Closure;",
   $isFunction: true
 },
 
-startEditor_closure: {"": "Closure;ed_0",
+startEditor_closure: {"": "Closure;doc_0",
   call$1: function(e) {
-    return this.ed_0.undo$0();
+    var t1 = this.doc_0;
+    t1.loadFileMeta$0().then$1(new $.startEditor__closure(t1));
   },
   $isFunction: true
 },
 
-startEditor_closure0: {"": "Closure;undo_1",
-  call$1: function(v) {
-    $.set$disabled$x(this.undo_1, v !== true);
+startEditor__closure: {"": "Closure;doc_1",
+  call$1: function(meta) {
+    $.showPrompt("Enter a new title for this animation:", $.get$title$x(meta)).then$1(new $.startEditor___closure(this.doc_1, meta));
   },
   $isFunction: true
 },
 
-startEditor_closure1: {"": "Closure;ed_2",
+startEditor___closure: {"": "Closure;doc_2,meta_3",
+  call$1: function(newTitle) {
+    if (!$.$eq(newTitle, $.get$title$x(this.meta_3)))
+      this.doc_2.setTitle$1(newTitle).then$1(new $.startEditor____closure());
+  },
+  $isFunction: true
+},
+
+startEditor____closure: {"": "Closure;",
+  call$1: function(meta) {
+    document.querySelector("#title").textContent = $.get$title$x(meta);
+  },
+  $isFunction: true
+},
+
+startEditor_closure0: {"": "Closure;ed_4",
   call$1: function(e) {
-    return this.ed_2.redo$0();
+    return this.ed_4.undo$0();
   },
   $isFunction: true
 },
 
-startEditor_closure2: {"": "Closure;redo_3",
+startEditor_closure1: {"": "Closure;undo_5",
   call$1: function(v) {
-    $.set$disabled$x(this.redo_3, v !== true);
+    $.set$disabled$x(this.undo_5, v !== true);
+  },
+  $isFunction: true
+},
+
+startEditor_closure2: {"": "Closure;ed_6",
+  call$1: function(e) {
+    return this.ed_6.redo$0();
+  },
+  $isFunction: true
+},
+
+startEditor_closure3: {"": "Closure;redo_7",
+  call$1: function(v) {
+    $.set$disabled$x(this.redo_7, v !== true);
   },
   $isFunction: true
 },
@@ -17642,6 +17718,35 @@ PlayerView_closure3: {"": "Closure;this_4",
   $isFunction: true
 },
 
+showPrompt_finish: {"": "Closure;c_0,backdrop_1,dialog_2",
+  call$1: function(retValue) {
+    var t1 = $.get$classes$x(this.backdrop_1);
+    t1.add$1(t1, "hidden");
+    t1 = $.get$classes$x(this.dialog_2);
+    t1.add$1(t1, "hidden");
+    t1 = this.c_0;
+    if (t1._isComplete)
+      $.throwExpression(new $.StateError("Future already completed"));
+    t1._isComplete = true;
+    t1._setFutureValue$1(retValue);
+  },
+  $isFunction: true
+},
+
+showPrompt_closure: {"": "Closure;textBox_3,finish_4",
+  call$1: function(e) {
+    this.finish_4.call$1($.trim$0$s($.get$value$x(this.textBox_3)));
+  },
+  $isFunction: true
+},
+
+showPrompt_closure0: {"": "Closure;defaultText_5,finish_6",
+  call$1: function(e) {
+    this.finish_6.call$1(this.defaultText_5);
+  },
+  $isFunction: true
+},
+
 Doc$: function(drive, fileId, jsDoc) {
   var t1 = $.$index$asx(jsDoc, "getModel").call$0();
   $._jsGlobalize.callSync$1($._serialize(t1.toJs$0()));
@@ -17668,24 +17773,6 @@ startDrive: function() {
   return c.future;
 },
 
-FrameListView$: function(movie, player) {
-  var t1 = new $.FrameListView(player, document.createElement("div"), $.List_List($));
-  t1.FrameListView$2(movie, player);
-  return t1;
-},
-
-GridView$: function(g, pixelsize) {
-  var t1 = new $.GridView(null, pixelsize, $.CanvasElement_CanvasElement(null, null), null, new $.closure());
-  t1.GridView$2(g, pixelsize);
-  return t1;
-},
-
-Editor$: function(movie) {
-  var t1 = new $.Editor(movie, $.List_List($), null, $.List_List($), null, null, null, null);
-  t1.Editor$1(movie);
-  return t1;
-},
-
 MovieModel$: function(palette, width, height, doc) {
   var t1 = new $.MovieModel(palette, $.List_List($), doc);
   t1.MovieModel$4(palette, width, height, doc);
@@ -17702,6 +17789,24 @@ StrokeGrid$: function(frame, grid) {
 ColorGrid$: function(palette, width, height, bgColor) {
   var t1 = new $.ColorGrid(palette, width, height, bgColor, new $.Rect(0, 0, width, height), $.CanvasElement_CanvasElement(null, null), null, null);
   t1.ColorGrid$4(palette, width, height, bgColor);
+  return t1;
+},
+
+FrameListView$: function(movie, player) {
+  var t1 = new $.FrameListView(player, document.createElement("div"), $.List_List($));
+  t1.FrameListView$2(movie, player);
+  return t1;
+},
+
+GridView$: function(g, pixelsize) {
+  var t1 = new $.GridView(null, pixelsize, $.CanvasElement_CanvasElement(null, null), null, new $.closure());
+  t1.GridView$2(g, pixelsize);
+  return t1;
+},
+
+Editor$: function(movie) {
+  var t1 = new $.Editor(movie, $.List_List($), null, $.List_List($), null, null, null, null);
+  t1.Editor$1(movie);
   return t1;
 },
 
@@ -17830,12 +17935,17 @@ openDoc: function(drive, fileId) {
 },
 
 startEditor: function(doc) {
-  var movie, t1, big, pm, ed, undo, t2, t3, redo;
+  var movie, t1, big, t2, t3, pm, ed, undo, redo;
   movie = $.MovieModel$($.PaletteModel_PaletteModel$standard(), 60, 36, doc);
   t1 = movie.grids;
   if (0 >= t1.length)
     throw $.ioore(0);
   big = $.GridView$(t1[0], 14);
+  t1 = document.querySelector("#title");
+  t2 = $.getInterceptor$x(t1);
+  t3 = t2.get$classes(t1);
+  t3.add$1(t3, "clickable");
+  t2.get$onClick(t1).listen$1(new $.startEditor_closure(doc));
   pm = movie.palette;
   pm.selected = 51;
   t1 = pm.onChangeSink._sink;
@@ -17848,21 +17958,21 @@ startEditor: function(doc) {
   undo.get$onClick;
   t1 = $.EventStreamProvider_click._eventType;
   t2 = new $._EventStream(undo, t1, false);
-  t2 = new $._EventStreamSubscription(0, t2._target, t2._eventType, new $.startEditor_closure(ed), t2._useCapture);
+  t2 = new $._EventStreamSubscription(0, t2._target, t2._eventType, new $.startEditor_closure0(ed), t2._useCapture);
   t3 = t2._onData;
   if (t3 != null && !t2.get$isPaused())
     $.$$dom_addEventListener$3$x(t2._target, t2._eventType, t3, t2._useCapture);
-  ed.onCanUndo.listen$1(new $.startEditor_closure0(undo));
+  ed.onCanUndo.listen$1(new $.startEditor_closure1(undo));
   redo = document.createElement("button");
   redo.textContent = "Redo";
   $.set$disabled$x(redo, true);
   redo.get$onClick;
   t1 = new $._EventStream(redo, t1, false);
-  t1 = new $._EventStreamSubscription(0, t1._target, t1._eventType, new $.startEditor_closure1(ed), t1._useCapture);
+  t1 = new $._EventStreamSubscription(0, t1._target, t1._eventType, new $.startEditor_closure2(ed), t1._useCapture);
   t2 = t1._onData;
   if (t2 != null && !t1.get$isPaused())
     $.$$dom_addEventListener$3$x(t1._target, t1._eventType, t2, t1._useCapture);
-  ed.onCanRedo.listen$1(new $.startEditor_closure2(redo));
+  ed.onCanRedo.listen$1(new $.startEditor_closure3(redo));
   document.querySelector("#palette").appendChild($.PaletteView$(pm, $.JSInt_methods.$tdiv(pm.colors.length, 4)).elt);
   t1 = document.querySelector("#undo");
   t1.appendChild(undo);
@@ -17903,6 +18013,29 @@ PlayerView$: function(player) {
   var t1 = new $.PlayerView(player, document.createElement("div"), document.createElement("button"), document.createElement("button"), $.InputElement_InputElement("range"), document.createElement("button"));
   t1.PlayerView$1(player);
   return t1;
+},
+
+showPrompt: function($prompt, defaultText) {
+  var c, backdrop, dialog, textBox, t1, t2, t3;
+  c = new $._AsyncCompleter(new $._FutureImpl(0, null), false);
+  backdrop = document.querySelector("#backdrop");
+  dialog = document.querySelector("#promptDialog");
+  textBox = document.querySelector("#promptTextBox");
+  t1 = new $.showPrompt_finish(c, backdrop, dialog);
+  document.querySelector("#promptMessage").textContent = $prompt;
+  $.set$value$x(textBox, defaultText);
+  t2 = document.querySelector("#promptOk");
+  t2.get$onClick;
+  t3 = $.EventStreamProvider_click._eventType;
+  new $._TakeStream(1, new $._EventStream(t2, t3, false)).listen$1(new $.showPrompt_closure(textBox, t1));
+  t2 = document.querySelector("#promptCancel");
+  t2.get$onClick;
+  new $._TakeStream(1, new $._EventStream(t2, t3, false)).listen$1(new $.showPrompt_closure0(defaultText, t1));
+  t1 = $.get$classes$x(backdrop);
+  t1.remove$1(t1, "hidden");
+  t1 = $.get$classes$x(dialog);
+  t1.remove$1(t1, "hidden");
+  return c.future;
 }}],
 ]);
 Isolate.$finishClasses($$, $, null);
@@ -22554,7 +22687,7 @@ function init() {
         }
       }
     }
-    var objectClassObject = collectedClasses.Object, shortNames = "get$g,get$m,get$p,call$0,call$1,call$2,call$3,call$4,eval$1,get$sb,get$xs,get$ys,push$1,redo$0,redo$1,then$1,toJs$0,undo$0,undo$1,_redo$1,_step$1,_undo$1,get$_id,get$all,get$elt,get$ids,paint$3,touch$1,_close$0,get$_key,get$grid,listen$1,lookup$1,render$0,render$3,toJson$0,execute$1,get$_next,get$_sink,get$drive,get$frame,get$proxy,loadDoc$1,perform$1,process$0,set$_next,set$frame,callSync$1,endPaint$0,get$_state,get$_value,get$damage,get$fileId,get$player,get$shared,get$slider,moveNext$0,set$_state,set$_value,set$damage,visitMap$1,_addError$1,_callback$2,_dispatch$1,_setError$1,_setValue$1,createDoc$2,get$current,get$strokes,set$_handle,set$playing,set$reverse,visitList$1,_sendError$1,_sendValue$1,catchError$1,get$_playing,get$_reverse,get$editable,get$folderId,handleNext$1,toSendPort$0,touchLater$0,unregister$1,_setGlobals$0,get$_callback,get$_contents,get$_duration,get$_isFiring,get$_onListen,get$_previous,get$_registry,get$_workerId,get$frameById,get$pixelsize,readClasses$0,renderAsync$1,set$_contents,set$_previous,createStroke$1,get$_isolateId,get$colorIndex,get$startIndex,loadFileMeta$1,runIteration$0,_checkReplyTo$1,_expectsEvent$1,get$_eventState,get$_futurePort,set$_eventState,visitSendPort$1,_toggleEventId$0,get$_liblib1$_id,get$_receivePort,get$onChangeSink,visitPrimitive$1,get$_STATE_CLOSED,get$_liblib$_name,get$_nextListener,set$_nextListener,visitCloseToken$1,get$_liblib5$_next,set$_liblib5$_next,visitIsolateSink$1,visitSendPortSync$1,_liblib2$_callback$1,get$_liblib$_current,deserializeSendPort$1,get$_liblib0$_element,get$_liblib5$_previous,get$_onFrameChangeSink,get$_removeAfterFiring,get$_resultOrListeners,set$_liblib5$_previous,_setRemoveAfterFiring$0,deserializeCloseToken$1,deserializeIsolateSink$1".split(","), longNames = "g,m,p,call,call,call,call,call,eval,sb,xs,ys,push,redo,redo,then,toJs,undo,undo,_redo,_step,_undo,_id,all,elt,ids,paint,touch,_close,_key,grid,listen,lookup,render,render,toJson,execute,_next,_sink,drive,frame,proxy,loadDoc,perform,process,_next=,frame=,callSync,endPaint,_state,_value,damage,fileId,player,shared,slider,moveNext,_state=,_value=,damage=,visitMap,_addError,_callback,_dispatch,_setError,_setValue,createDoc,current,strokes,_handle=,playing=,reverse=,visitList,_sendError,_sendValue,catchError,_playing,_reverse,editable,folderId,handleNext,toSendPort,touchLater,unregister,_setGlobals,_callback,_contents,_duration,_isFiring,_onListen,_previous,_registry,_workerId,frameById,pixelsize,readClasses,renderAsync,_contents=,_previous=,createStroke,_isolateId,colorIndex,startIndex,loadFileMeta,runIteration,_checkReplyTo,_expectsEvent,_eventState,_futurePort,_eventState=,visitSendPort,_toggleEventId,_id,_receivePort,onChangeSink,visitPrimitive,_STATE_CLOSED,_name,_nextListener,_nextListener=,visitCloseToken,_next,_next=,visitIsolateSink,visitSendPortSync,_callback,_current,deserializeSendPort,_element,_previous,_onFrameChangeSink,_removeAfterFiring,_resultOrListeners,_previous=,_setRemoveAfterFiring,deserializeCloseToken,deserializeIsolateSink".split(",");
+    var objectClassObject = collectedClasses.Object, shortNames = "get$g,get$m,get$p,call$0,call$1,call$2,call$3,call$4,eval$1,get$sb,get$xs,get$ys,push$1,redo$0,redo$1,then$1,toJs$0,undo$0,undo$1,_redo$1,_step$1,_undo$1,get$_id,get$all,get$elt,get$ids,paint$3,touch$1,_close$0,get$_key,get$grid,listen$1,lookup$1,render$0,render$3,toJson$0,execute$1,get$_next,get$_sink,get$drive,get$frame,get$proxy,loadDoc$1,perform$1,process$0,set$_next,set$frame,callSync$1,endPaint$0,get$_state,get$_value,get$damage,get$fileId,get$player,get$shared,get$slider,moveNext$0,set$_state,set$_value,set$damage,visitMap$1,_addError$1,_callback$2,_dispatch$1,_setError$1,_setValue$1,createDoc$2,get$current,get$strokes,set$_handle,set$playing,set$reverse,visitList$1,_sendError$1,_sendValue$1,catchError$1,get$_playing,get$_reverse,get$editable,get$folderId,handleNext$1,toSendPort$0,touchLater$0,unregister$1,_setGlobals$0,get$_callback,get$_contents,get$_duration,get$_isFiring,get$_onListen,get$_previous,get$_registry,get$_workerId,get$frameById,get$pixelsize,readClasses$0,renderAsync$1,set$_contents,set$_previous,createStroke$1,get$_isolateId,get$colorIndex,get$startIndex,loadFileMeta$0,loadFileMeta$1,runIteration$0,_checkReplyTo$1,_expectsEvent$1,get$_eventState,get$_futurePort,set$_eventState,visitSendPort$1,_toggleEventId$0,get$_liblib1$_id,get$_receivePort,get$onChangeSink,visitPrimitive$1,get$_STATE_CLOSED,get$_liblib$_name,get$_nextListener,set$_nextListener,visitCloseToken$1,get$_liblib5$_next,set$_liblib5$_next,visitIsolateSink$1,visitSendPortSync$1,_liblib2$_callback$1,get$_liblib$_current,deserializeSendPort$1,get$_liblib0$_element,get$_liblib5$_previous,get$_onFrameChangeSink,get$_removeAfterFiring,get$_resultOrListeners,set$_liblib5$_previous,_setRemoveAfterFiring$0,deserializeCloseToken$1,deserializeIsolateSink$1".split(","), longNames = "g,m,p,call,call,call,call,call,eval,sb,xs,ys,push,redo,redo,then,toJs,undo,undo,_redo,_step,_undo,_id,all,elt,ids,paint,touch,_close,_key,grid,listen,lookup,render,render,toJson,execute,_next,_sink,drive,frame,proxy,loadDoc,perform,process,_next=,frame=,callSync,endPaint,_state,_value,damage,fileId,player,shared,slider,moveNext,_state=,_value=,damage=,visitMap,_addError,_callback,_dispatch,_setError,_setValue,createDoc,current,strokes,_handle=,playing=,reverse=,visitList,_sendError,_sendValue,catchError,_playing,_reverse,editable,folderId,handleNext,toSendPort,touchLater,unregister,_setGlobals,_callback,_contents,_duration,_isFiring,_onListen,_previous,_registry,_workerId,frameById,pixelsize,readClasses,renderAsync,_contents=,_previous=,createStroke,_isolateId,colorIndex,startIndex,loadFileMeta,loadFileMeta,runIteration,_checkReplyTo,_expectsEvent,_eventState,_futurePort,_eventState=,visitSendPort,_toggleEventId,_id,_receivePort,onChangeSink,visitPrimitive,_STATE_CLOSED,_name,_nextListener,_nextListener=,visitCloseToken,_next,_next=,visitIsolateSink,visitSendPortSync,_callback,_current,deserializeSendPort,_element,_previous,_onFrameChangeSink,_removeAfterFiring,_resultOrListeners,_previous=,_setRemoveAfterFiring,deserializeCloseToken,deserializeIsolateSink".split(",");
     for (var j = 0; j < shortNames.length; j++) {
       var type = 0;
       var short = shortNames[j];

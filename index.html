@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="pixelcycle.css">
   </head>
   <body>
-    <h1 id="title">Loading...</h1>
+    <h1><span id="title">Loading...</span></h1>
     <button id="authorize" class="hidden">Connect to Google</button>
     <button id="create" class="hidden">Create Animation</button>
 
@@ -16,7 +16,7 @@
       </div>
       <div id="frames"></div>
     </div>
-    <div id="grid"></div>    
+    <div id="grid"></div>
     <div class="fullwidth">
       <div id="undo" class="rightside"></div>
       <div id="palette"></div>
@@ -24,9 +24,9 @@
 
     <script type="text/javascript">
     jsApiLoaded = false;
-    
-    startDart = function() {} 
-    
+
+    startDart = function() {}
+
     function onApiLoaded() {
       gapi.load("auth:client,drive-realtime", function() {
         jsApiLoaded = true;
@@ -34,9 +34,18 @@
       });
     }
     </script>
-    
+
     <script type="text/javascript" src="https://apis.google.com/js/api.js?onload=onApiLoaded" async></script>
     <script type="text/javascript" src="pixelcycle.dart.js"></script>
     <script src="packages/browser/dart.js"></script>
+    <div id="backdrop" class="hidden"></div>
+    <div id="promptDialog" class="dialog hidden">
+      <p id="promptMessage"></p>
+      <div>
+        <input type="text" id="promptTextBox"></input>
+      </div>
+      <button id="promptOk">OK</button> <button id="promptCancel">Cancel</button>
+      </div>
+    </div>
   </body>
 </html>
