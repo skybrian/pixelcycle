@@ -82,7 +82,6 @@ class Drive {
         'fileId': fileId,
         'resource': {'fileId': fileId, 'title': newTitle}
       })).execute(once((file, unused)  {
-        print("returned from update");
         c.complete(new FileMeta(file)); 
       }));        
     });
