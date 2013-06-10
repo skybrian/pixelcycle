@@ -16308,6 +16308,9 @@ Drive_createDoc_closure: {"": "Closure;title_0,folderId_1,c_2",
     metadata = $.makeLiteralMap(["mimeType", "application/vnd.google-apps.drive-sdk", "title", this.title_0]);
     t1 = this.folderId_1;
     if (t1 != null) {
+      t1 = $.makeLiteralMap(["id", t1]);
+      $._enterScopeIfNeeded();
+      t1 = $._deserialize($._jsPortConvert.callSync$1($.Proxy__serializeDataTree(t1)));
       $._enterScopeIfNeeded();
       metadata.$indexSet(metadata, "parents", $._deserialize($._jsPortConvert.callSync$1($.Proxy__serializeDataTree([t1]))));
     }
@@ -17248,7 +17251,7 @@ start_closure: {"": "Closure;loc_0",
     state = $.StateToken_StateToken$load(this.loc_0);
     t1 = $.getInterceptor$x(state);
     if ($.$eq(t1.get$action(state), "create"))
-      $.createDoc(drive, "Untitled", state.get$parentId());
+      $.createDoc(drive, "Untitled", state.get$folderId());
     else if ($.$eq(t1.get$action(state), "open"))
       $.openDoc(drive, $.$index$asx(state.get$ids(), 0));
     else {
@@ -17275,10 +17278,10 @@ start__closure: {"": "Closure;drive_1",
   $isFunction: true
 },
 
-StateToken: {"": "Object;action>,ids<,parentId<",
+StateToken: {"": "Object;action>,ids<,folderId<",
   serialize$0: function() {
     var t1, t2, t3, output;
-    t1 = this.parentId;
+    t1 = this.folderId;
     t2 = this.action;
     t3 = this.ids;
     if (t1 == null) {
@@ -17288,7 +17291,7 @@ StateToken: {"": "Object;action>,ids<,parentId<",
       new $._JsonStringifier(output, []).stringifyValue$1(t1);
       return output._contents;
     } else {
-      t1 = $.makeLiteralMap(["action", t2, "ids", t3, "parentId", t1]);
+      t1 = $.makeLiteralMap(["action", t2, "ids", t3, "folderId", t1]);
       output = new $.StringBuffer("");
       output._contents = "";
       new $._JsonStringifier(output, []).stringifyValue$1(t1);
@@ -17815,7 +17818,7 @@ StateToken_StateToken$load: function(loc) {
     return new $.StateToken("none", [], null);
   map = $.parse(state, null);
   t1 = $.getInterceptor$asx(map);
-  return new $.StateToken(t1.$index(map, "action"), t1.$index(map, "ids"), t1.$index(map, "parentId"));
+  return new $.StateToken(t1.$index(map, "action"), t1.$index(map, "ids"), t1.$index(map, "folderId"));
 },
 
 createDoc: function(drive, $name, folderId) {
@@ -22551,7 +22554,7 @@ function init() {
         }
       }
     }
-    var objectClassObject = collectedClasses.Object, shortNames = "get$g,get$m,get$p,call$0,call$1,call$2,call$3,call$4,eval$1,get$sb,get$xs,get$ys,push$1,redo$0,redo$1,then$1,toJs$0,undo$0,undo$1,_redo$1,_step$1,_undo$1,get$_id,get$all,get$elt,get$ids,paint$3,touch$1,_close$0,get$_key,get$grid,listen$1,lookup$1,render$0,render$3,toJson$0,execute$1,get$_next,get$_sink,get$drive,get$frame,get$proxy,loadDoc$1,perform$1,process$0,set$_next,set$frame,callSync$1,endPaint$0,get$_state,get$_value,get$damage,get$fileId,get$player,get$shared,get$slider,moveNext$0,set$_state,set$_value,set$damage,visitMap$1,_addError$1,_callback$2,_dispatch$1,_setError$1,_setValue$1,createDoc$2,get$current,get$strokes,set$_handle,set$playing,set$reverse,visitList$1,_sendError$1,_sendValue$1,catchError$1,get$_playing,get$_reverse,get$editable,get$parentId,handleNext$1,toSendPort$0,touchLater$0,unregister$1,_setGlobals$0,get$_callback,get$_contents,get$_duration,get$_isFiring,get$_onListen,get$_previous,get$_registry,get$_workerId,get$frameById,get$pixelsize,readClasses$0,renderAsync$1,set$_contents,set$_previous,createStroke$1,get$_isolateId,get$colorIndex,get$startIndex,loadFileMeta$1,runIteration$0,_checkReplyTo$1,_expectsEvent$1,get$_eventState,get$_futurePort,set$_eventState,visitSendPort$1,_toggleEventId$0,get$_liblib1$_id,get$_receivePort,get$onChangeSink,visitPrimitive$1,get$_STATE_CLOSED,get$_liblib$_name,get$_nextListener,set$_nextListener,visitCloseToken$1,get$_liblib5$_next,set$_liblib5$_next,visitIsolateSink$1,visitSendPortSync$1,_liblib2$_callback$1,get$_liblib$_current,deserializeSendPort$1,get$_liblib0$_element,get$_liblib5$_previous,get$_onFrameChangeSink,get$_removeAfterFiring,get$_resultOrListeners,set$_liblib5$_previous,_setRemoveAfterFiring$0,deserializeCloseToken$1,deserializeIsolateSink$1".split(","), longNames = "g,m,p,call,call,call,call,call,eval,sb,xs,ys,push,redo,redo,then,toJs,undo,undo,_redo,_step,_undo,_id,all,elt,ids,paint,touch,_close,_key,grid,listen,lookup,render,render,toJson,execute,_next,_sink,drive,frame,proxy,loadDoc,perform,process,_next=,frame=,callSync,endPaint,_state,_value,damage,fileId,player,shared,slider,moveNext,_state=,_value=,damage=,visitMap,_addError,_callback,_dispatch,_setError,_setValue,createDoc,current,strokes,_handle=,playing=,reverse=,visitList,_sendError,_sendValue,catchError,_playing,_reverse,editable,parentId,handleNext,toSendPort,touchLater,unregister,_setGlobals,_callback,_contents,_duration,_isFiring,_onListen,_previous,_registry,_workerId,frameById,pixelsize,readClasses,renderAsync,_contents=,_previous=,createStroke,_isolateId,colorIndex,startIndex,loadFileMeta,runIteration,_checkReplyTo,_expectsEvent,_eventState,_futurePort,_eventState=,visitSendPort,_toggleEventId,_id,_receivePort,onChangeSink,visitPrimitive,_STATE_CLOSED,_name,_nextListener,_nextListener=,visitCloseToken,_next,_next=,visitIsolateSink,visitSendPortSync,_callback,_current,deserializeSendPort,_element,_previous,_onFrameChangeSink,_removeAfterFiring,_resultOrListeners,_previous=,_setRemoveAfterFiring,deserializeCloseToken,deserializeIsolateSink".split(",");
+    var objectClassObject = collectedClasses.Object, shortNames = "get$g,get$m,get$p,call$0,call$1,call$2,call$3,call$4,eval$1,get$sb,get$xs,get$ys,push$1,redo$0,redo$1,then$1,toJs$0,undo$0,undo$1,_redo$1,_step$1,_undo$1,get$_id,get$all,get$elt,get$ids,paint$3,touch$1,_close$0,get$_key,get$grid,listen$1,lookup$1,render$0,render$3,toJson$0,execute$1,get$_next,get$_sink,get$drive,get$frame,get$proxy,loadDoc$1,perform$1,process$0,set$_next,set$frame,callSync$1,endPaint$0,get$_state,get$_value,get$damage,get$fileId,get$player,get$shared,get$slider,moveNext$0,set$_state,set$_value,set$damage,visitMap$1,_addError$1,_callback$2,_dispatch$1,_setError$1,_setValue$1,createDoc$2,get$current,get$strokes,set$_handle,set$playing,set$reverse,visitList$1,_sendError$1,_sendValue$1,catchError$1,get$_playing,get$_reverse,get$editable,get$folderId,handleNext$1,toSendPort$0,touchLater$0,unregister$1,_setGlobals$0,get$_callback,get$_contents,get$_duration,get$_isFiring,get$_onListen,get$_previous,get$_registry,get$_workerId,get$frameById,get$pixelsize,readClasses$0,renderAsync$1,set$_contents,set$_previous,createStroke$1,get$_isolateId,get$colorIndex,get$startIndex,loadFileMeta$1,runIteration$0,_checkReplyTo$1,_expectsEvent$1,get$_eventState,get$_futurePort,set$_eventState,visitSendPort$1,_toggleEventId$0,get$_liblib1$_id,get$_receivePort,get$onChangeSink,visitPrimitive$1,get$_STATE_CLOSED,get$_liblib$_name,get$_nextListener,set$_nextListener,visitCloseToken$1,get$_liblib5$_next,set$_liblib5$_next,visitIsolateSink$1,visitSendPortSync$1,_liblib2$_callback$1,get$_liblib$_current,deserializeSendPort$1,get$_liblib0$_element,get$_liblib5$_previous,get$_onFrameChangeSink,get$_removeAfterFiring,get$_resultOrListeners,set$_liblib5$_previous,_setRemoveAfterFiring$0,deserializeCloseToken$1,deserializeIsolateSink$1".split(","), longNames = "g,m,p,call,call,call,call,call,eval,sb,xs,ys,push,redo,redo,then,toJs,undo,undo,_redo,_step,_undo,_id,all,elt,ids,paint,touch,_close,_key,grid,listen,lookup,render,render,toJson,execute,_next,_sink,drive,frame,proxy,loadDoc,perform,process,_next=,frame=,callSync,endPaint,_state,_value,damage,fileId,player,shared,slider,moveNext,_state=,_value=,damage=,visitMap,_addError,_callback,_dispatch,_setError,_setValue,createDoc,current,strokes,_handle=,playing=,reverse=,visitList,_sendError,_sendValue,catchError,_playing,_reverse,editable,folderId,handleNext,toSendPort,touchLater,unregister,_setGlobals,_callback,_contents,_duration,_isFiring,_onListen,_previous,_registry,_workerId,frameById,pixelsize,readClasses,renderAsync,_contents=,_previous=,createStroke,_isolateId,colorIndex,startIndex,loadFileMeta,runIteration,_checkReplyTo,_expectsEvent,_eventState,_futurePort,_eventState=,visitSendPort,_toggleEventId,_id,_receivePort,onChangeSink,visitPrimitive,_STATE_CLOSED,_name,_nextListener,_nextListener=,visitCloseToken,_next,_next=,visitIsolateSink,visitSendPortSync,_callback,_current,deserializeSendPort,_element,_previous,_onFrameChangeSink,_removeAfterFiring,_resultOrListeners,_previous=,_setRemoveAfterFiring,deserializeCloseToken,deserializeIsolateSink".split(",");
     for (var j = 0; j < shortNames.length; j++) {
       var type = 0;
       var short = shortNames[j];
