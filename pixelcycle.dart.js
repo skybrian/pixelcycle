@@ -17411,7 +17411,9 @@ startEditor___closure: {"": "Closure;doc_2,meta_3",
 
 startEditor____closure: {"": "Closure;",
   call$1: function(meta) {
-    document.querySelector("#title").textContent = $.get$title$x(meta);
+    var t1 = $.get$title$x(meta);
+    document.querySelector("title").textContent = t1;
+    document.querySelector("#title").textContent = t1;
   },
   $isFunction: true
 },
