@@ -9,6 +9,8 @@ part 'player.dart';
 part 'grid.dart';
 part 'drive.dart';
 part 'doc.dart';
+part 'gridui.dart';
+part 'ui.dart';
 
 void main() {
   var jsLoaded = js.context["jsApiLoaded"];
@@ -24,7 +26,7 @@ void start() {
   startDrive().then((Drive drive) {
     var state = new StateToken.load(loc);
     if (state.action == "create") {
-      createDoc(drive, "Untitled", state.folderId);
+      createDoc(drive, "Untitled animation", state.folderId);
     } else if (state.action == "open") {
       openDoc(drive, state.ids[0]);
     } else {
@@ -121,6 +123,20 @@ void startEditor(Doc doc) {
   MovieModel movie = new MovieModel.standard(doc);
   GridView big = new GridView.big(movie);
 
+  query("#title")
+    ..classes.add("clickable")
+    ..onClick.listen((e) {
+    doc.loadFileMeta().then((FileMeta meta) {
+      showPrompt("Enter a new title for this animation:", meta.title).then((String newTitle) {
+        if (newTitle != meta.title) {
+          doc.setTitle(newTitle).then((FileMeta meta) {
+            query("#title").text = meta.title;  
+          });
+        }
+      });
+    });
+  });
+  
   PaletteModel pm = movie.palette;
   pm.select(51);
   Editor ed = new Editor(movie);

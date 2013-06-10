@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="pixelcycle.css">
   </head>
   <body>
-    <h1 id="title">Loading...</h1>
+    <h1><span id="title">Loading...</span></h1>
     <button id="authorize" class="hidden">Connect to Google</button>
     <button id="create" class="hidden">Create Animation</button>
 
@@ -38,5 +38,14 @@
     <script type="text/javascript" src="https://apis.google.com/js/api.js?onload=onApiLoaded" async></script>
     <script type="application/dart" src="pixelcycle.dart"></script>
     <script src="packages/browser/dart.js"></script>
+    <div id="backdrop" class="hidden"></div>
+    <div id="promptDialog" class="dialog hidden">
+      <p id="promptMessage"></p>
+      <div>
+        <input type="text" id="promptTextBox"></input>
+      </div>
+      <button id="promptOk">OK</button> <button id="promptCancel">Cancel</button>
+      </div>
+    </div>
   </body>
 </html>

@@ -28,6 +28,14 @@ class Doc {
     return new CollaborativeList(model["getRoot"]()["get"]("frames"));    
   }
   
+  async.Future<FileMeta> loadFileMeta() {
+    return drive.loadFileMeta(fileId);
+  }
+  
+  async.Future<FileMeta> setTitle(String newTitle) {
+    return drive.setTitle(fileId, newTitle);
+  }
+  
   // Touch the file after waiting at least five seconds.
   // (It will be delayed until there are no touch calls for five seconds.)
   void touchLater() {

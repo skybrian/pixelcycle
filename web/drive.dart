@@ -74,6 +74,21 @@ class Drive {
     return c.future;
   }
   
+  async.Future<FileMeta> setTitle(String fileId, String newTitle) {
+    var c = new async.Completer();    
+    _loadApi("drive", "v2").then((x) {
+      print("updating title of ${fileId} to ${newTitle}");
+      gapi["client"]["drive"]["files"]["update"](js.map({
+        'fileId': fileId,
+        'resource': {'fileId': fileId, 'title': newTitle}
+      })).execute(once((file, unused)  {
+        print("returned from update");
+        c.complete(new FileMeta(file)); 
+      }));        
+    });
+    return c.future;
+  }
+  
   async.Future<Doc> loadDoc(String fileId) {
     var c = new async.Completer<Doc>();
     onLoad(js.Proxy jsDoc) {
