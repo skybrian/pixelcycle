@@ -147,6 +147,10 @@ $$.CssStyleDeclaration = {"": "Interceptor;length=",
     var propValue = receiver.getPropertyValue("left");
     return propValue != null ? propValue : "";
   },
+  get$page: function(receiver) {
+    var propValue = receiver.getPropertyValue("page");
+    return propValue != null ? propValue : "";
+  },
   get$top: function(receiver) {
     var propValue = receiver.getPropertyValue("top");
     return propValue != null ? propValue : "";
@@ -302,7 +306,7 @@ $$.DomTokenList = {"": "Interceptor;length=",
   }
 };
 
-$$.Element = {"": "Node;$$dom_children:children=,id=,innerHtml:innerHTML},title%,$$dom_className:className%",
+$$.Element = {"": "Node;$$dom_children:children=,id=,innerHtml:innerHTML},title%,$$dom_className:className%,offsetLeft=,offsetTop=",
   get$attributes: function(receiver) {
     return new $._ElementAttributeMap(receiver);
   },
@@ -314,6 +318,9 @@ $$.Element = {"": "Node;$$dom_children:children=,id=,innerHtml:innerHTML},title%
   },
   get$dataset: function(receiver) {
     return new $._DataAttributeMap(new $._ElementAttributeMap(receiver));
+  },
+  get$offset: function(receiver) {
+    return new $.Rect(receiver.offsetLeft, receiver.offsetTop, receiver.offsetWidth, receiver.offsetHeight);
   },
   toString$0: function(receiver) {
     return receiver.localName;
@@ -763,12 +770,6 @@ $$.MimeTypeArray = {"": "Interceptor_ListMixin_ImmutableListMixin3;",
 $$.ModElement = {"": "Element;"};
 
 $$.MouseEvent = {"": "UIEvent;button=",
-  get$offsetX: function(receiver) {
-    return this.get$offset(receiver).x;
-  },
-  get$offsetY: function(receiver) {
-    return this.get$offset(receiver).y;
-  },
   get$offset: function(receiver) {
     var t1, t2, t3;
     if (!!receiver.offsetX)
@@ -1370,10 +1371,13 @@ $$.TitleElement = {"": "Element;"};
 $$.Touch = {"": "Interceptor;",
   get$target: function(receiver) {
     return $._convertNativeToDart_EventTarget(receiver.target);
+  },
+  get$page: function(receiver) {
+    return new $.Point(receiver.pageX, receiver.pageY);
   }
 };
 
-$$.TouchEvent = {"": "UIEvent;"};
+$$.TouchEvent = {"": "UIEvent;targetTouches="};
 
 $$.TouchList = {"": "Interceptor_ListMixin_ImmutableListMixin8;",
   get$length: function(receiver) {
@@ -1418,7 +1422,11 @@ $$.TransitionEvent = {"": "Event;"};
 
 $$.TreeWalker = {"": "Interceptor;"};
 
-$$.UIEvent = {"": "Event;detail="};
+$$.UIEvent = {"": "Event;detail=",
+  get$page: function(receiver) {
+    return new $.Point(receiver.pageX, receiver.pageY);
+  }
+};
 
 $$.UListElement = {"": "Element;"};
 
@@ -11286,14 +11294,20 @@ Object: {"": ";",
   get$nodes: function($receiver) {
     return this.noSuchMethod$1(this, $.createInvocationMirror("nodes", "get$nodes", 1, [], []));
   },
-  get$offsetX: function($receiver) {
-    return this.noSuchMethod$1(this, $.createInvocationMirror("offsetX", "get$offsetX", 1, [], []));
+  get$offset: function($receiver) {
+    return this.noSuchMethod$1(this, $.createInvocationMirror("offset", "get$offset", 1, [], []));
   },
-  get$offsetY: function($receiver) {
-    return this.noSuchMethod$1(this, $.createInvocationMirror("offsetY", "get$offsetY", 1, [], []));
+  get$offsetLeft: function($receiver) {
+    return this.noSuchMethod$1(this, $.createInvocationMirror("offsetLeft", "get$offsetLeft", 1, [], []));
+  },
+  get$offsetTop: function($receiver) {
+    return this.noSuchMethod$1(this, $.createInvocationMirror("offsetTop", "get$offsetTop", 1, [], []));
   },
   get$onChange: function($receiver) {
     return this.noSuchMethod$1(this, $.createInvocationMirror("onChange", "get$onChange", 1, [], []));
+  },
+  get$page: function($receiver) {
+    return this.noSuchMethod$1(this, $.createInvocationMirror("page", "get$page", 1, [], []));
   },
   get$parentNode: function($receiver) {
     return this.noSuchMethod$1(this, $.createInvocationMirror("parentNode", "get$parentNode", 1, [], []));
@@ -11306,6 +11320,9 @@ Object: {"": ";",
   },
   get$target: function($receiver) {
     return this.noSuchMethod$1(this, $.createInvocationMirror("target", "get$target", 1, [], []));
+  },
+  get$targetTouches: function($receiver) {
+    return this.noSuchMethod$1(this, $.createInvocationMirror("targetTouches", "get$targetTouches", 1, [], []));
   },
   get$title: function($receiver) {
     return this.noSuchMethod$1(this, $.createInvocationMirror("title", "get$title", 1, [], []));
@@ -16033,7 +16050,8 @@ Doc: {"": "Object;drive<,fileId<,model,frameById<,_touchedTimer",
   },
   Doc$3: function(drive, fileId, jsDoc) {
     var t1, t2, f;
-    for (t1 = new $.CollaborativeList($.$index$asx($.$index$asx(this.model, "getRoot").call$0(), "get").call$1("frames")), t1 = $.get$iterator$ax(t1.map$1(t1, new $.Doc_closure(this))), t2 = this.frameById; t1.moveNext$0() === true;) {
+    t1 = new $.CollaborativeList($.$index$asx($.$index$asx(this.model, "getRoot").call$0(), "get").call$1("frames"));
+    for (t1 = $.get$iterator$ax(t1.map$1(t1, new $.Doc_closure(this))), t2 = this.frameById; t1.moveNext$0() === true;) {
       f = t1.get$current();
       t2.$indexSet(t2, $.get$id$x(f), f);
     }
@@ -16446,20 +16464,19 @@ Drive_loadDoc_onError: {"": "Closure;ErrorType_3",
 
 Drive_touch_closure: {"": "Closure;fileId_0",
   call$1: function(x) {
-    var t1, t2;
-    t1 = this.fileId_0;
-    $.Primitives_printString("touching " + $.S(t1));
-    t2 = $.$index$asx($.$index$asx($.$index$asx($.$index$asx($.get$gapi(), "client"), "drive"), "files"), "touch");
-    t1 = $.makeLiteralMap(["fileId", t1]);
+    var t1, t2, t3;
+    t1 = $.$index$asx($.$index$asx($.$index$asx($.$index$asx($.get$gapi(), "client"), "drive"), "files"), "touch");
+    t2 = this.fileId_0;
+    t3 = $.makeLiteralMap(["fileId", t2]);
     $._enterScopeIfNeeded();
-    t2.call$1($._deserialize($._jsPortConvert.callSync$1($.Proxy__serializeDataTree(t1)))).execute$1($.Callback$once(new $.Drive_touch__closure(), false));
+    t1.call$1($._deserialize($._jsPortConvert.callSync$1($.Proxy__serializeDataTree(t3)))).execute$1($.Callback$once(new $.Drive_touch__closure(t2), false));
   },
   $isFunction: true
 },
 
-Drive_touch__closure: {"": "Closure;",
+Drive_touch__closure: {"": "Closure;fileId_1",
   call$2: function(file, unused) {
-    $.Primitives_printString("touched");
+    $.Primitives_printString("touched file " + $.S(this.fileId_1));
   },
   $isFunction: true
 },
@@ -16544,21 +16561,54 @@ StrokeGrid: {"": "Object;frame<,grid<,pixelStacks,strokes<,top>",
     return this.grid.render$3(c, pixelsize, clip);
   },
   paint$3: function(x, y, colorIndex) {
-    var stack, t1;
-    stack = this.getStack$2(x, y);
-    t1 = $.getInterceptor$asx(stack);
-    if ($.$eq(t1.get$isEmpty(stack) === true ? null : t1.get$last(stack).get$colorIndex(), colorIndex))
+    var t1, t2, t3, t4, stack;
+    t1 = this.grid;
+    t2 = $.getInterceptor$n(x);
+    if (t2.$ge(x, 0) === true) {
+      t3 = $.getInterceptor$n(y);
+      t3 = t3.$ge(y, 0) === true && t2.$lt(x, t1.width) === true && t3.$lt(y, t1.height) === true;
+    } else
+      t3 = false;
+    if (t3) {
+      if (t2.$ge(x, 0) === true) {
+        t3 = $.getInterceptor$n(y);
+        t3 = t3.$ge(y, 0) === true && t2.$lt(x, t1.width) === true && t3.$lt(y, t1.height) === true;
+      } else
+        t3 = false;
+      if (!t3)
+        $.throwExpression(new $._ExceptionImplementation("invalid point: x=" + $.S(x) + ", y=" + $.S(y)));
+      t3 = this.pixelStacks;
+      t4 = t2.$add(x, $.$mul$n(y, t1.width));
+      if (t4 >>> 0 !== t4 || t4 >= t3.length)
+        throw $.ioore(t4);
+      stack = t3[t4];
+      t3 = $.getInterceptor$asx(stack);
+      t3 = $.$eq(t3.get$isEmpty(stack) === true ? null : t3.get$last(stack).get$colorIndex(), colorIndex);
+    } else
+      t3 = true;
+    if (t3)
       return;
-    t1 = this.top;
-    if (t1 != null && !$.$eq(t1.get$colorIndex(), colorIndex))
+    t3 = this.top;
+    if (t3 != null && !$.$eq(t3.get$colorIndex(), colorIndex))
       this.endPaint$0();
     if (this.top == null)
       this.top = this.frame.createStroke$1(colorIndex);
     $.add$1$ax(this.top.get$xs(), x);
     $.add$1$ax(this.top.get$ys(), y);
-    t1 = this.top;
-    $.add$1$ax(this.getStack$2(x, y), t1);
-    this.grid.setColor$3(x, y, t1.get$colorIndex());
+    t3 = this.top;
+    if (t2.$ge(x, 0) === true) {
+      t4 = $.getInterceptor$n(y);
+      t4 = t4.$ge(y, 0) === true && t2.$lt(x, t1.width) === true && t4.$lt(y, t1.height) === true;
+    } else
+      t4 = false;
+    if (!t4)
+      $.throwExpression(new $._ExceptionImplementation("invalid point: x=" + $.S(x) + ", y=" + $.S(y)));
+    t4 = this.pixelStacks;
+    t2 = t2.$add(x, $.$mul$n(y, t1.width));
+    if (t2 >>> 0 !== t2 || t2 >= t4.length)
+      throw $.ioore(t2);
+    $.add$1$ax(t4[t2], t3);
+    t1.setColor$3(x, y, t3.get$colorIndex());
     return this.top;
   },
   endPaint$0: function() {
@@ -16587,172 +16637,192 @@ StrokeGrid: {"": "Object;frame<,grid<,pixelStacks,strokes<,top>",
     this.frame.push$1(s);
   },
   _undo$1: function(s) {
-    var t1, t2, i, t3, x, y, stack;
+    var t1, t2, t3, t4, t5, t6, i, t7, x, y, stack;
     t1 = this.grid;
     t2 = t1.bgColor;
+    t3 = this.pixelStacks;
+    t4 = t1.width;
+    t5 = t3.length;
+    t6 = t1.height;
     i = 0;
     while (true) {
-      t3 = $.get$length$asx(s);
-      if (typeof t3 !== "number")
-        throw $.iae(t3);
-      if (!(i < t3))
+      t7 = $.get$length$asx(s);
+      if (typeof t7 !== "number")
+        throw $.iae(t7);
+      if (!(i < t7))
         break;
-      t3 = s.get$xs();
-      if (typeof t3 !== "string" && (typeof t3 !== "object" || t3 === null || t3.constructor !== Array && !$.isJsIndexable(t3, t3[$.dispatchPropertyName])))
-        return this._undo$1$bailout(1, t2, s, t3, t1, i);
-      if (i >= t3.length)
+      t7 = s.get$xs();
+      if (typeof t7 !== "string" && (typeof t7 !== "object" || t7 === null || t7.constructor !== Array && !$.isJsIndexable(t7, t7[$.dispatchPropertyName])))
+        return this._undo$1$bailout(1, s, t3, t4, t1, i, t2, t5, t7);
+      if (i >= t7.length)
         throw $.ioore(i);
-      x = t3[i];
-      t3 = s.get$ys();
-      if (typeof t3 !== "string" && (typeof t3 !== "object" || t3 === null || t3.constructor !== Array && !$.isJsIndexable(t3, t3[$.dispatchPropertyName])))
-        return this._undo$1$bailout(2, t2, s, t3, t1, i, x);
-      if (i >= t3.length)
+      x = t7[i];
+      if (x !== (x | 0))
+        return this._undo$1$bailout(2, s, t3, t4, t1, i, t2, t5, 0, x);
+      t7 = s.get$ys();
+      if (typeof t7 !== "string" && (typeof t7 !== "object" || t7 === null || t7.constructor !== Array && !$.isJsIndexable(t7, t7[$.dispatchPropertyName])))
+        return this._undo$1$bailout(3, s, t3, t4, t1, i, t2, t5, t7, x);
+      if (i >= t7.length)
         throw $.ioore(i);
-      y = t3[i];
-      stack = this.getStack$2(x, y);
-      t3 = $.getInterceptor$ax(stack);
-      t3.remove$1(stack, s);
-      if (t3.get$isEmpty(stack) === true)
+      y = t7[i];
+      if (y !== (y | 0))
+        return this._undo$1$bailout(4, s, t3, t4, t1, i, t2, t5, 0, x, y);
+      if (!(x >= 0 && y >= 0 && x < t4 && y < t6))
+        $.throwExpression(new $._ExceptionImplementation("invalid point: x=" + x + ", y=" + y));
+      t7 = x + y * t4;
+      if (t7 < 0 || t7 >= t5)
+        throw $.ioore(t7);
+      stack = t3[t7];
+      t7 = $.getInterceptor$ax(stack);
+      t7.remove$1(stack, s);
+      if (t7.get$isEmpty(stack) === true)
         t1.setColor$3(x, y, t2);
       else
-        t1.setColor$3(x, y, t3.get$last(stack).get$colorIndex());
+        t1.setColor$3(x, y, t7.get$last(stack).get$colorIndex());
       ++i;
     }
   },
-  _undo$1$bailout: function(state0, t2, s, t3, t1, i, x) {
+  _undo$1$bailout: function(state0, s, t3, t4, t1, i, t2, t5, t6, x, y) {
     switch (state0) {
       case 0:
         t1 = this.grid;
         t2 = t1.bgColor;
+        t3 = this.pixelStacks;
+        t4 = t1.width;
+        t5 = t3.length;
         i = 0;
       default:
-        var y, stack;
+        var t7, stack;
         L0:
           while (true)
             switch (state0) {
               case 0:
-                t3 = $.get$length$asx(s);
-                if (typeof t3 !== "number")
-                  throw $.iae(t3);
-                if (!$.JSInt_methods.$lt(i, t3))
+                t6 = $.get$length$asx(s);
+                if (typeof t6 !== "number")
+                  throw $.iae(t6);
+                if (!$.JSInt_methods.$lt(i, t6))
                   break L0;
-                t3 = s.get$xs();
+                t6 = s.get$xs();
               case 1:
                 state0 = 0;
-                x = $.$index$asx(t3, i);
-                t3 = s.get$ys();
+                x = $.$index$asx(t6, i);
               case 2:
                 state0 = 0;
-                y = $.$index$asx(t3, i);
-                stack = this.getStack$2(x, y);
-                t3 = $.getInterceptor$ax(stack);
-                t3.remove$1(stack, s);
-                if (t3.get$isEmpty(stack) === true)
+                t6 = s.get$ys();
+              case 3:
+                state0 = 0;
+                y = $.$index$asx(t6, i);
+              case 4:
+                state0 = 0;
+                t6 = $.getInterceptor$n(x);
+                if (t6.$ge(x, 0) === true) {
+                  t7 = $.getInterceptor$n(y);
+                  t7 = t7.$ge(y, 0) === true && t6.$lt(x, t4) === true && t7.$lt(y, t1.height) === true;
+                } else
+                  t7 = false;
+                if (!t7)
+                  $.throwExpression(new $._ExceptionImplementation("invalid point: x=" + $.S(x) + ", y=" + $.S(y)));
+                t6 = t6.$add(x, $.$mul$n(y, t4));
+                if (t6 >>> 0 !== t6 || t6 >= t5)
+                  throw $.ioore(t6);
+                stack = t3[t6];
+                t6 = $.getInterceptor$ax(stack);
+                t6.remove$1(stack, s);
+                if (t6.get$isEmpty(stack) === true)
                   t1.setColor$3(x, y, t2);
                 else
-                  t1.setColor$3(x, y, t3.get$last(stack).get$colorIndex());
+                  t1.setColor$3(x, y, t6.get$last(stack).get$colorIndex());
                 ++i;
             }
     }
   },
   _redo$1: function(s) {
-    var t1, i, t2, x, y;
-    t1 = this.grid;
+    var t1, t2, t3, t4, t5, i, t6, x, y;
+    t1 = this.pixelStacks;
+    t2 = this.grid;
+    t3 = t2.width;
+    t4 = t1.length;
+    t5 = t2.height;
     i = 0;
     while (true) {
-      t2 = $.get$length$asx(s);
-      if (typeof t2 !== "number")
-        throw $.iae(t2);
-      if (!(i < t2))
+      t6 = $.get$length$asx(s);
+      if (typeof t6 !== "number")
+        throw $.iae(t6);
+      if (!(i < t6))
         break;
-      t2 = s.get$xs();
-      if (typeof t2 !== "string" && (typeof t2 !== "object" || t2 === null || t2.constructor !== Array && !$.isJsIndexable(t2, t2[$.dispatchPropertyName])))
-        return this._redo$1$bailout(1, s, t1, t2, i);
-      if (i >= t2.length)
+      t6 = s.get$xs();
+      if (typeof t6 !== "string" && (typeof t6 !== "object" || t6 === null || t6.constructor !== Array && !$.isJsIndexable(t6, t6[$.dispatchPropertyName])))
+        return this._redo$1$bailout(1, s, t1, i, t3, t2, t4, t6);
+      if (i >= t6.length)
         throw $.ioore(i);
-      x = t2[i];
-      t2 = s.get$ys();
-      if (typeof t2 !== "string" && (typeof t2 !== "object" || t2 === null || t2.constructor !== Array && !$.isJsIndexable(t2, t2[$.dispatchPropertyName])))
-        return this._redo$1$bailout(2, s, t1, t2, i, x);
-      if (i >= t2.length)
+      x = t6[i];
+      if (x !== (x | 0))
+        return this._redo$1$bailout(2, s, t1, i, t3, t2, t4, 0, x);
+      t6 = s.get$ys();
+      if (typeof t6 !== "string" && (typeof t6 !== "object" || t6 === null || t6.constructor !== Array && !$.isJsIndexable(t6, t6[$.dispatchPropertyName])))
+        return this._redo$1$bailout(3, s, t1, i, t3, t2, t4, t6, x);
+      if (i >= t6.length)
         throw $.ioore(i);
-      y = t2[i];
-      $.add$1$ax(this.getStack$2(x, y), s);
-      t1.setColor$3(x, y, s.get$colorIndex());
+      y = t6[i];
+      if (y !== (y | 0))
+        return this._redo$1$bailout(4, s, t1, i, t3, t2, t4, 0, x, y);
+      if (!(x >= 0 && y >= 0 && x < t3 && y < t5))
+        $.throwExpression(new $._ExceptionImplementation("invalid point: x=" + x + ", y=" + y));
+      t6 = x + y * t3;
+      if (t6 < 0 || t6 >= t4)
+        throw $.ioore(t6);
+      $.add$1$ax(t1[t6], s);
+      t2.setColor$3(x, y, s.get$colorIndex());
       ++i;
     }
   },
-  _redo$1$bailout: function(state0, s, t1, t2, i, x) {
+  _redo$1$bailout: function(state0, s, t1, i, t3, t2, t4, t5, x, y) {
     switch (state0) {
       case 0:
-        t1 = this.grid;
+        t1 = this.pixelStacks;
+        t2 = this.grid;
+        t3 = t2.width;
+        t4 = t1.length;
         i = 0;
       default:
-        var y;
+        var t6;
         L0:
           while (true)
             switch (state0) {
               case 0:
-                t2 = $.get$length$asx(s);
-                if (typeof t2 !== "number")
-                  throw $.iae(t2);
-                if (!$.JSInt_methods.$lt(i, t2))
+                t5 = $.get$length$asx(s);
+                if (typeof t5 !== "number")
+                  throw $.iae(t5);
+                if (!$.JSInt_methods.$lt(i, t5))
                   break L0;
-                t2 = s.get$xs();
+                t5 = s.get$xs();
               case 1:
                 state0 = 0;
-                x = $.$index$asx(t2, i);
-                t2 = s.get$ys();
+                x = $.$index$asx(t5, i);
               case 2:
                 state0 = 0;
-                y = $.$index$asx(t2, i);
-                $.add$1$ax(this.getStack$2(x, y), s);
-                t1.setColor$3(x, y, s.get$colorIndex());
+                t5 = s.get$ys();
+              case 3:
+                state0 = 0;
+                y = $.$index$asx(t5, i);
+              case 4:
+                state0 = 0;
+                t5 = $.getInterceptor$n(x);
+                if (t5.$ge(x, 0) === true) {
+                  t6 = $.getInterceptor$n(y);
+                  t6 = t6.$ge(y, 0) === true && t5.$lt(x, t3) === true && t6.$lt(y, t2.height) === true;
+                } else
+                  t6 = false;
+                if (!t6)
+                  $.throwExpression(new $._ExceptionImplementation("invalid point: x=" + $.S(x) + ", y=" + $.S(y)));
+                t5 = t5.$add(x, $.$mul$n(y, t3));
+                if (t5 >>> 0 !== t5 || t5 >= t4)
+                  throw $.ioore(t5);
+                $.add$1$ax(t1[t5], s);
+                t2.setColor$3(x, y, s.get$colorIndex());
                 ++i;
             }
     }
-  },
-  getStack$2: function(x, y) {
-    var t1, t2;
-    if (x !== (x | 0))
-      return this.getStack$2$bailout(1, x, y);
-    if (y !== (y | 0))
-      return this.getStack$2$bailout(1, x, y);
-    if (x >= 0)
-      if (y >= 0) {
-        t1 = this.grid;
-        t1 = x >= t1.width || y >= t1.height;
-      } else
-        t1 = true;
-    else
-      t1 = true;
-    if (t1)
-      throw $.wrapException(new $._ExceptionImplementation("invalid point: x=" + x + ", y=" + y));
-    t1 = this.pixelStacks;
-    t2 = x + y * this.grid.width;
-    if (t2 < 0 || t2 >= t1.length)
-      throw $.ioore(t2);
-    return t1[t2];
-  },
-  getStack$2$bailout: function(state0, x, y) {
-    var t1, t2, t3;
-    t1 = $.getInterceptor$n(x);
-    if (t1.$lt(x, 0) !== true) {
-      t2 = $.getInterceptor$n(y);
-      if (t2.$lt(y, 0) !== true) {
-        t3 = this.grid;
-        t2 = t1.$ge(x, t3.width) === true || t2.$ge(y, t3.height) === true;
-      } else
-        t2 = true;
-    } else
-      t2 = true;
-    if (t2)
-      throw $.wrapException(new $._ExceptionImplementation("invalid point: x=" + $.S(x) + ", y=" + $.S(y)));
-    t2 = this.pixelStacks;
-    t1 = t1.$add(x, $.$mul$n(y, this.grid.width));
-    if (t1 >>> 0 !== t1 || t1 >= t2.length)
-      throw $.ioore(t1);
-    return t2[t1];
   },
   StrokeGrid$2: function(frame, grid) {
     var t1, t2, i, t3, s;
@@ -16931,24 +17001,36 @@ GridView: {"": "Object;grid<,pixelsize<,elt<,damage@,_cancelOnChange",
   enablePainting$2: function(editor, palette) {
     var t1, t2, t3, t4;
     t1 = {};
-    t1.stopPainting_0 = new $.GridView_enablePainting_closure();
     t2 = this.elt;
+    t2.get$onTouchStart;
+    t3 = new $._EventStream(t2, $.EventStreamProvider_touchstart._eventType, false);
+    t3 = new $._EventStreamSubscription(0, t3._target, t3._eventType, new $.GridView_enablePainting_closure(), t3._useCapture);
+    t4 = t3._onData;
+    if (t4 != null && !t3.get$isPaused())
+      $.$$dom_addEventListener$3$x(t3._target, t3._eventType, t4, t3._useCapture);
+    t2.get$onTouchMove;
+    t3 = new $._EventStream(t2, $.EventStreamProvider_touchmove._eventType, false);
+    t3 = new $._EventStreamSubscription(0, t3._target, t3._eventType, new $.GridView_enablePainting_closure0(this, editor, palette), t3._useCapture);
+    t4 = t3._onData;
+    if (t4 != null && !t3.get$isPaused())
+      $.$$dom_addEventListener$3$x(t3._target, t3._eventType, t4, t3._useCapture);
+    t1.stopPainting_0 = new $.GridView_enablePainting_closure1();
     t2.get$onMouseDown;
     t3 = new $._EventStream(t2, $.EventStreamProvider_mousedown._eventType, false);
-    t3 = new $._EventStreamSubscription(0, t3._target, t3._eventType, new $.GridView_enablePainting_closure0(t1, this, editor, palette, new $.GridView_enablePainting__paint(this, editor)), t3._useCapture);
+    t3 = new $._EventStreamSubscription(0, t3._target, t3._eventType, new $.GridView_enablePainting_closure2(t1, this, editor, palette, new $.GridView_enablePainting__paint(this, editor)), t3._useCapture);
     t4 = t3._onData;
     if (t4 != null && !t3.get$isPaused())
       $.$$dom_addEventListener$3$x(t3._target, t3._eventType, t4, t3._useCapture);
     t3 = document.querySelector("body");
     t3.get$onMouseUp;
     t3 = new $._EventStream(t3, $.EventStreamProvider_mouseup._eventType, false);
-    t3 = new $._EventStreamSubscription(0, t3._target, t3._eventType, new $.GridView_enablePainting_closure1(t1), t3._useCapture);
+    t3 = new $._EventStreamSubscription(0, t3._target, t3._eventType, new $.GridView_enablePainting_closure3(t1), t3._useCapture);
     t4 = t3._onData;
     if (t4 != null && !t3.get$isPaused())
       $.$$dom_addEventListener$3$x(t3._target, t3._eventType, t4, t3._useCapture);
     t2.get$onMouseOut;
     t2 = new $._EventStream(t2, $.EventStreamProvider_mouseout._eventType, false);
-    t2 = new $._EventStreamSubscription(0, t2._target, t2._eventType, new $.GridView_enablePainting_closure2(t1), t2._useCapture);
+    t2 = new $._EventStreamSubscription(0, t2._target, t2._eventType, new $.GridView_enablePainting_closure4(t1), t2._useCapture);
     t1 = t2._onData;
     if (t1 != null && !t2.get$isPaused())
       $.$$dom_addEventListener$3$x(t2._target, t2._eventType, t1, t2._useCapture);
@@ -17000,72 +17082,98 @@ GridView_enablePainting__paint: {"": "Closure;this_1,editor_2",
     var t1, t2, x, y;
     t1 = $.getInterceptor$x(e);
     t2 = this.this_1;
-    x = $.toInt$0$nx($.$div$n(t1.get$offsetX(e), t2.get$pixelsize()));
-    y = $.toInt$0$nx($.$div$n(t1.get$offsetY(e), t2.get$pixelsize()));
+    x = $.toInt$0$nx($.$div$n($.get$x$x(t1.get$offset(e)), t2.get$pixelsize()));
+    y = $.toInt$0$nx($.$div$n($.get$y$x(t1.get$offset(e)), t2.get$pixelsize()));
     this.editor_2.paint$4(t2.get$grid(), x, y, colorIndex);
   },
   $isFunction: true
 },
 
 GridView_enablePainting_closure: {"": "Closure;",
-  call$0: function() {
+  call$1: function(e) {
+    $.preventDefault$0$x(e);
   },
   $isFunction: true
 },
 
-GridView_enablePainting_closure0: {"": "Closure;box_0,this_3,editor_4,palette_5,_paint_6",
+GridView_enablePainting_closure0: {"": "Closure;this_3,editor_4,palette_5",
   call$1: function(e) {
-    var t1, t2, t3, t4, sub;
+    var t1, t2, t3, t4, t, t5, canvasX, canvasY, x, y;
     t1 = $.getInterceptor$x(e);
-    if ($.$eq(t1.get$button(e), 0)) {
-      t2 = this._paint_6;
-      t3 = this.palette_5;
-      t2.call$2(e, t3.selected);
-      t4 = this.this_3.get$elt();
-      t4.get$onMouseMove;
-      t4 = new $._EventStream(t4, $.EventStreamProvider_mousemove._eventType, false);
-      sub = new $._EventStreamSubscription(0, t4._target, t4._eventType, new $.GridView_enablePainting__closure(t3, t2), t4._useCapture);
-      t2 = sub._onData;
-      if (t2 != null && !sub.get$isPaused())
-        $.$$dom_addEventListener$3$x(sub._target, sub._eventType, t2, sub._useCapture);
-      this.box_0.stopPainting_0 = new $.GridView_enablePainting__closure0(this.editor_4, sub);
-      t1.preventDefault$0(e);
+    t1.preventDefault$0(e);
+    for (t1 = $.get$iterator$ax(t1.get$targetTouches(e)), t2 = this.this_3, t3 = this.editor_4, t4 = this.palette_5; t1.moveNext$0() === true;) {
+      t = t1.get$current();
+      t5 = $.getInterceptor$x(t);
+      canvasX = $.$sub$n($.get$x$x(t5.get$page(t)), $.get$offsetLeft$x(t2.get$elt()));
+      canvasY = $.$sub$n($.get$y$x(t5.get$page(t)), $.get$offsetTop$x(t2.get$elt()));
+      x = $.toInt$0$nx($.$div$n(canvasX, t2.get$pixelsize()));
+      y = $.toInt$0$nx($.$div$n(canvasY, t2.get$pixelsize()));
+      $.Primitives_printString("TouchMove: " + $.S(x) + ", " + $.S(y));
+      t3.paint$4(t2.get$grid(), x, y, t4.selected);
     }
   },
   $isFunction: true
 },
 
-GridView_enablePainting__closure: {"": "Closure;palette_7,_paint_8",
-  call$1: function(e) {
-    this._paint_8.call$2(e, this.palette_7.selected);
+GridView_enablePainting_closure1: {"": "Closure;",
+  call$0: function() {
   },
   $isFunction: true
 },
 
-GridView_enablePainting__closure0: {"": "Closure;editor_9,sub_10",
+GridView_enablePainting_closure2: {"": "Closure;box_0,this_6,editor_7,palette_8,_paint_9",
+  call$1: function(e) {
+    var t1, t2, t3, sub;
+    t1 = $.getInterceptor$x(e);
+    if ($.$eq(t1.get$button(e), 0)) {
+      t1.preventDefault$0(e);
+      t1 = this._paint_9;
+      t2 = this.palette_8;
+      t1.call$2(e, t2.selected);
+      t3 = this.this_6.get$elt();
+      t3.get$onMouseMove;
+      t3 = new $._EventStream(t3, $.EventStreamProvider_mousemove._eventType, false);
+      sub = new $._EventStreamSubscription(0, t3._target, t3._eventType, new $.GridView_enablePainting__closure(t2, t1), t3._useCapture);
+      t1 = sub._onData;
+      if (t1 != null && !sub.get$isPaused())
+        $.$$dom_addEventListener$3$x(sub._target, sub._eventType, t1, sub._useCapture);
+      this.box_0.stopPainting_0 = new $.GridView_enablePainting__closure0(this.editor_7, sub);
+    }
+  },
+  $isFunction: true
+},
+
+GridView_enablePainting__closure: {"": "Closure;palette_10,_paint_11",
+  call$1: function(e) {
+    this._paint_11.call$2(e, this.palette_10.selected);
+  },
+  $isFunction: true
+},
+
+GridView_enablePainting__closure0: {"": "Closure;editor_12,sub_13",
   call$0: function() {
     var t1, t2;
-    t1 = this.editor_9;
+    t1 = this.editor_12;
     t2 = t1.top;
     if (t2 != null) {
       t2.endPaint$0();
       t1.actions.push(t1.top);
       t1.top = null;
     }
-    t1 = this.sub_10;
+    t1 = this.sub_13;
     t1.cancel$0(t1);
   },
   $isFunction: true
 },
 
-GridView_enablePainting_closure1: {"": "Closure;box_0",
+GridView_enablePainting_closure3: {"": "Closure;box_0",
   call$1: function(e) {
     this.box_0.stopPainting_0.call$0();
   },
   $isFunction: true
 },
 
-GridView_enablePainting_closure2: {"": "Closure;box_0",
+GridView_enablePainting_closure4: {"": "Closure;box_0",
   call$1: function(e) {
     this.box_0.stopPainting_0.call$0();
   },
@@ -18850,6 +18958,8 @@ $.DomName_DocumentType = new $.DomName("DocumentType");
 $.DomName_YUI = new $.DomName("Element.clientWidth");
 $.DomName_2Zs = new $.DomName("Element.childElementCount");
 $.DomName_GON = new $.DomName("PerformanceNavigation.type");
+$.DomName_nPe = new $.DomName("Element.ontouchmove");
+$.DomName_9Ac = new $.DomName("Element.touchstartEvent");
 $.DomName_HTMLTableSectionElement = new $.DomName("HTMLTableSectionElement");
 $.DomName_AudioProcessingEvent = new $.DomName("AudioProcessingEvent");
 $.DomName_pMC = new $.DomName("HTMLSourceElement.src");
@@ -18909,6 +19019,7 @@ $.DomName_Y6A = new $.DomName("StyleSheetList.item");
 $.DomName_qBY = new $.DomName("StyleSheetList.length");
 $.DomName_DataTransferItem = new $.DomName("DataTransferItem");
 $.DomName_Lx4 = new $.DomName("SVGFEConvolveMatrixElement.x");
+$.DomName_Zui0 = new $.DomName("Window.ontouchmove");
 $.DomName_Fb0 = new $.DomName("SourceBufferList.length");
 $.DomName_h3a = new $.DomName("WebSocket.dispatchEvent");
 $.DomName_MPk = new $.DomName("HTMLMediaElement.currentSrc");
@@ -19100,7 +19211,7 @@ $.DomName_6G3 = new $.DomName("SVGFECompositeElement.k4");
 $.DomName_fln = new $.DomName("SVGLengthList.clear");
 $.DomName_apl = new $.DomName("AudioNode.numberOfInputs");
 $.DomName_WebKitAnimationEvent = new $.DomName("WebKitAnimationEvent");
-$.DomName_Zui0 = new $.DomName("HTMLInputElement.multiple");
+$.DomName_Zui1 = new $.DomName("HTMLInputElement.multiple");
 $.DomName_HTMLDialogElement = new $.DomName("HTMLDialogElement");
 $.DomName_ACG0 = new $.DomName("SVGPathElement.farthestViewportElement");
 $.DomName_atK2 = new $.DomName("XMLHttpRequestProgressEvent.totalSize");
@@ -19114,6 +19225,7 @@ $.DomName_sxw = new $.DomName("HTMLInputElement.files");
 $.DomName_G37 = new $.DomName("HTMLInputElement.incremental");
 $.DomName_6xV = new $.DomName("ClientRectList.item");
 $.DomName_tkC = new $.DomName("CSSRule.cssText");
+$.DomName_4QF0 = new $.DomName("Element.ontouchstart");
 $.DomName_SVGExternalResourcesRequired = new $.DomName("SVGExternalResourcesRequired");
 $.JSName_innerHTML = new $.JSName("innerHTML");
 $.DomName_IDBDatabase = new $.DomName("IDBDatabase");
@@ -19212,7 +19324,7 @@ $.DomName_HTMLLabelElement = new $.DomName("HTMLLabelElement");
 $.DomName_B8J0 = new $.DomName("CustomEvent.initCustomEvent");
 $.DomName_HTMLDirectoryElement = new $.DomName("HTMLDirectoryElement");
 $.DomName_cw10 = new $.DomName("XPathException.name");
-$.DomName_4QF0 = new $.DomName("WebKitNamedFlow.dispatchEvent");
+$.DomName_4QF1 = new $.DomName("WebKitNamedFlow.dispatchEvent");
 $.DomName_dCN = new $.DomName("FileException.toString");
 $.DomName_2XH = new $.DomName("Touch.webkitRadiusX");
 $.DomName_8lB0 = new $.DomName("HTMLAreaElement.host");
@@ -19275,9 +19387,9 @@ $.DomName_j7V = new $.DomName("EventSource.readyState");
 $.DomName_RTCPeerConnection = new $.DomName("RTCPeerConnection");
 $.DomName_8eb0 = new $.DomName("MIDIPort.addEventListener");
 $.DomName_qzd0 = new $.DomName("SVGSymbolElement.externalResourcesRequired");
-$.DomName_Zui1 = new $.DomName("CSSValueList.item");
+$.DomName_Zui2 = new $.DomName("CSSValueList.item");
 $.DomName_OKv = new $.DomName("HTMLInputElement.webkitGrammar");
-$.DomName_4QF1 = new $.DomName("SVGPatternElement.height");
+$.DomName_4QF2 = new $.DomName("SVGPatternElement.height");
 $.DomName_GNd = new $.DomName("Element.title");
 $.DomName_Dns0 = new $.DomName("SVGPathSegArcAbs.x");
 $.DomName_Gpa = new $.DomName("SVGTransformList.numberOfItems");
@@ -19487,6 +19599,7 @@ $.DomName_CjA = new $.DomName("BeforeLoadEvent.url");
 $.DomName_S7Y = new $.DomName("AudioBufferSourceNode.playbackRate");
 $.DomName_33b = new $.DomName("CanvasRenderingContext2D.currentPath");
 $.DomName_2KU = new $.DomName("RTCDataChannelEvent.channel");
+$.EventStreamProvider_touchmove = new $.EventStreamProvider("touchmove");
 $.DomName_NQk = new $.DomName("HTMLInputElement.valueAsNumber");
 $.DomName_j7R2 = new $.DomName("SVGRadialGradientElement.fr");
 $.DomName_vpx = new $.DomName("AnalyserNode.maxDecibels");
@@ -19534,6 +19647,7 @@ $.DomName_VAg = new $.DomName("HTMLKeygenElement.willValidate");
 $.Returns__ElementInstanceList = new $.Returns("_ElementInstanceList");
 $.DomName_IGO = new $.DomName("FileWriter.errorEvent");
 $.DomName_HNA = new $.DomName("SVGFEConvolveMatrixElement.kernelUnitLengthY");
+$.DomName_chs0 = new $.DomName("Document.ontouchstart");
 $.Creates__ElementInstanceList = new $.Creates("_ElementInstanceList");
 $.DomName_oPa = new $.DomName("HTMLIFrameElement.sandbox");
 $.DomName_8D4 = new $.DomName("HTMLFormElement.autocomplete");
@@ -19553,7 +19667,7 @@ $.DomName_SourceBuffer = new $.DomName("SourceBuffer");
 $.DomName_u5C = new $.DomName("HTMLInputElement.readOnly");
 $.DomName_Gsa0 = new $.DomName("EventException.name");
 $.DomName_SVGPathSegLinetoHorizontalRel = new $.DomName("SVGPathSegLinetoHorizontalRel");
-$.DomName_4QF2 = new $.DomName("SVGUseElement.instanceRoot");
+$.DomName_4QF3 = new $.DomName("SVGUseElement.instanceRoot");
 $.JSName_removeEventListener = new $.JSName("removeEventListener");
 $.DomName_mnK = new $.DomName("HTMLKeygenElement.keytype");
 $.DomName_ibu = new $.DomName("HTMLSelectElement.name");
@@ -19871,7 +19985,7 @@ $.DomName_sJO = new $.DomName("Window.pageXOffset");
 $.DomName_woc5 = new $.DomName("SVGFEDiffuseLightingElement.y");
 $.DomName_DOMStringList = new $.DomName("DOMStringList");
 $.DomName_E6l = new $.DomName("SVGClipPathElement.transform");
-$.DomName_4QF3 = new $.DomName("Element.getAttribute");
+$.DomName_4QF4 = new $.DomName("Element.getAttribute");
 $.DomName_yLX0 = new $.DomName("HTMLButtonElement.formAction");
 $.DomName_oRN = new $.DomName("SVGDocument.rootElement");
 $.DomName_OeL1 = new $.DomName("Document.readyState");
@@ -20057,6 +20171,7 @@ $.DomName_FeV0 = new $.DomName("MessageEvent.data");
 $.DomName_Vqx = new $.DomName("PerformanceTiming.loadEventStart");
 $.DomName_History = new $.DomName("History");
 $.DomName_RUC = new $.DomName("HTMLAnchorElement.origin");
+$.DomName_4YP = new $.DomName("Document.ontouchmove");
 $.DomName_NAC = new $.DomName("TextTrackList.dispatchEvent");
 $.DomName_Db00 = new $.DomName("SVGFilterElement.xmlspace");
 $.JSName_clientX = new $.JSName("clientX");
@@ -20180,7 +20295,7 @@ $.DomName_SEN0 = new $.DomName("SVGClipPathElement.clipPathUnits");
 $.DomName_Q96 = new $.DomName("SVGImageElement.systemLanguage");
 $.DomName_Dns1 = new $.DomName("SVGPathSegArcAbs.y");
 $.DomName_9ht2 = new $.DomName("Element.onkeyup");
-$.DomName_chs0 = new $.DomName("SourceBufferList.removeEventListener");
+$.DomName_chs1 = new $.DomName("SourceBufferList.removeEventListener");
 $.DomName_np3 = new $.DomName("IDBObjectStore.clear");
 $.DomName_j6y = new $.DomName("NodeIterator.root");
 $.DomName_jnD = new $.DomName("SVGFEConvolveMatrixElement.kernelMatrix");
@@ -20212,6 +20327,7 @@ $.DomName_fj2 = new $.DomName("GamepadList.length");
 $.DomName_kWM1 = new $.DomName("DataTransferItemList.clear");
 $.DomName_URL = new $.DomName("URL");
 $.DomName_I5O0 = new $.DomName("SVGFEFloodElement.height");
+$.EventStreamProvider_touchstart = new $.EventStreamProvider("touchstart");
 $.DomName_89t0 = new $.DomName("PerformanceTiming.domainLookupStart");
 $.DomName_qTB = new $.DomName("SVGFEConvolveMatrixElement.preserveAlpha");
 $.DomName_AudioContext = new $.DomName("AudioContext");
@@ -20257,7 +20373,7 @@ $.DomName_ShadowRoot = new $.DomName("ShadowRoot");
 $.DomName_eDw = new $.DomName("SVGPatternElement.systemLanguage");
 $.DomName_B8J2 = new $.DomName("SVGPolygonElement.externalResourcesRequired");
 $.DomName_I5O1 = new $.DomName("SVGFEBlendElement.result");
-$.DomName_4QF4 = new $.DomName("PerformanceResourceTiming.secureConnectionStart");
+$.DomName_4QF5 = new $.DomName("PerformanceResourceTiming.secureConnectionStart");
 $.DomName_k2a2 = new $.DomName("HTMLStyleElement.type");
 $.DomName_Odg = new $.DomName("SVGFilterElement.href");
 $.DomName_ogX = new $.DomName("HTMLBaseElement.href");
@@ -20427,6 +20543,7 @@ $.DomName_6sr = new $.DomName("Window.closed");
 $.JSName_screenY = new $.JSName("screenY");
 $.DomName_6Fb0 = new $.DomName("OscillatorNode.playbackState");
 $.DomName_Db01 = new $.DomName("InputMethodContext.locale");
+$.DomName_G8G = new $.DomName("Window.ontouchstart");
 $.DomName_fTF = new $.DomName("Window.opener");
 $.DomName_InputMethodContext = new $.DomName("InputMethodContext");
 $.DomName_46y6 = new $.DomName("RTCDataChannel.label");
@@ -20835,6 +20952,7 @@ $.DomName_EntryCallback = new $.DomName("EntryCallback");
 $.Returns__SpeechRecognitionResultList = new $.Returns("_SpeechRecognitionResultList");
 $.DomName_0iF = new $.DomName("HTMLInputElement.labels");
 $.DomName_0q0 = new $.DomName("SVGImageElement.preserveAspectRatio");
+$.DomName_csC0 = new $.DomName("Element.touchmoveEvent");
 $.DomName_ELS = new $.DomName("SVGGradientElement.spreadMethod");
 $.DomName_K7Z = new $.DomName("SVGFilterElement.primitiveUnits");
 $.DomName_wyb = new $.DomName("ShadowRoot.innerHTML");
@@ -21261,6 +21379,12 @@ $.get$name$x = function(receiver) {
 $.get$next$x = function(receiver) {
   return $.getInterceptor$x(receiver).get$next(receiver);
 };
+$.get$offsetLeft$x = function(receiver) {
+  return $.getInterceptor$x(receiver).get$offsetLeft(receiver);
+};
+$.get$offsetTop$x = function(receiver) {
+  return $.getInterceptor$x(receiver).get$offsetTop(receiver);
+};
 $.get$onChange$x = function(receiver) {
   return $.getInterceptor$x(receiver).get$onChange(receiver);
 };
@@ -21281,6 +21405,12 @@ $.get$values$x = function(receiver) {
 };
 $.get$width$x = function(receiver) {
   return $.getInterceptor$x(receiver).get$width(receiver);
+};
+$.get$x$x = function(receiver) {
+  return $.getInterceptor$x(receiver).get$x(receiver);
+};
+$.get$y$x = function(receiver) {
+  return $.getInterceptor$x(receiver).get$y(receiver);
 };
 $.getBoundingClientRect$0$x = function(receiver) {
   return $.getInterceptor$x(receiver).getBoundingClientRect$0(receiver);
