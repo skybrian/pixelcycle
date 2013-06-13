@@ -8,9 +8,10 @@ class Doc {
   async.Timer _touchedTimer;
 
   Doc(this.drive, this.fileId, js.Proxy jsDoc) : this.model = js.retain(jsDoc["getModel"]()) {
-    for (var f in _list.map((p) {
+    var frames = _list.map((p) {
       return new Frame(this, new CollaborativeList(p));    
-    })) {
+    }); 
+    for (var f in frames) {
       frameById[f.id] = f;      
     }
   }

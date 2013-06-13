@@ -117,10 +117,9 @@ class Drive {
   
   void touch(String fileId) {
     _loadApi("drive", "v2").then((x) {
-      print("touching ${fileId}");
       gapi["client"]["drive"]["files"]["touch"](js.map({"fileId": fileId}))
         .execute(once((file, unused) {
-          print("touched");
+          print("touched file ${fileId}");
         }));
     });    
   }

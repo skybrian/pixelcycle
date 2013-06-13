@@ -71,7 +71,7 @@ class StrokeGrid {
   }
   
   Stroke paint(int x, int y, int colorIndex) {
-    if (getColor(x, y) == colorIndex) {
+    if (!grid.inBounds(x, y) || getColor(x, y) == colorIndex) {
       return null;
     }
     if (top != null && top.colorIndex != colorIndex) {
@@ -151,7 +151,7 @@ class StrokeGrid {
   }
   
   List<Stroke> getStack(int x, int y) {
-    if (x < 0 || y < 0 || x >= grid.width || y >= grid.height) {
+    if (!grid.inBounds(x, y)) {
       throw new Exception("invalid point: x=${x}, y=${y}");
     }
     return pixelStacks[x + y * grid.width];
@@ -180,6 +180,10 @@ class ColorGrid {
     var controller = new async.StreamController<Rect>();
     onChange = controller.stream.asBroadcastStream();
     onChangeSink = controller.sink;
+  }
+  
+  bool inBounds(int x, int y) {
+    return x >= 0 && y >= 0 && x < width && y < height;
   }
   
   void setColor(int x, int y, int colorIndex) {
