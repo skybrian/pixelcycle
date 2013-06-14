@@ -3,11 +3,14 @@ part of pixelcycle;
 class Doc {
   final Drive drive;
   String fileId;
+  final js.Proxy doc;
   final js.Proxy model;
   final Map<String, Frame> frameById = new Map<String, Frame>();
   async.Timer _touchedTimer;
 
-  Doc(this.drive, this.fileId, js.Proxy jsDoc) : this.model = js.retain(jsDoc["getModel"]()) {
+  Doc(this.drive, this.fileId, js.Proxy jsDoc) : this.doc = jsDoc, this.model = jsDoc["getModel"]() {
+    js.retain(doc);
+    js.retain(model);
     var frames = _list.map((p) {
       return new Frame(this, new CollaborativeList(p));    
     }); 

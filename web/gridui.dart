@@ -103,8 +103,14 @@ class GridView {
         int canvasY = t.page.y - elt.offsetTop;
         int x = (canvasX / pixelsize).toInt();
         int y = (canvasY / pixelsize).toInt();
-        print("TouchMove: ${x}, ${y}");
         editor.paint(grid, x, y, palette.selected);
+      }
+    });
+    
+    elt.onTouchEnd.listen((TouchEvent e) {
+      if (e.touches.isEmpty) {
+        print("TouchEnd empty");
+        editor.endPaint();
       }
     });
     
