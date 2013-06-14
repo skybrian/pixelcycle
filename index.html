@@ -16,7 +16,7 @@
       </div>
       <div id="frames"></div>
     </div>
-    <div id="grid"></div>
+    <div id="grid"></div>    
     <div class="fullwidth">
       <div id="undo" class="rightside"></div>
       <div id="palette"></div>
@@ -24,19 +24,23 @@
 
     <script type="text/javascript">
     jsApiLoaded = false;
-
-    startDart = function() {}
-
+    
+    startDart = function() {} 
+    
     function onApiLoaded() {
       gapi.load("auth:client,drive-realtime", function() {
         jsApiLoaded = true;
         startDart();
       });
     }
+    
+    function debug(x) {
+      debugger;
+    }
     </script>
-
+    
     <script type="text/javascript" src="https://apis.google.com/js/api.js?onload=onApiLoaded" async></script>
-    <script type="text/javascript" src="pixelcycle.dart.js"></script>
+    <script type="application/dart" src="pixelcycle.dart"></script>
     <script src="packages/browser/dart.js"></script>
     <div id="backdrop" class="hidden"></div>
     <div id="promptDialog" class="dialog hidden">
