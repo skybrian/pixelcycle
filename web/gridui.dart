@@ -39,9 +39,10 @@ class GridView {
   final CanvasElement elt;
   Rect damage = null;
   var _cancelOnChange = () {};
+  async.StreamSubscription mouseDownSub;
   
   GridView(StrokeGrid g, this.pixelsize) : elt = new CanvasElement() {       
-    elt.onMouseDown.listen((MouseEvent e) {
+    mouseDownSub = elt.onMouseDown.listen((MouseEvent e) {
       e.preventDefault(); // don't allow selection
     });
     setModel(g);
@@ -115,7 +116,8 @@ class GridView {
     });
     
     var stopPainting = () {};
-    elt.onMouseDown.listen((MouseEvent e) {
+    mouseDownSub.cancel();
+    mouseDownSub = elt.onMouseDown.listen((MouseEvent e) {
       if (e.button == 0) {
         _mousepaint(e);
         var sub = elt.onMouseMove.listen(_mousepaint);
