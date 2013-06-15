@@ -86,17 +86,14 @@ class GridView {
   
   void enablePainting(Editor editor, PaletteModel palette) {
     
-    void _paint(MouseEvent e, int colorIndex) {
+    void _mousepaint(MouseEvent e) {
+      e.preventDefault();
       int x = (e.offset.x / pixelsize).toInt();
       int y = (e.offset.y / pixelsize).toInt();
-      editor.paint(grid, x, y, colorIndex);
+      editor.paint(grid, x, y, palette.selected);
     }
-
-    elt.onTouchStart.listen((TouchEvent e) {
-      e.preventDefault();
-    });
     
-    elt.onTouchMove.listen((TouchEvent e) {
+    void _fingerpaint(TouchEvent e) {
       e.preventDefault();
       for (Touch t in e.targetTouches) {
         int canvasX = t.page.x - elt.offsetLeft;
@@ -104,12 +101,15 @@ class GridView {
         int x = (canvasX / pixelsize).toInt();
         int y = (canvasY / pixelsize).toInt();
         editor.paint(grid, x, y, palette.selected);
-      }
-    });
+      }      
+    }
+    
+    elt.onTouchStart.listen(_fingerpaint);
+    elt.onTouchMove.listen(_fingerpaint);
     
     elt.onTouchEnd.listen((TouchEvent e) {
       if (e.touches.isEmpty) {
-        print("TouchEnd empty");
+        print("touch stopped");
         editor.endPaint();
       }
     });
@@ -117,11 +117,8 @@ class GridView {
     var stopPainting = () {};
     elt.onMouseDown.listen((MouseEvent e) {
       if (e.button == 0) {
-        e.preventDefault(); // don't change the cursor
-        _paint(e, palette.selected);
-        var sub = elt.onMouseMove.listen((MouseEvent e) {
-          _paint(e, palette.selected);
-        });
+        _mousepaint(e);
+        var sub = elt.onMouseMove.listen(_mousepaint);
         stopPainting = () {
           editor.endPaint();
           sub.cancel();
