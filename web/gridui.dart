@@ -39,10 +39,11 @@ class GridView {
   final CanvasElement elt;
   Rect damage = null;
   var _cancelOnChange = () {};
-  async.StreamSubscription mouseDownSub;
+  async.StreamSubscription _mouseDownSub;
+  var _onModelChange = () {};
   
   GridView(StrokeGrid g, this.pixelsize) : elt = new CanvasElement() {       
-    mouseDownSub = elt.onMouseDown.listen((MouseEvent e) {
+    _mouseDownSub = elt.onMouseDown.listen((MouseEvent e) {
       e.preventDefault(); // don't allow selection
     });
     setModel(g);
@@ -71,6 +72,7 @@ class GridView {
     });
     _cancelOnChange = sub.cancel;
     renderAsync(grid.all);
+    _onModelChange();
   }
   
   void renderAsync(Rect clip) {
@@ -86,12 +88,15 @@ class GridView {
   }
   
   void enablePainting(Editor editor, PaletteModel palette) {
-    
+
     void _mousepaint(MouseEvent e) {
       e.preventDefault();
       int x = (e.offset.x / pixelsize).toInt();
       int y = (e.offset.y / pixelsize).toInt();
       editor.paint(grid, x, y, palette.selected);
+      _onModelChange = () {
+        _mousepaint(e);
+      };
     }
     
     void _fingerpaint(TouchEvent e) {
@@ -102,7 +107,10 @@ class GridView {
         int x = (canvasX / pixelsize).toInt();
         int y = (canvasY / pixelsize).toInt();
         editor.paint(grid, x, y, palette.selected);
-      }      
+      }
+      _onModelChange = () {
+        _fingerpaint(e);
+      };
     }
     
     elt.onTouchStart.listen(_fingerpaint);
@@ -112,18 +120,22 @@ class GridView {
       if (e.touches.isEmpty) {
         print("touch stopped");
         editor.endPaint();
+        _onModelChange = () {};
+      } else {
+        _onModelChange = _fingerpaint(e);
       }
     });
     
     var stopPainting = () {};
-    mouseDownSub.cancel();
-    mouseDownSub = elt.onMouseDown.listen((MouseEvent e) {
+    _mouseDownSub.cancel();
+    _mouseDownSub = elt.onMouseDown.listen((MouseEvent e) {
       if (e.button == 0) {
         _mousepaint(e);
         var sub = elt.onMouseMove.listen(_mousepaint);
         stopPainting = () {
           editor.endPaint();
           sub.cancel();
+          _onModelChange = (){};
         };
       }
     });
