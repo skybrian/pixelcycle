@@ -18,7 +18,10 @@
     </div>
     <div id="grid"></div>    
     <div class="fullwidth">
-      <div id="undo" class="rightside"></div>
+      <div id="undo" class="rightside"></div>    
+      <div class="rightside">
+         <button id="snapshot" class="hidden">Snapshot</button>
+      </div>
       <div id="palette"></div>
     </div>
 
@@ -42,7 +45,9 @@
     <script type="text/javascript" src="https://apis.google.com/js/api.js?onload=onApiLoaded" async></script>
     <script type="application/dart" src="pixelcycle.dart"></script>
     <script src="packages/browser/dart.js"></script>
+
     <div id="backdrop" class="hidden"></div>
+ 
     <div id="promptDialog" class="dialog hidden">
       <p id="promptMessage"></p>
       <div>

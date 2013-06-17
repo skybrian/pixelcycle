@@ -3,6 +3,7 @@ import 'dart:html';
 import 'dart:async' as async;
 import 'dart:json' as json;
 import 'package:js/js.dart' as js;
+import 'gif.dart' as gif;
 
 part 'palette.dart';
 part 'player.dart';
@@ -11,6 +12,7 @@ part 'drive.dart';
 part 'doc.dart';
 part 'gridui.dart';
 part 'ui.dart';
+part 'snapshot.dart';
 
 void main() {
   var jsLoaded = js.context["jsApiLoaded"];
@@ -173,6 +175,16 @@ void startPlayer(MovieModel movie, GridView big) {
   query("#frames").append(new FrameListView(movie, player).elt);
   query("#player").append(new PlayerView(player).elt);
   query("#grid").append(big.elt);
+  
+  ButtonElement snapshotButton = query("#snapshot");
+  snapshotButton.onClick.listen((e) {
+    var loadingUrl = "data:text/html,Loading...";
+    var w = window.open(loadingUrl, "PixelCycle Snapshot");
+    snapshot(big.elt).then((String dataURL) {
+      w.location.href = dataURL;
+    });
+  });
+  snapshotButton.classes.remove("hidden");
   
   bool spaceDown = false;
   int spaceDownFrame = -1;
