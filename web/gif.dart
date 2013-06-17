@@ -13,9 +13,8 @@ const maxColors = 1<<maxColorBits;
 class IndexedImage {
   final int width;
   final int height;
-  final List<int> colorTable = new List<int>();
-  int colorBits;
-  final List<int> pixels;
+  final colors = new ColorTable();
+  List<int> pixels;
 
   /**
    * Builds an indexed image from per-pixel rgba data, ignoring the alpha channel.
@@ -23,15 +22,75 @@ class IndexedImage {
    * (The input format is the same used by the ImageData class, which can be created
    * from a canvas element.)
    */
-  IndexedImage(int width, int height, List<int> rgba) :
-    this.width = width,
-    this.height = height,
-    pixels = new List<int>(width * height) {  
-      
-    assert(pixels.length == rgba.length / 4);
+  IndexedImage(this.width, this.height, List<int> rgba) {   
+    pixels = colors.indexImage(width, height, rgba);    
+    colors.finish();
+  }
+  
+  /**
+   * Converts the image into an uncompressed GIF, represented as a list of bytes.
+   */
+  Uint8List encodeUncompressedGif() {
+    return new Uint8List.fromList(
+        _header(width, height, colors.bits)
+        ..addAll(colors.table)
+        ..addAll(_startImage(0, 0, width, height))
+        ..addAll(_sevenBitPixels(pixels))
+        ..addAll(_trailer()));
+  }
+}
 
-    // Add color entries to the colorTable and indexes to pixels.
-    var colorToIndex = new Map<int, int>();
+class IndexedAnimation {
+  final int width;
+  final int height;
+  final colors = new ColorTable();
+  final frames = new List<List<int>>();
+  
+  IndexedAnimation(this.width, this.height, List<List<int>> rgbaFrames) {
+    for (var frame in rgbaFrames) {
+      frames.add(colors.indexImage(width, height, frame));      
+    }
+    colors.finish();
+  }
+
+  /**
+   * Converts the animation into an uncompressed GIF, represented as a list of bytes.
+   */
+  Uint8List encodeUncompressedGif(int fps) {
+    int delay = 100 ~/ fps;
+    if (delay < 6) {
+      delay = 6; // http://nullsleep.tumblr.com/post/16524517190/animated-gif-minimum-frame-delay-browser-compatibility
+    }
+    
+    List<int> bytes = _header(width, height, colors.bits);
+    bytes.addAll(colors.table);
+    bytes.addAll(_loop(0));
+    
+    for (int i = 0; i < frames.length; i++) {
+      var frame = frames[i];
+      bytes
+        ..addAll(_delayNext(delay))
+        ..addAll(_startImage(0, 0, width, height))
+        ..addAll(_sevenBitPixels(frame));
+    }
+    bytes.addAll(_trailer());
+    return new Uint8List.fromList(bytes);
+  }
+}
+
+class ColorTable {
+  final List<int> table = new List<int>();
+  final colorToIndex = new Map<int, int>();
+  int bits;
+  
+  /**
+   *  Given rgba data, add each color to the color table.
+   *  Returns the same pixels as color indexes.
+   *  Throws an exception if we run out of colors.
+   */
+  List<int> indexImage(int width, int height, List<int> rgba) {
+    var pixels = new List<int>(width * height);      
+    assert(pixels.length == rgba.length / 4);
     for (int i = 0; i < rgba.length; i += 4) {
       int color = rgba[i] << 16 | rgba[i+1] << 8 | rgba[i+2];
       int index = colorToIndex[color];
@@ -39,41 +98,33 @@ class IndexedImage {
         if (colorToIndex.length == maxColors) {
           throw new Exception("image has more than ${maxColors} colors");
         }
-        index = colorTable.length ~/ 3;
+        index = table.length ~/ 3;
         colorToIndex[color] = index;
-        colorTable..add(rgba[i])..add(rgba[i+1])..add(rgba[i+2]);
+        table..add(rgba[i])..add(rgba[i+1])..add(rgba[i+2]);
       }
       pixels[i>>2] = index;
-    }
-    
-    // Pad remaining colorTable entries with zero up to the nearest power of 2.
+    }  
+    return pixels;
+  }
+  
+  /**
+   * Pads the color table with zeros to the next power of 2 and sets bits.
+   */
+  void finish() {
     for (int bits = 1;; bits++) {
       int colors = 1 << bits;
-      if (colors * 3 >= colorTable.length) {
-        while (colorTable.length < colors * 3) {
-          colorTable..add(0);
+      if (colors * 3 >= table.length) {
+        while (table.length < colors * 3) {
+          table..add(0);
         }
-        colorBits = bits;
-        break;
+        this.bits = bits;
+        return;
       }
     }
   }
   
   int get numColors {
-    return colorTable.length ~/ 3;
-  }
-      
-  /**
-   * Converts the image into an uncompressed GIF, represented as a list of bytes.
-   * Throws an exception if the image has more than 128 colors.
-   */
-  Uint8List encodeUncompressedGif() {
-    return new Uint8List.fromList(
-        _header(width, height, colorBits)
-        ..addAll(colorTable)
-        ..addAll(_startImage(0, 0, width, height))
-        ..addAll(_sevenBitPixels(pixels))
-        ..addAll(_trailer()));
+    return table.length ~/ 3;
   }
 }
 
@@ -85,6 +136,23 @@ List<int> _header(int width, int height, int colorBits) {
   _addShort(bytes, width);
   _addShort(bytes, height);
   bytes..add(0xF0 | colorBits - 1)..add(0)..add(0);
+  return bytes;
+}
+
+// See: http://odur.let.rug.nl/~kleiweg/gif/netscape.html
+List<int> _loop(int reps) {
+  List<int> bytes = [0x21, 0xff, 0x0B];
+  bytes.addAll("NETSCAPE2.0".codeUnits);
+  bytes.addAll([3, 1]);
+  _addShort(bytes, reps);
+  bytes.add(0);
+  return bytes;
+}
+
+List<int> _delayNext(int centiseconds) {
+  var bytes = [0x21, 0xF9, 4, 0];
+  _addShort(bytes, centiseconds);
+  bytes..add(0)..add(0);
   return bytes;
 }
 

@@ -4,6 +4,7 @@ class MovieModel {
   final PaletteModel palette;
   final grids = new List<StrokeGrid>();
   final Doc doc;
+
   MovieModel(this.palette, int width, int height, this.doc) {
     for (var f in doc.getFrames()) {
       var cg = new ColorGrid(palette, width, height, 0);
@@ -11,8 +12,23 @@ class MovieModel {
       grids.add(sg);
     }
   }
+
   factory MovieModel.standard(Doc doc) {
     return new MovieModel(new PaletteModel.standard(), 60, 36, doc);
+  }
+
+  async.Future<String> snapshot(int fps) {
+    print("snapshot");
+    const pixelsize = 4;
+    int width = grids[0].width * pixelsize;
+    int height = grids[0].height * pixelsize;
+    CanvasElement elt = new CanvasElement(width: width, height: height);
+    var frames = new List<ImageData>();
+    for (StrokeGrid grid in grids) {
+      grid.render(elt.context2D, pixelsize, grid.all);
+      frames.add(elt.context2D.getImageData(0, 0, width, height));
+    }
+    return makeSnapshot(frames, fps);
   }
 }
 

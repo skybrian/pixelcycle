@@ -178,9 +178,9 @@ void startPlayer(MovieModel movie, GridView big) {
   
   ButtonElement snapshotButton = query("#snapshot");
   snapshotButton.onClick.listen((e) {
-    var loadingUrl = "data:text/html,Loading...";
-    var w = window.open(loadingUrl, "PixelCycle Snapshot");
-    snapshot(big.elt).then((String dataURL) {
+    // Open window early to avoid popup blocking
+    var w = window.open("data:text/html,Loading...", "PixelCycle Snapshot");
+    movie.snapshot(player.fps).then((String dataURL) {
       w.location.href = dataURL;
     });
   });
