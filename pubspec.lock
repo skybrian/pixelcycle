@@ -13,3 +13,7 @@ packages:
     description: meta
     source: hosted
     version: "0.5.11+1"
+  unittest:
+    description: unittest
+    source: hosted
+    version: "0.5.16"

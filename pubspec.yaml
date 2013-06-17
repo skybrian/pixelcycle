@@ -4,4 +4,4 @@ description: A lo res animation editor.
 dependencies:
   browser: any
   js: any
-  
+  unittest: any
