@@ -7,10 +7,12 @@
     <link rel="stylesheet" href="pixelcycle.css">
   </head>
   <body>
-  <div class="fullwidth">
-    <h1><span id="title">Loading...</span></h1>
-    <button id="authorize" class="hidden">Connect to Google</button>
-    <button id="create" class="hidden">Create Animation</button>
+  <h1 id="loading">Loading...</h1>
+  <button id="authorize" class="hidden">Connect to Google</button>
+  <button id="create" class="hidden">Create Animation</button>
+
+  <div id="app" class="hidden">
+    <h1 id="title">PixelCycle</h1>
 
     <div>
       <div id="player" class="rightside">
@@ -53,10 +55,10 @@
     <div class="centerpoint hidden">
       <div id="promptDialog">
         <p id="promptMessage"></p>
-        <div>
-          <input type="text" id="promptTextBox"></input>
-        </div>
+        <input type="text" id="promptTextBox">
+        <div id="promptButtons">
         <button id="promptOk">OK</button> <button id="promptCancel">Cancel</button>
+        </div>
       </div>
     </div>
 
@@ -64,7 +66,9 @@
       <div id="downloadDialog">
         <p>Click the image to download the animation.</p>
         <a id="downloadAnchor"><img id="downloadImage"></a>
-        <button id="downloadOk">Done</button>      
+        <div>
+        <button id="downloadOk">Done</button>
+        </div>      
       </div>
     </div>
     

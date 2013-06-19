@@ -7,7 +7,11 @@ async.Future<String> showPrompt(String prompt, String defaultText) {
   Element dialog = query("#promptDialog");
   TextInputElement textBox = query("#promptTextBox");
 
+  List subs = new List();
   void finish(String retValue) {
+    for (var sub in subs) {
+      sub.cancel();
+    }
     backdrop.classes.add("hidden");
     dialog.parent.classes.add("hidden");
     c.complete(retValue);    
@@ -15,16 +19,15 @@ async.Future<String> showPrompt(String prompt, String defaultText) {
   
   query("#promptMessage").text = prompt;
   textBox.value = defaultText;
-  
-  query("#promptOk").onClick.take(1).listen((e) {
-    finish(textBox.value.trim());
-  });
-  query("#promptCancel").onClick.take(1).listen((e) {
-    finish(defaultText);
-  });
 
+  subs.add(textBox.onChange.listen((e) => finish(textBox.value.trim())));
+  subs.add(query("#promptOk").onClick.listen((e) => finish(textBox.value.trim())));
+  subs.add(query("#promptCancel").onClick.listen((e) => finish(defaultText)));
+  subs.add(backdrop.onClick.listen((e) => finish(defaultText)));
+  
   backdrop.classes.remove("hidden");
   dialog.parent.classes.remove("hidden");
+  textBox.focus();
   return c.future;  
 }
 
@@ -38,11 +41,18 @@ void showDownloadPrompt(String imageUrl, String downloadName) {
   anchor.href = imageUrl;
   anchor.download = downloadName;
   image.src = imageUrl;
-  
-  query("#downloadOk").onClick.take(1).listen((e) {
+
+  List subs = new List();
+  void close() {
+    for (var sub in subs) {
+      sub.cancel();
+    }
     backdrop.classes.add("hidden");
     dialog.parent.classes.add("hidden");
-  });
+  }
+  
+  subs.add(query("#downloadOk").onClick.listen((e) => close()));
+  subs.add(backdrop.onClick.listen((e) => close()));
 
   backdrop.classes.remove("hidden");
   dialog.parent.classes.remove("hidden");

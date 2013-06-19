@@ -19,7 +19,7 @@ class MovieModel {
 
   async.Future<String> snapshot(int fps) {
     print("snapshot");
-    const pixelsize = 4;
+    const pixelsize = 6;
     int width = grids[0].width * pixelsize;
     int height = grids[0].height * pixelsize;
     CanvasElement elt = new CanvasElement(width: width, height: height);

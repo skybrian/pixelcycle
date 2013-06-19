@@ -28,6 +28,7 @@ async.Future<Drive> startDrive() {
           button.classes.add("hidden");
           authorize(false).then((x) => c.complete());            
         });
+        query("#loading").classes.add("hidden");
         button.classes.remove("hidden");
         return;
       } else {

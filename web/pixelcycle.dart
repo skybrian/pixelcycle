@@ -11,7 +11,7 @@ part 'grid.dart';
 part 'drive.dart';
 part 'doc.dart';
 part 'gridui.dart';
-part 'ui.dart';
+part 'dialog.dart';
 part 'snapshot.dart';
 
 void main() {
@@ -32,7 +32,7 @@ void start() {
     } else if (state.action == "open") {
       openDoc(drive, state.ids[0]);
     } else {
-      setTitle("PixelCycle");
+      setLoading("PixelCycle");
       Element button = query("#create");
       button.onClick.listen((e) {
         createDoc(drive, "Test", null);
@@ -110,13 +110,20 @@ void openDoc(Drive drive, String fileId) {
   });
 }
 
-String getTitle() {
-  return query("#title").text;
+void setLoading(String title) {
+  query("title").text = title;
+  query("#loading")
+    ..classes.remove("hidden")
+    ..text = title;
 }
 
 void setTitle(String title) {
   query("title").text = title;
   query("#title").text = title;
+}
+
+String getTitle() {
+  return query("#title").text;
 }
 
 void startViewer(Doc doc) {
@@ -224,5 +231,7 @@ void startPlayer(MovieModel movie, GridView big) {
     }
   });
   
+  query("#loading").classes.add("hidden");
+  query("#app").classes.remove("hidden"); 
   player.playing = true;  
 }
