@@ -25,11 +25,11 @@ async.Future<Drive> startDrive() {
         // Immediate failed, so ask user to authenticate.
         var button = query("#authorize");
         button.onClick.take(1).listen((e) {
-          button.classes.add("hidden");
+          button.parent.classes.add("hidden");
           authorize(false).then((x) => c.complete());            
         });
         query("#loading").classes.add("hidden");
-        button.classes.remove("hidden");
+        button.parent.classes.remove("hidden");
         return;
       } else {
         window.alert("Unable to connect to Google Drive");        

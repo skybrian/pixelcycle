@@ -28,14 +28,14 @@ void start() {
   startDrive().then((Drive drive) {
     var state = new StateToken.load(loc);
     if (state.action == "create") {
-      createDoc(drive, "Untitled animation", state.folderId);
+      createDoc(drive, "Untitled", state.folderId);
     } else if (state.action == "open") {
       openDoc(drive, state.ids[0]);
     } else {
       setLoading("PixelCycle");
       Element button = query("#create");
       button.onClick.listen((e) {
-        createDoc(drive, "Test", null);
+        createDoc(drive, "Untitled", null);
       });
       button.classes.remove("hidden");
     }
