@@ -110,6 +110,10 @@ void openDoc(Drive drive, String fileId) {
   });
 }
 
+String getTitle() {
+  return query("#title").text;
+}
+
 void setTitle(String title) {
   query("title").text = title;
   query("#title").text = title;
@@ -176,15 +180,14 @@ void startPlayer(MovieModel movie, GridView big) {
   query("#player").append(new PlayerView(player).elt);
   query("#grid").append(big.elt);
   
-  ButtonElement snapshotButton = query("#snapshot");
-  snapshotButton.onClick.listen((e) {
-    // Open window early to avoid popup blocking
-    var w = window.open("data:text/html,Loading...", "PixelCycle Snapshot");
+  ButtonElement downloadButton = query("#download");
+  downloadButton.onClick.listen((e) {
     movie.snapshot(player.fps).then((String dataURL) {
-      w.location.href = dataURL;
+      player.playing = false;
+      showDownloadPrompt(dataURL, getTitle());
     });
   });
-  snapshotButton.classes.remove("hidden");
+  downloadButton.classes.remove("hidden");
   
   bool spaceDown = false;
   int spaceDownFrame = -1;

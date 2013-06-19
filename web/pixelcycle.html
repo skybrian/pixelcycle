@@ -7,23 +7,25 @@
     <link rel="stylesheet" href="pixelcycle.css">
   </head>
   <body>
+  <div class="fullwidth">
     <h1><span id="title">Loading...</span></h1>
     <button id="authorize" class="hidden">Connect to Google</button>
     <button id="create" class="hidden">Create Animation</button>
 
-    <div class="fullwidth">
+    <div>
       <div id="player" class="rightside">
       </div>
       <div id="frames"></div>
     </div>
     <div id="grid"></div>    
-    <div class="fullwidth">
+    <div>
       <div id="undo" class="rightside"></div>    
       <div class="rightside">
-         <button id="snapshot" class="hidden">Snapshot</button>
+         <button id="download" class="hidden">Download</button>
       </div>
       <div id="palette"></div>
     </div>
+  </div>
 
     <script type="text/javascript">
     jsApiLoaded = false;
@@ -48,13 +50,23 @@
 
     <div id="backdrop" class="hidden"></div>
  
-    <div id="promptDialog" class="dialog hidden">
-      <p id="promptMessage"></p>
-      <div>
-        <input type="text" id="promptTextBox"></input>
-      </div>
-      <button id="promptOk">OK</button> <button id="promptCancel">Cancel</button>
+    <div class="centerpoint hidden">
+      <div id="promptDialog">
+        <p id="promptMessage"></p>
+        <div>
+          <input type="text" id="promptTextBox"></input>
+        </div>
+        <button id="promptOk">OK</button> <button id="promptCancel">Cancel</button>
       </div>
     </div>
+
+    <div class="centerpoint hidden">    
+      <div id="downloadDialog">
+        <p>Click the image to download the animation.</p>
+        <a id="downloadAnchor"><img id="downloadImage"></a>
+        <button id="downloadOk">Done</button>      
+      </div>
+    </div>
+    
   </body>
 </html>

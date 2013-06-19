@@ -9,7 +9,7 @@ async.Future<String> showPrompt(String prompt, String defaultText) {
 
   void finish(String retValue) {
     backdrop.classes.add("hidden");
-    dialog.classes.add("hidden");
+    dialog.parent.classes.add("hidden");
     c.complete(retValue);    
   }
   
@@ -24,6 +24,26 @@ async.Future<String> showPrompt(String prompt, String defaultText) {
   });
 
   backdrop.classes.remove("hidden");
-  dialog.classes.remove("hidden");
+  dialog.parent.classes.remove("hidden");
   return c.future;  
+}
+
+void showDownloadPrompt(String imageUrl, String downloadName) {
+
+  Element backdrop = query("#backdrop");
+  Element dialog = query("#downloadDialog");  
+  AnchorElement anchor = query("#downloadAnchor"); 
+  ImageElement image = query("#downloadImage");
+
+  anchor.href = imageUrl;
+  anchor.download = downloadName;
+  image.src = imageUrl;
+  
+  query("#downloadOk").onClick.take(1).listen((e) {
+    backdrop.classes.add("hidden");
+    dialog.parent.classes.add("hidden");
+  });
+
+  backdrop.classes.remove("hidden");
+  dialog.parent.classes.remove("hidden");
 }
