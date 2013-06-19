@@ -16,8 +16,10 @@ h1, p {
   cursor: pointer;
 }
 
-.fullwidth {
+#app {
   width: 840px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .frame {
@@ -27,6 +29,7 @@ h1, p {
 }
 
 .selectedFrame {
+  border-top-color: white;
   border-bottom-color: white;
 }
 
@@ -89,17 +92,37 @@ h1, p {
   z-index: 990;
 } 
 
-.dialog {
-  position: fixed;
-  top: 120px;
-  left: 120px;
+.centerpoint {
+    top: 500px;
+    left: 50%;
+    position: absolute;
+}
+
+#promptDialog {
+  position: relative;
   width: 300px;
-  padding: 10px;
+  margin-left: -150px;
+  margin-top: -300px;
   z-index: 1000;
+    
+  padding: 20px;
   border-radius: 6px;
   background: white;
 }
 
 #promptTextBox {
   width: 20em;
+  margin-bottom: 20px;
+}
+
+#downloadDialog {
+  position: relative;
+  width: 360px;
+  margin-left: -180px;
+  margin-top: -300px;
+  z-index: 1000;
+  
+  padding: 20px;
+  border-radius: 6px;
+  background: white;
 }
