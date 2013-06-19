@@ -19448,7 +19448,7 @@ startDrive_authorize_closure: {"": "Closure;authorize_0,immediate_1,c_2",
       new $._TakeStream(1, new $._EventStream(button, $.EventStreamProvider_click._eventType, false)).listen$1(new $.startDrive_authorize__closure(this.authorize_0, this.c_2, button));
       t1 = $.get$classes$x(document.querySelector("#loading"));
       t1.add$1(t1, "hidden");
-      t1 = $.get$classes$x(button);
+      t1 = $.get$classes$x(button.parentElement);
       t1.remove$1(t1, "hidden");
       return;
     } else
@@ -19460,7 +19460,7 @@ startDrive_authorize_closure: {"": "Closure;authorize_0,immediate_1,c_2",
 
 startDrive_authorize__closure: {"": "Closure;authorize_3,c_4,button_5",
   call$1: function(e) {
-    var t1 = $.get$classes$x(this.button_5);
+    var t1 = $.get$classes$x(this.button_5.parentElement);
     t1.add$1(t1, "hidden");
     this.authorize_3.call$1(false).then$1(new $.startDrive_authorize___closure(this.c_4));
   },
@@ -20793,7 +20793,7 @@ start_closure: {"": "Closure;loc_0",
     state = $.StateToken_StateToken$load(this.loc_0);
     t1 = $.getInterceptor$x(state);
     if ($.$eq(t1.get$action(state), "create"))
-      $.createDoc(drive, "Untitled animation", state.get$folderId());
+      $.createDoc(drive, "Untitled", state.get$folderId());
     else if ($.$eq(t1.get$action(state), "open"))
       $.openDoc(drive, $.$index$asx(state.get$ids(), 0));
     else {
@@ -20819,7 +20819,7 @@ start_closure: {"": "Closure;loc_0",
 
 start__closure: {"": "Closure;drive_1",
   call$1: function(e) {
-    $.createDoc(this.drive_1, "Test", null);
+    $.createDoc(this.drive_1, "Untitled", null);
   },
   "+call:1:0": 0,
   $isFunction: true
