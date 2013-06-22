@@ -31,7 +31,8 @@ async.Future<String> showPrompt(String prompt, String defaultText) {
   return c.future;  
 }
 
-void showDownloadPrompt(String imageUrl, String downloadName) {
+async.Future<Object> showDownloadPrompt(String imageUrl, String downloadName) {
+  var c = new async.Completer();
 
   Element backdrop = query("#backdrop");
   Element dialog = query("#downloadDialog");  
@@ -49,6 +50,7 @@ void showDownloadPrompt(String imageUrl, String downloadName) {
     }
     backdrop.classes.add("hidden");
     dialog.parent.classes.add("hidden");
+    c.complete(null);
   }
   
   subs.add(query("#downloadOk").onClick.listen((e) => close()));
@@ -56,4 +58,6 @@ void showDownloadPrompt(String imageUrl, String downloadName) {
 
   backdrop.classes.remove("hidden");
   dialog.parent.classes.remove("hidden");
+  
+  return c.future;
 }

@@ -190,8 +190,11 @@ void startPlayer(MovieModel movie, GridView big) {
   ButtonElement downloadButton = query("#download");
   downloadButton.onClick.listen((e) {
     movie.snapshot(player.fps).then((String dataURL) {
+      var wasPlaying = player.playing;
       player.playing = false;
-      showDownloadPrompt(dataURL, getTitle());
+      showDownloadPrompt(dataURL, getTitle()).then((x) {
+        player.playing = wasPlaying;
+      });
     });
   });
   downloadButton.classes.remove("hidden");

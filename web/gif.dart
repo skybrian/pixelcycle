@@ -35,7 +35,7 @@ class IndexedImage {
         _header(width, height, colors.bits)
         ..addAll(colors.table)
         ..addAll(_startImage(0, 0, width, height))
-        ..addAll(_sevenBitPixels(pixels))
+        ..addAll(_pixels(pixels, colors.bits))
         ..addAll(_trailer()));
   }
 }
@@ -71,7 +71,7 @@ class IndexedAnimation {
       bytes
         ..addAll(_delayNext(delay))
         ..addAll(_startImage(0, 0, width, height))
-        ..addAll(_sevenBitPixels(frame));
+        ..addAll(_pixels(frame, colors.bits));
     }
     bytes.addAll(_trailer());
     return new Uint8List.fromList(bytes);
@@ -166,12 +166,17 @@ List<int> _startImage(int left, int top, int width, int height) {
   return bytes;
 }
 
-List<int> _sevenBitPixels(List<int> pixels) {
-  const clear = 128;
-  const end = 129;
-  const chunkSize = 120;
+List<int> _pixels(List<int> pixels, int colorBits) {
+  assert(colorBits <= 8);
+  if (colorBits < 2) {
+    colorBits = 2;
+  }
+  int colors = (1 << colorBits);
+  var clear = colors;
+  var end = colors + 1;
+  var chunkSize = colors - 2;
 
-  CodeBuffer buf = new CodeBuffer(8);
+  CodeBuffer buf = new CodeBuffer(colorBits + 1);
   buf.add(clear);
   int codesSinceClear = 0;
   for (int px in pixels) {
@@ -184,7 +189,7 @@ List<int> _sevenBitPixels(List<int> pixels) {
   }
   buf.add(end);
 
-  List<int> bytes = [7];
+  List<int> bytes = [colorBits];
   buf.finish(bytes);
   return bytes;
 }

@@ -10,10 +10,12 @@ main() {
   const oneByOneTwoColor = const [0x1, 0, 0x1, 0, 0xF0, 0, 0]; // 1x1, 128 colors, background index 0 
   const blackBlack = const [0, 0, 0, 0, 0, 0]; // 3 bytes per color
   const startOneByOneImage = const [0x2c, 0, 0, 0, 0, 1, 0, 1, 0, 0];
-  const startData7 = const [0x07]; // seven bit data, indexes are 0-127.
-  const clear7 = 0x80; // clear code for seven bit data
-  const end7 = 0x81; // end code for seven bit data
+  const startData2 = const [0x02]; // two bit pixels, indexes are 0-3.
+  const clear2 = "100"; // clear code for two bit data
+  const end2 = "101"; // end code for two bit data
   const trailer = const[0x3b];
+  
+  bits(String s) => int.parse(s, radix: 2);
   
   test('one black pixel', () {
     var image = new gif.IndexedImage(1, 1, [0, 0, 0, 0]);
@@ -24,8 +26,8 @@ main() {
       ..addAll(oneByOneTwoColor)
       ..addAll(blackBlack)
       ..addAll(startOneByOneImage)
-      ..addAll(startData7)
-      ..addAll([3, clear7, 0x00, end7, 0x00])
+      ..addAll(startData2)
+      ..addAll([2, bits("01" + "000" + clear2), bits("1"), 0x00])
       ..addAll(trailer);
       
     expect(bytes, expected);
@@ -43,8 +45,8 @@ main() {
       ..addAll(oneByTwoTwoColor)
       ..addAll(blackBlack)
       ..addAll(startOneByTwoImage)
-      ..addAll(startData7)
-      ..addAll([4, clear7, 0x00, 0x00, end7, 0x00])
+      ..addAll(startData2)
+      ..addAll([2, bits("00" + "000" + clear2), bits(end2 + clear2 + "0"), 0x00])
       ..addAll(trailer);
       
     expect(bytes, expected);
@@ -57,16 +59,16 @@ main() {
   test('rgb', () {
     var image = new gif.IndexedImage(3, 1, [0xff, 0, 0, 0, 0, 0xff, 0, 0, 0, 0, 0xff, 0]);
     List<int> bytes = image.encodeUncompressedGif();
-    
+ 
     var expected = []
       ..addAll(headerBlock)
       ..addAll(threeByOneFourColor)
       ..addAll(redGreenBlueBlack)
       ..addAll(startThreeByOneImage)
-      ..addAll(startData7)
-      ..addAll([5, clear7, 0x00, 0x01, 0x02, end7, 0x00])
+      ..addAll(startData2)
+      ..addAll([3, bits("01" + "000" + clear2), bits("1" + "010" + clear2 +"0"), bits("10"), 0x00])
       ..addAll(trailer);
-      
+        
     expect(bytes, expected);
   });
 
