@@ -171,16 +171,21 @@ List<int> _sevenBitPixels(List<int> pixels) {
   const end = 129;
   const chunkSize = 120;
 
-  List<int> bytes = [7];
-  List<int> chunk = [];
+  CodeBuffer buf = new CodeBuffer(8);
+  buf.add(clear);
+  int codesSinceClear = 0;
   for (int px in pixels) {
-    chunk.add(px&0x7F);
-    if (chunk.length == chunkSize) {
-      bytes..add(chunk.length + 1)..add(clear)..addAll(chunk);
-      chunk = [];
+    buf.add(px&0x7F);
+    codesSinceClear++;
+    if (codesSinceClear == chunkSize) {
+      buf.add(clear);
+      codesSinceClear = 0;
     }
   }
-  bytes..add(chunk.length + 2)..add(clear)..addAll(chunk)..add(end)..add(0);  
+  buf.add(end);
+
+  List<int> bytes = [7];
+  buf.finish(bytes);
   return bytes;
 }
 
@@ -195,12 +200,54 @@ void _addShort(List<int> dest, int n) {
   dest..add(n & 0xff)..add(n >> 8);
 }
 
-const startOneByOneImage = const [0x2c, 0, 0, 0, 0, 1, 0, 1, 0, 0];
-const startData7 = const [0x07]; // seven bit data, indexes are 0-127.
-const clear7 = 0x80; // clear code for seven bit data
-const end7 = 0x81; // end code for seven bit data
-const zeroPixel7 = const [2, clear7, 0x00];
-const endData7 = const [1, end7];
-const trailer = const[0x3b];
+/// Writes a sequence of integers using a variable number of bits, for LZW compression.
+class CodeBuffer {
+  final finishedBytes = new List<int>();
+  int _bitsPerCode;
+  int numCodes;
+  int buf = 0;
+  int bits = 0;
+  CodeBuffer(int bitsPerCode) {
+    this.bitsPerCode = bitsPerCode;
+  }
 
-
+  int get bitsPerCode {
+    return _bitsPerCode;
+  }
+  
+  set bitsPerCode(int newValue) {
+    assert (newValue > 1 && newValue <= 12);
+    _bitsPerCode = newValue;
+    numCodes = 1 << newValue;
+  }
+  
+  void add(int code) {
+    assert(code >= 0 && code < numCodes);
+    buf |= (code << bits);
+    bits += bitsPerCode;
+    while (bits >= 8) {
+      finishedBytes.add(buf & 0xFF);
+      buf = buf >> 8;
+      bits -= 8;
+    }
+  }
+  
+  void finish(List<int> dest) {
+    if (bits > 0) {
+      finishedBytes.add(buf);
+    }
+    int len = finishedBytes.length;
+    for (int i = 0; i < len;) {
+      if (len - i >= 255) {
+        dest.add(255);
+        dest.addAll(finishedBytes.sublist(i, i + 255));
+        i += 255;
+      } else {
+        dest.add(len - i);
+        dest.addAll(finishedBytes.sublist(i, len));
+        i = len;
+      }
+    }
+    dest.add(0);
+  }
+}
