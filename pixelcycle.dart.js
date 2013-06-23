@@ -5514,7 +5514,7 @@ $$.Closure$main = {"": "Closure;call$0,$name"};
 
 $$.Closure$start = {"": "Closure;call$0,$name"};
 
-init.mangledNames = {get$$$dom_attributes: "$dom_attributes", get$$$dom_children: "$dom_children", get$$$dom_className: "$dom_className", get$ErrorType_3: "ErrorType_3", get$_action: "_action", get$_arguments: "_arguments", get$_array: "_array", get$_callback: "_callback", get$_cancelOnChange: "_cancelOnChange", get$_cell: "_cell", get$_childElements: "_childElements", get$_childNodes: "_childNodes", get$_className: "_className", get$_contents: "_contents", get$_controller: "_controller", get$_current: "_current", get$_deletedCount: "_deletedCount", get$_deserialized: "_deserialized", get$_duration: "_duration", get$_element: "_element", get$_elementCssClassSetIterable: "_elementCssClassSetIterable", get$_elementIterable: "_elementIterable", get$_elements: "_elements", get$_end: "_end", get$_endOrLength: "_endOrLength", get$_eventState: "_eventState", get$_eventType: "_eventType", get$_existingArgumentNames: "_existingArgumentNames", get$_f: "_f", get$_fingerpaint_13: "_fingerpaint_13", get$_fingerpaint_9: "_fingerpaint_9", get$_first: "_first", get$_globalIds: "_globalIds", get$_groups: "_groups", get$_handle: "_handle", get$_handleStack: "_handleStack", get$_hasListener: "_hasListener", get$_head: "_head", get$_id: "_id", get$_inEventLoop: "_inEventLoop", get$_index: "_index", get$_internalName: "_internalName", get$_isCaseSensitive: "_isCaseSensitive", get$_isClosed: "_isClosed", get$_isComplete: "_isComplete", get$_isMultiLine: "_isMultiLine", get$_isolateId: "_isolateId", get$_iterable: "_iterable", get$_iterator: "_iterator", get$_key: "_key", get$_keys: "_keys", get$_kind: "_kind", get$_last: "_last", get$_length: "_length", get$_liblib$_current: "_current", get$_liblib$_length: "_length", get$_liblib$_name: "_name", get$_liblib$_remaining: "_remaining", get$_liblib$_source: "_source", get$_liblib0$_current: "_current", get$_liblib0$_element: "_element", get$_liblib0$_length: "_length", get$_liblib0$_position: "_position", get$_liblib1$_arguments: "_arguments", get$_liblib1$_current: "_current", get$_liblib1$_receiver: "_receiver", get$_liblib2$_callback: "_callback", get$_liblib2$_deserialized: "_deserialized", get$_liblib2$_id: "_id", get$_liblib2$_isolateId: "_isolateId", get$_liblib2$_iterator: "_iterator", get$_liblib2$_nextFreeRefId: "_nextFreeRefId", get$_liblib2$_receivePort: "_receivePort", get$_liblib2$_target: "_target", get$_liblib2$_visited: "_visited", get$_liblib3$_callback: "_callback", get$_liblib3$_id: "_id", get$_liblib3$_port: "_port", get$_liblib4$_element: "_element", get$_liblib5$_next: "_next", get$_liblib5$_onData: "_onData", get$_liblib5$_previous: "_previous", get$_liblib6$_current: "_current", get$_liblib6$_end: "_end", get$_liblib6$_length: "_length", get$_liblib6$_offset: "_offset", get$_liblib6$_source: "_source", get$_liblib7$_map: "_map", get$_liblib7$_port: "_port", get$_list: "_list", get$_littleEndian: "_littleEndian", get$_location: "_location", get$_manualDispose: "_manualDispose", get$_map: "_map", get$_memberName: "_memberName", get$_modificationCount: "_modificationCount", get$_modifications: "_modifications", get$_mouseDownSub: "_mouseDownSub", get$_mousepaint_16: "_mousepaint_16", get$_mousepaint_4: "_mousepaint_4", get$_name: "_name", get$_namedArgumentNames: "_namedArgumentNames", get$_namedArguments: "_namedArguments", get$_namedIndices: "_namedIndices", get$_nativeRegExp: "_nativeRegExp", get$_next: "_next", get$_nextFreeRefId: "_nextFreeRefId", get$_nextId: "_nextId", get$_nextListener: "_nextListener", get$_node: "_node", get$_nodeList: "_nodeList", get$_nums: "_nums", get$_offset: "_offset", get$_onCancel: "_onCancel", get$_onData: "_onData", get$_onDone: "_onDone", get$_onError: "_onError", get$_onFrameChangeSink: "_onFrameChangeSink", get$_onListen: "_onListen", get$_onModelChange: "_onModelChange", get$_onPause: "_onPause", get$_onResume: "_onResume", get$_onSettingChangeSink: "_onSettingChangeSink", get$_onValue: "_onValue", get$_once: "_once", get$_path: "_path", get$_pathSegments: "_pathSegments", get$_pattern: "_pattern", get$_pauseCount: "_pauseCount", get$_pending: "_pending", get$_pendingEvents: "_pendingEvents", get$_playing: "_playing", get$_port: "_port", get$_portId: "_portId", get$_portSubscription: "_portSubscription", get$_position: "_position", get$_previous: "_previous", get$_ptr: "_ptr", get$_queryParameters: "_queryParameters", get$_queue: "_queue", get$_re: "_re", get$_receivePort: "_receivePort", get$_receivePortId: "_receivePortId", get$_receiver: "_receiver", get$_registry: "_registry", get$_remaining: "_remaining", get$_rest: "_rest", get$_resultOrListeners: "_resultOrListeners", get$_reverse: "_reverse", get$_scopeIndices: "_scopeIndices", get$_self: "_self", get$_set: "_set", get$_sink: "_sink", get$_skipCount: "_skipCount", get$_source: "_source", get$_stack: "_stack", get$_start: "_start", get$_state: "_state", get$_str: "_str", get$_stream: "_stream", get$_string: "_string", get$_strings: "_strings", get$_strokes: "_strokes", get$_subscription: "_subscription", get$_table: "_table", get$_tail: "_tail", get$_takeCount: "_takeCount", get$_target: "_target", get$_test: "_test", get$_this: "_this", get$_ticker: "_ticker", get$_touchedTimer: "_touchedTimer", get$_transform: "_transform", get$_typeName: "_typeName", get$_useCapture: "_useCapture", get$_value: "_value", get$_visited: "_visited", get$_window: "_window", get$_workerId: "_workerId", get$action: "action", get$action_1: "action_1", get$action_3: "action_3", get$actions: "actions", get$activeTimerCount: "activeTimerCount", get$all: "all", get$arg1_2: "arg1_2", get$arg1_4: "arg1_4", get$arg2_5: "arg2_5", get$arguments_2: "arguments_2", get$authorize_0: "authorize_0", get$authorize_3: "authorize_3", get$b: "b", get$backdrop_0: "backdrop_0", get$backdrop_1: "backdrop_1", get$bgColor: "bgColor", get$big_2: "big_2", get$bits: "bits", get$box_0: "box_0", get$browserName: "browserName", get$buf: "buf", get$buffer_1: "buffer_1", get$button: "button", get$button_5: "button_5", get$c_0: "c_0", get$c_1: "c_1", get$c_2: "c_2", get$c_3: "c_3", get$c_4: "c_4", get$c_6: "c_6", get$c_7: "c_7", get$callback_0: "callback_0", get$callback_1: "callback_1", get$cause: "cause", get$cells: "cells", get$children: "children", get$close_3: "close_3", get$close_4: "close_4", get$closure_0: "closure_0", get$closure_1: "closure_1", get$closure_3: "closure_3", get$colorIndex: "colorIndex", get$colorToIndex: "colorToIndex", get$colors: "colors", get$combine_1: "combine_1", get$combine_3: "combine_3", get$completer_0: "completer_0", get$completer_1: "completer_1", get$completer_2: "completer_2", get$component_1: "component_1", get$component_4: "component_4", get$component_5: "component_5", get$copies_1: "copies_1", get$copies_2: "copies_2", get$copies_3: "copies_3", get$copies_4: "copies_4", get$currentContext: "currentContext", get$currentManagerId: "currentManagerId", get$damage: "damage", get$data: "data", get$data_1: "data_1", get$defaultText_10: "defaultText_10", get$defaultText_8: "defaultText_8", get$depth_0: "depth_0", get$detail: "detail", get$dialog_1: "dialog_1", get$dialog_2: "dialog_2", get$disabled: "disabled", get$dispatch_1: "dispatch_1", get$doc: "doc", get$doc_0: "doc_0", get$doc_1: "doc_1", get$doc_2: "doc_2", get$download: "download", get$drive: "drive", get$drive_1: "drive_1", get$e_10: "e_10", get$e_5: "e_5", get$ed_4: "ed_4", get$ed_6: "ed_6", get$editable: "editable", get$editor_12: "editor_12", get$editor_15: "editor_15", get$editor_18: "editor_18", get$editor_2: "editor_2", get$editor_7: "editor_7", get$element_4: "element_4", get$elt: "elt", get$end: "end", get$entry: "entry", get$entryPoint_0: "entryPoint_0", get$error: "error", get$error_0: "error_0", get$error_1: "error_1", get$events: "events", get$f_0: "f_0", get$f_1: "f_1", get$fileId: "fileId", get$fileId_0: "fileId_0", get$fileId_1: "fileId_1", get$findSlot_5: "findSlot_5", get$finish_11: "finish_11", get$finish_5: "finish_5", get$finish_7: "finish_7", get$finish_9: "finish_9", get$firstPendingEvent: "firstPendingEvent", get$fn: "fn", get$folderId: "folderId", get$folderId_1: "folderId_1", get$fps: "fps", get$fragment: "fragment", get$frame: "frame", get$frameById: "frameById", get$frames: "frames", get$fromCommandLine: "fromCommandLine", get$future: "future", get$future_1: "future_1", get$future_2: "future_2", get$future_5: "future_5", get$future_6: "future_6", get$g: "g", get$get_1: "get_1", get$grid: "grid", get$grids: "grids", get$height: "height", get$host: "host", get$href: "href", get$id: "id", get$ids: "ids", get$immediate_1: "immediate_1", get$innerHtml: "innerHtml", get$isLowerCaseHexDigit_3: "isLowerCaseHexDigit_3", get$isNormalizedHexDigit_2: "isNormalizedHexDigit_2", get$isWorker: "isWorker", get$isolate: "isolate", get$isolateStatics: "isolateStatics", get$isolates: "isolates", get$keys_0: "keys_0", get$keys_1: "keys_1", get$lastPendingEvent: "lastPendingEvent", get$left: "left", get$length: "length", get$listener_1: "listener_1", get$loc_0: "loc_0", get$m: "m", get$mainManager: "mainManager", get$managers: "managers", get$mapper_0: "mapper_0", get$match_1: "match_1", get$match_3: "match_3", get$max: "max", get$memberName: "memberName", get$message: "message", get$message_1: "message_1", get$message_2: "message_2", get$meta_3: "meta_3", get$min: "min", get$minimumVersion: "minimumVersion", get$model: "model", get$modifiedObject: "modifiedObject", get$movie: "movie", get$movie_1: "movie_1", get$movie_3: "movie_3", get$mustCopy_4: "mustCopy_4", get$name: "name", get$name_0: "name_0", get$namedArguments_0: "namedArguments_0", get$newTitle_1: "newTitle_1", get$next: "next", get$nextIsolateId: "nextIsolateId", get$nextManagerId: "nextManagerId", get$object_0: "object_0", get$offsetLeft: "offsetLeft", get$offsetTop: "offsetTop", get$onCanRedo: "onCanRedo", get$onCanRedoSink: "onCanRedoSink", get$onCanUndo: "onCanUndo", get$onCanUndoSink: "onCanUndoSink", get$onChange: "onChange", get$onChangeSink: "onChangeSink", get$onFrameChange: "onFrameChange", get$onSettingChange: "onSettingChange", get$palette: "palette", get$palette_3: "palette_3", get$palette_8: "palette_8", get$pattern: "pattern", get$pixelStacks: "pixelStacks", get$pixelsize: "pixelsize", get$play: "play", get$player: "player", get$player_4: "player_4", get$player_5: "player_5", get$player_6: "player_6", get$player_7: "player_7", get$port_1: "port_1", get$ports: "ports", get$pos_1: "pos_1", get$proxy: "proxy", get$proxy_0: "proxy_0", get$query: "query", get$r: "r", get$readSlot_6: "readSlot_6", get$redo_7: "redo_7", get$redos: "redos", get$replacementCodepoint: "replacementCodepoint", get$replyTo_1: "replyTo_1", get$replyTo_2: "replyTo_2", get$replyTo_3: "replyTo_3", get$request_0: "request_0", get$result_0: "result_0", get$result_1: "result_1", get$result_2: "result_2", get$result_5: "result_5", get$result_6: "result_6", get$reverse: "reverse", get$revive_0: "revive_0", get$rootContext: "rootContext", get$s_0: "s_0", get$sb: "sb", get$scheme: "scheme", get$search: "search", get$seen: "seen", get$selected: "selected", get$shared: "shared", get$shouldSerialize_5: "shouldSerialize_5", get$slider: "slider", get$src: "src", get$stackTrace_1: "stackTrace_1", get$start: "start", get$startIndex: "startIndex", get$step: "step", get$str: "str", get$strokeById: "strokeById", get$strokes: "strokes", get$sub_19: "sub_19", get$subs_2: "subs_2", get$subs_3: "subs_3", get$subscription_0: "subscription_0", get$supportsWorkers: "supportsWorkers", get$table: "table", get$tagged: "tagged", get$target: "target", get$targetTouches: "targetTouches", get$textBox_4: "textBox_4", get$textBox_6: "textBox_6", get$this_0: "this_0", get$this_1: "this_1", get$this_11: "this_11", get$this_14: "this_14", get$this_17: "this_17", get$this_2: "this_2", get$this_3: "this_3", get$this_4: "this_4", get$this_6: "this_6", get$title: "title", get$title_0: "title_0", get$top: "top", get$topEventLoop: "topEventLoop", get$touches: "touches", get$type: "type", get$types: "types", get$undo_5: "undo_5", get$unsupportedObject: "unsupportedObject", get$userInfo: "userInfo", get$utf8EncodedBytesIterator: "utf8EncodedBytesIterator", get$value: "value", get$value_0: "value_0", get$value_1: "value_1", get$values: "values", get$values_0: "values_0", get$values_1: "values_1", get$variableName: "variableName", get$views: "views", get$visiting_2: "visiting_2", get$walk_8: "walk_8", get$width: "width", get$withThis_1: "withThis_1", get$withThis_2: "withThis_2", get$writeSlot_7: "writeSlot_7", get$x: "x", get$xs: "xs", get$y: "y", get$ys: "ys", set$$$dom_attributes: "$dom_attributes=", set$$$dom_children: "$dom_children=", set$$$dom_className: "$dom_className=", set$ErrorType_3: "ErrorType_3=", set$_action: "_action=", set$_arguments: "_arguments=", set$_array: "_array=", set$_callback: "_callback=", set$_cancelOnChange: "_cancelOnChange=", set$_cell: "_cell=", set$_childElements: "_childElements=", set$_childNodes: "_childNodes=", set$_className: "_className=", set$_contents: "_contents=", set$_controller: "_controller=", set$_current: "_current=", set$_deletedCount: "_deletedCount=", set$_deserialized: "_deserialized=", set$_duration: "_duration=", set$_element: "_element=", set$_elementCssClassSetIterable: "_elementCssClassSetIterable=", set$_elementIterable: "_elementIterable=", set$_elements: "_elements=", set$_end: "_end=", set$_endOrLength: "_endOrLength=", set$_eventState: "_eventState=", set$_eventType: "_eventType=", set$_existingArgumentNames: "_existingArgumentNames=", set$_f: "_f=", set$_fingerpaint_13: "_fingerpaint_13=", set$_fingerpaint_9: "_fingerpaint_9=", set$_first: "_first=", set$_globalIds: "_globalIds=", set$_groups: "_groups=", set$_handle: "_handle=", set$_handleStack: "_handleStack=", set$_hasListener: "_hasListener=", set$_head: "_head=", set$_id: "_id=", set$_inEventLoop: "_inEventLoop=", set$_index: "_index=", set$_internalName: "_internalName=", set$_isCaseSensitive: "_isCaseSensitive=", set$_isClosed: "_isClosed=", set$_isComplete: "_isComplete=", set$_isMultiLine: "_isMultiLine=", set$_isolateId: "_isolateId=", set$_iterable: "_iterable=", set$_iterator: "_iterator=", set$_key: "_key=", set$_keys: "_keys=", set$_kind: "_kind=", set$_last: "_last=", set$_length: "_length=", set$_liblib$_current: "_current=", set$_liblib$_length: "_length=", set$_liblib$_name: "_name=", set$_liblib$_remaining: "_remaining=", set$_liblib$_source: "_source=", set$_liblib0$_current: "_current=", set$_liblib0$_element: "_element=", set$_liblib0$_length: "_length=", set$_liblib0$_position: "_position=", set$_liblib1$_arguments: "_arguments=", set$_liblib1$_current: "_current=", set$_liblib1$_receiver: "_receiver=", set$_liblib2$_callback: "_callback=", set$_liblib2$_deserialized: "_deserialized=", set$_liblib2$_id: "_id=", set$_liblib2$_isolateId: "_isolateId=", set$_liblib2$_iterator: "_iterator=", set$_liblib2$_nextFreeRefId: "_nextFreeRefId=", set$_liblib2$_receivePort: "_receivePort=", set$_liblib2$_target: "_target=", set$_liblib2$_visited: "_visited=", set$_liblib3$_callback: "_callback=", set$_liblib3$_id: "_id=", set$_liblib3$_port: "_port=", set$_liblib4$_element: "_element=", set$_liblib5$_next: "_next=", set$_liblib5$_onData: "_onData=", set$_liblib5$_previous: "_previous=", set$_liblib6$_current: "_current=", set$_liblib6$_end: "_end=", set$_liblib6$_length: "_length=", set$_liblib6$_offset: "_offset=", set$_liblib6$_source: "_source=", set$_liblib7$_map: "_map=", set$_liblib7$_port: "_port=", set$_list: "_list=", set$_littleEndian: "_littleEndian=", set$_location: "_location=", set$_manualDispose: "_manualDispose=", set$_map: "_map=", set$_memberName: "_memberName=", set$_modificationCount: "_modificationCount=", set$_modifications: "_modifications=", set$_mouseDownSub: "_mouseDownSub=", set$_mousepaint_16: "_mousepaint_16=", set$_mousepaint_4: "_mousepaint_4=", set$_name: "_name=", set$_namedArgumentNames: "_namedArgumentNames=", set$_namedArguments: "_namedArguments=", set$_namedIndices: "_namedIndices=", set$_nativeRegExp: "_nativeRegExp=", set$_next: "_next=", set$_nextFreeRefId: "_nextFreeRefId=", set$_nextId: "_nextId=", set$_nextListener: "_nextListener=", set$_node: "_node=", set$_nodeList: "_nodeList=", set$_nums: "_nums=", set$_offset: "_offset=", set$_onCancel: "_onCancel=", set$_onData: "_onData=", set$_onDone: "_onDone=", set$_onError: "_onError=", set$_onFrameChangeSink: "_onFrameChangeSink=", set$_onListen: "_onListen=", set$_onModelChange: "_onModelChange=", set$_onPause: "_onPause=", set$_onResume: "_onResume=", set$_onSettingChangeSink: "_onSettingChangeSink=", set$_onValue: "_onValue=", set$_once: "_once=", set$_path: "_path=", set$_pathSegments: "_pathSegments=", set$_pattern: "_pattern=", set$_pauseCount: "_pauseCount=", set$_pending: "_pending=", set$_pendingEvents: "_pendingEvents=", set$_playing: "_playing=", set$_port: "_port=", set$_portId: "_portId=", set$_portSubscription: "_portSubscription=", set$_position: "_position=", set$_previous: "_previous=", set$_ptr: "_ptr=", set$_queryParameters: "_queryParameters=", set$_queue: "_queue=", set$_re: "_re=", set$_receivePort: "_receivePort=", set$_receivePortId: "_receivePortId=", set$_receiver: "_receiver=", set$_registry: "_registry=", set$_remaining: "_remaining=", set$_rest: "_rest=", set$_resultOrListeners: "_resultOrListeners=", set$_reverse: "_reverse=", set$_scopeIndices: "_scopeIndices=", set$_self: "_self=", set$_set: "_set=", set$_sink: "_sink=", set$_skipCount: "_skipCount=", set$_source: "_source=", set$_stack: "_stack=", set$_start: "_start=", set$_state: "_state=", set$_str: "_str=", set$_stream: "_stream=", set$_string: "_string=", set$_strings: "_strings=", set$_strokes: "_strokes=", set$_subscription: "_subscription=", set$_table: "_table=", set$_tail: "_tail=", set$_takeCount: "_takeCount=", set$_target: "_target=", set$_test: "_test=", set$_this: "_this=", set$_ticker: "_ticker=", set$_touchedTimer: "_touchedTimer=", set$_transform: "_transform=", set$_typeName: "_typeName=", set$_useCapture: "_useCapture=", set$_value: "_value=", set$_visited: "_visited=", set$_window: "_window=", set$_workerId: "_workerId=", set$action: "action=", set$action_1: "action_1=", set$action_3: "action_3=", set$actions: "actions=", set$activeTimerCount: "activeTimerCount=", set$all: "all=", set$arg1_2: "arg1_2=", set$arg1_4: "arg1_4=", set$arg2_5: "arg2_5=", set$arguments_2: "arguments_2=", set$authorize_0: "authorize_0=", set$authorize_3: "authorize_3=", set$b: "b=", set$backdrop_0: "backdrop_0=", set$backdrop_1: "backdrop_1=", set$bgColor: "bgColor=", set$big_2: "big_2=", set$bits: "bits=", set$box_0: "box_0=", set$browserName: "browserName=", set$buf: "buf=", set$buffer_1: "buffer_1=", set$button: "button=", set$button_5: "button_5=", set$c_0: "c_0=", set$c_1: "c_1=", set$c_2: "c_2=", set$c_3: "c_3=", set$c_4: "c_4=", set$c_6: "c_6=", set$c_7: "c_7=", set$callback_0: "callback_0=", set$callback_1: "callback_1=", set$cause: "cause=", set$cells: "cells=", set$children: "children=", set$close_3: "close_3=", set$close_4: "close_4=", set$closure_0: "closure_0=", set$closure_1: "closure_1=", set$closure_3: "closure_3=", set$colorIndex: "colorIndex=", set$colorToIndex: "colorToIndex=", set$colors: "colors=", set$combine_1: "combine_1=", set$combine_3: "combine_3=", set$completer_0: "completer_0=", set$completer_1: "completer_1=", set$completer_2: "completer_2=", set$component_1: "component_1=", set$component_4: "component_4=", set$component_5: "component_5=", set$copies_1: "copies_1=", set$copies_2: "copies_2=", set$copies_3: "copies_3=", set$copies_4: "copies_4=", set$currentContext: "currentContext=", set$currentManagerId: "currentManagerId=", set$damage: "damage=", set$data: "data=", set$data_1: "data_1=", set$defaultText_10: "defaultText_10=", set$defaultText_8: "defaultText_8=", set$depth_0: "depth_0=", set$detail: "detail=", set$dialog_1: "dialog_1=", set$dialog_2: "dialog_2=", set$disabled: "disabled=", set$dispatch_1: "dispatch_1=", set$doc: "doc=", set$doc_0: "doc_0=", set$doc_1: "doc_1=", set$doc_2: "doc_2=", set$download: "download=", set$drive: "drive=", set$drive_1: "drive_1=", set$e_10: "e_10=", set$e_5: "e_5=", set$ed_4: "ed_4=", set$ed_6: "ed_6=", set$editable: "editable=", set$editor_12: "editor_12=", set$editor_15: "editor_15=", set$editor_18: "editor_18=", set$editor_2: "editor_2=", set$editor_7: "editor_7=", set$element_4: "element_4=", set$elt: "elt=", set$end: "end=", set$entry: "entry=", set$entryPoint_0: "entryPoint_0=", set$error: "error=", set$error_0: "error_0=", set$error_1: "error_1=", set$events: "events=", set$f_0: "f_0=", set$f_1: "f_1=", set$fileId: "fileId=", set$fileId_0: "fileId_0=", set$fileId_1: "fileId_1=", set$findSlot_5: "findSlot_5=", set$finish_11: "finish_11=", set$finish_5: "finish_5=", set$finish_7: "finish_7=", set$finish_9: "finish_9=", set$firstPendingEvent: "firstPendingEvent=", set$fn: "fn=", set$folderId: "folderId=", set$folderId_1: "folderId_1=", set$fps: "fps=", set$fragment: "fragment=", set$frame: "frame=", set$frameById: "frameById=", set$frames: "frames=", set$fromCommandLine: "fromCommandLine=", set$future: "future=", set$future_1: "future_1=", set$future_2: "future_2=", set$future_5: "future_5=", set$future_6: "future_6=", set$g: "g=", set$get_1: "get_1=", set$grid: "grid=", set$grids: "grids=", set$height: "height=", set$host: "host=", set$href: "href=", set$id: "id=", set$ids: "ids=", set$immediate_1: "immediate_1=", set$innerHtml: "innerHtml=", set$isLowerCaseHexDigit_3: "isLowerCaseHexDigit_3=", set$isNormalizedHexDigit_2: "isNormalizedHexDigit_2=", set$isWorker: "isWorker=", set$isolate: "isolate=", set$isolateStatics: "isolateStatics=", set$isolates: "isolates=", set$keys_0: "keys_0=", set$keys_1: "keys_1=", set$lastPendingEvent: "lastPendingEvent=", set$left: "left=", set$length: "length=", set$listener_1: "listener_1=", set$loc_0: "loc_0=", set$m: "m=", set$mainManager: "mainManager=", set$managers: "managers=", set$mapper_0: "mapper_0=", set$match_1: "match_1=", set$match_3: "match_3=", set$max: "max=", set$memberName: "memberName=", set$message: "message=", set$message_1: "message_1=", set$message_2: "message_2=", set$meta_3: "meta_3=", set$min: "min=", set$minimumVersion: "minimumVersion=", set$model: "model=", set$modifiedObject: "modifiedObject=", set$movie: "movie=", set$movie_1: "movie_1=", set$movie_3: "movie_3=", set$mustCopy_4: "mustCopy_4=", set$name: "name=", set$name_0: "name_0=", set$namedArguments_0: "namedArguments_0=", set$newTitle_1: "newTitle_1=", set$next: "next=", set$nextIsolateId: "nextIsolateId=", set$nextManagerId: "nextManagerId=", set$object_0: "object_0=", set$offsetLeft: "offsetLeft=", set$offsetTop: "offsetTop=", set$onCanRedo: "onCanRedo=", set$onCanRedoSink: "onCanRedoSink=", set$onCanUndo: "onCanUndo=", set$onCanUndoSink: "onCanUndoSink=", set$onChange: "onChange=", set$onChangeSink: "onChangeSink=", set$onFrameChange: "onFrameChange=", set$onSettingChange: "onSettingChange=", set$palette: "palette=", set$palette_3: "palette_3=", set$palette_8: "palette_8=", set$pattern: "pattern=", set$pixelStacks: "pixelStacks=", set$pixelsize: "pixelsize=", set$play: "play=", set$player: "player=", set$player_4: "player_4=", set$player_5: "player_5=", set$player_6: "player_6=", set$player_7: "player_7=", set$port_1: "port_1=", set$ports: "ports=", set$pos_1: "pos_1=", set$proxy: "proxy=", set$proxy_0: "proxy_0=", set$query: "query=", set$r: "r=", set$readSlot_6: "readSlot_6=", set$redo_7: "redo_7=", set$redos: "redos=", set$replacementCodepoint: "replacementCodepoint=", set$replyTo_1: "replyTo_1=", set$replyTo_2: "replyTo_2=", set$replyTo_3: "replyTo_3=", set$request_0: "request_0=", set$result_0: "result_0=", set$result_1: "result_1=", set$result_2: "result_2=", set$result_5: "result_5=", set$result_6: "result_6=", set$reverse: "reverse=", set$revive_0: "revive_0=", set$rootContext: "rootContext=", set$s_0: "s_0=", set$sb: "sb=", set$scheme: "scheme=", set$search: "search=", set$seen: "seen=", set$selected: "selected=", set$shared: "shared=", set$shouldSerialize_5: "shouldSerialize_5=", set$slider: "slider=", set$src: "src=", set$stackTrace_1: "stackTrace_1=", set$start: "start=", set$startIndex: "startIndex=", set$step: "step=", set$str: "str=", set$strokeById: "strokeById=", set$strokes: "strokes=", set$sub_19: "sub_19=", set$subs_2: "subs_2=", set$subs_3: "subs_3=", set$subscription_0: "subscription_0=", set$supportsWorkers: "supportsWorkers=", set$table: "table=", set$tagged: "tagged=", set$target: "target=", set$targetTouches: "targetTouches=", set$textBox_4: "textBox_4=", set$textBox_6: "textBox_6=", set$this_0: "this_0=", set$this_1: "this_1=", set$this_11: "this_11=", set$this_14: "this_14=", set$this_17: "this_17=", set$this_2: "this_2=", set$this_3: "this_3=", set$this_4: "this_4=", set$this_6: "this_6=", set$title: "title=", set$title_0: "title_0=", set$top: "top=", set$topEventLoop: "topEventLoop=", set$touches: "touches=", set$type: "type=", set$types: "types=", set$undo_5: "undo_5=", set$unsupportedObject: "unsupportedObject=", set$userInfo: "userInfo=", set$utf8EncodedBytesIterator: "utf8EncodedBytesIterator=", set$value: "value=", set$value_0: "value_0=", set$value_1: "value_1=", set$values: "values=", set$values_0: "values_0=", set$values_1: "values_1=", set$variableName: "variableName=", set$views: "views=", set$visiting_2: "visiting_2=", set$walk_8: "walk_8=", set$width: "width=", set$withThis_1: "withThis_1=", set$withThis_2: "withThis_2=", set$writeSlot_7: "writeSlot_7=", set$x: "x=", set$xs: "xs=", set$y: "y=", set$ys: "ys="};
+init.mangledNames = {get$$$dom_attributes: "$dom_attributes", get$$$dom_children: "$dom_children", get$$$dom_className: "$dom_className", get$ErrorType_3: "ErrorType_3", get$_action: "_action", get$_arguments: "_arguments", get$_array: "_array", get$_bitsPerCode: "_bitsPerCode", get$_callback: "_callback", get$_cancelOnChange: "_cancelOnChange", get$_cell: "_cell", get$_childElements: "_childElements", get$_childNodes: "_childNodes", get$_className: "_className", get$_contents: "_contents", get$_controller: "_controller", get$_current: "_current", get$_deletedCount: "_deletedCount", get$_deserialized: "_deserialized", get$_duration: "_duration", get$_element: "_element", get$_elementCssClassSetIterable: "_elementCssClassSetIterable", get$_elementIterable: "_elementIterable", get$_elements: "_elements", get$_end: "_end", get$_endOrLength: "_endOrLength", get$_eventState: "_eventState", get$_eventType: "_eventType", get$_existingArgumentNames: "_existingArgumentNames", get$_f: "_f", get$_fingerpaint_13: "_fingerpaint_13", get$_fingerpaint_9: "_fingerpaint_9", get$_first: "_first", get$_globalIds: "_globalIds", get$_groups: "_groups", get$_handle: "_handle", get$_handleStack: "_handleStack", get$_hasListener: "_hasListener", get$_head: "_head", get$_id: "_id", get$_inEventLoop: "_inEventLoop", get$_index: "_index", get$_internalName: "_internalName", get$_isCaseSensitive: "_isCaseSensitive", get$_isClosed: "_isClosed", get$_isComplete: "_isComplete", get$_isMultiLine: "_isMultiLine", get$_isolateId: "_isolateId", get$_iterable: "_iterable", get$_iterator: "_iterator", get$_key: "_key", get$_keys: "_keys", get$_kind: "_kind", get$_last: "_last", get$_length: "_length", get$_liblib$_current: "_current", get$_liblib$_length: "_length", get$_liblib$_name: "_name", get$_liblib$_remaining: "_remaining", get$_liblib$_source: "_source", get$_liblib0$_current: "_current", get$_liblib0$_element: "_element", get$_liblib0$_length: "_length", get$_liblib0$_position: "_position", get$_liblib1$_arguments: "_arguments", get$_liblib1$_current: "_current", get$_liblib1$_receiver: "_receiver", get$_liblib2$_callback: "_callback", get$_liblib2$_deserialized: "_deserialized", get$_liblib2$_id: "_id", get$_liblib2$_isolateId: "_isolateId", get$_liblib2$_iterator: "_iterator", get$_liblib2$_nextFreeRefId: "_nextFreeRefId", get$_liblib2$_receivePort: "_receivePort", get$_liblib2$_target: "_target", get$_liblib2$_visited: "_visited", get$_liblib3$_callback: "_callback", get$_liblib3$_id: "_id", get$_liblib3$_port: "_port", get$_liblib4$_element: "_element", get$_liblib5$_next: "_next", get$_liblib5$_onData: "_onData", get$_liblib5$_previous: "_previous", get$_liblib6$_current: "_current", get$_liblib6$_end: "_end", get$_liblib6$_length: "_length", get$_liblib6$_offset: "_offset", get$_liblib6$_source: "_source", get$_liblib7$_map: "_map", get$_liblib7$_port: "_port", get$_list: "_list", get$_littleEndian: "_littleEndian", get$_location: "_location", get$_manualDispose: "_manualDispose", get$_map: "_map", get$_memberName: "_memberName", get$_modificationCount: "_modificationCount", get$_modifications: "_modifications", get$_mouseDownSub: "_mouseDownSub", get$_mousepaint_16: "_mousepaint_16", get$_mousepaint_4: "_mousepaint_4", get$_name: "_name", get$_namedArgumentNames: "_namedArgumentNames", get$_namedArguments: "_namedArguments", get$_namedIndices: "_namedIndices", get$_nativeRegExp: "_nativeRegExp", get$_next: "_next", get$_nextFreeRefId: "_nextFreeRefId", get$_nextId: "_nextId", get$_nextListener: "_nextListener", get$_node: "_node", get$_nodeList: "_nodeList", get$_nums: "_nums", get$_offset: "_offset", get$_onCancel: "_onCancel", get$_onData: "_onData", get$_onDone: "_onDone", get$_onError: "_onError", get$_onFrameChangeSink: "_onFrameChangeSink", get$_onListen: "_onListen", get$_onModelChange: "_onModelChange", get$_onPause: "_onPause", get$_onResume: "_onResume", get$_onSettingChangeSink: "_onSettingChangeSink", get$_onValue: "_onValue", get$_once: "_once", get$_path: "_path", get$_pathSegments: "_pathSegments", get$_pattern: "_pattern", get$_pauseCount: "_pauseCount", get$_pending: "_pending", get$_pendingEvents: "_pendingEvents", get$_playing: "_playing", get$_port: "_port", get$_portId: "_portId", get$_portSubscription: "_portSubscription", get$_position: "_position", get$_previous: "_previous", get$_ptr: "_ptr", get$_queryParameters: "_queryParameters", get$_queue: "_queue", get$_re: "_re", get$_receivePort: "_receivePort", get$_receivePortId: "_receivePortId", get$_receiver: "_receiver", get$_registry: "_registry", get$_remaining: "_remaining", get$_rest: "_rest", get$_resultOrListeners: "_resultOrListeners", get$_reverse: "_reverse", get$_scopeIndices: "_scopeIndices", get$_self: "_self", get$_set: "_set", get$_sink: "_sink", get$_skipCount: "_skipCount", get$_source: "_source", get$_stack: "_stack", get$_start: "_start", get$_state: "_state", get$_str: "_str", get$_stream: "_stream", get$_string: "_string", get$_strings: "_strings", get$_strokes: "_strokes", get$_subscription: "_subscription", get$_table: "_table", get$_tail: "_tail", get$_takeCount: "_takeCount", get$_target: "_target", get$_test: "_test", get$_this: "_this", get$_ticker: "_ticker", get$_touchedTimer: "_touchedTimer", get$_transform: "_transform", get$_typeName: "_typeName", get$_useCapture: "_useCapture", get$_value: "_value", get$_visited: "_visited", get$_window: "_window", get$_workerId: "_workerId", get$action: "action", get$action_1: "action_1", get$action_3: "action_3", get$actions: "actions", get$activeTimerCount: "activeTimerCount", get$all: "all", get$arg1_2: "arg1_2", get$arg1_4: "arg1_4", get$arg2_5: "arg2_5", get$arguments_2: "arguments_2", get$authorize_0: "authorize_0", get$authorize_3: "authorize_3", get$b: "b", get$backdrop_1: "backdrop_1", get$bgColor: "bgColor", get$big_2: "big_2", get$bits: "bits", get$box_0: "box_0", get$browserName: "browserName", get$buf: "buf", get$buffer_1: "buffer_1", get$button: "button", get$button_5: "button_5", get$c_0: "c_0", get$c_1: "c_1", get$c_2: "c_2", get$c_3: "c_3", get$c_4: "c_4", get$c_6: "c_6", get$c_7: "c_7", get$callback_0: "callback_0", get$callback_1: "callback_1", get$cause: "cause", get$cells: "cells", get$children: "children", get$close_4: "close_4", get$close_5: "close_5", get$closure_0: "closure_0", get$closure_1: "closure_1", get$closure_3: "closure_3", get$colorIndex: "colorIndex", get$colorToIndex: "colorToIndex", get$colors: "colors", get$combine_1: "combine_1", get$combine_3: "combine_3", get$completer_0: "completer_0", get$completer_1: "completer_1", get$completer_2: "completer_2", get$component_1: "component_1", get$component_4: "component_4", get$component_5: "component_5", get$copies_1: "copies_1", get$copies_2: "copies_2", get$copies_3: "copies_3", get$copies_4: "copies_4", get$currentContext: "currentContext", get$currentManagerId: "currentManagerId", get$damage: "damage", get$data: "data", get$data_1: "data_1", get$defaultText_10: "defaultText_10", get$defaultText_8: "defaultText_8", get$depth_0: "depth_0", get$detail: "detail", get$dialog_2: "dialog_2", get$disabled: "disabled", get$dispatch_1: "dispatch_1", get$doc: "doc", get$doc_0: "doc_0", get$doc_1: "doc_1", get$doc_2: "doc_2", get$download: "download", get$drive: "drive", get$drive_1: "drive_1", get$e_10: "e_10", get$e_5: "e_5", get$ed_4: "ed_4", get$ed_6: "ed_6", get$editable: "editable", get$editor_12: "editor_12", get$editor_15: "editor_15", get$editor_18: "editor_18", get$editor_2: "editor_2", get$editor_7: "editor_7", get$element_4: "element_4", get$elt: "elt", get$end: "end", get$entry: "entry", get$entryPoint_0: "entryPoint_0", get$error: "error", get$error_0: "error_0", get$error_1: "error_1", get$events: "events", get$f_0: "f_0", get$f_1: "f_1", get$fileId: "fileId", get$fileId_0: "fileId_0", get$fileId_1: "fileId_1", get$findSlot_5: "findSlot_5", get$finish_11: "finish_11", get$finish_5: "finish_5", get$finish_7: "finish_7", get$finish_9: "finish_9", get$finishedBytes: "finishedBytes", get$firstPendingEvent: "firstPendingEvent", get$fn: "fn", get$folderId: "folderId", get$folderId_1: "folderId_1", get$fps: "fps", get$fragment: "fragment", get$frame: "frame", get$frameById: "frameById", get$frames: "frames", get$fromCommandLine: "fromCommandLine", get$future: "future", get$future_1: "future_1", get$future_2: "future_2", get$future_5: "future_5", get$future_6: "future_6", get$g: "g", get$get_1: "get_1", get$grid: "grid", get$grids: "grids", get$height: "height", get$host: "host", get$href: "href", get$id: "id", get$ids: "ids", get$immediate_1: "immediate_1", get$innerHtml: "innerHtml", get$isLowerCaseHexDigit_3: "isLowerCaseHexDigit_3", get$isNormalizedHexDigit_2: "isNormalizedHexDigit_2", get$isWorker: "isWorker", get$isolate: "isolate", get$isolateStatics: "isolateStatics", get$isolates: "isolates", get$keys_0: "keys_0", get$keys_1: "keys_1", get$lastPendingEvent: "lastPendingEvent", get$left: "left", get$length: "length", get$listener_1: "listener_1", get$loc_0: "loc_0", get$m: "m", get$mainManager: "mainManager", get$managers: "managers", get$mapper_0: "mapper_0", get$match_1: "match_1", get$match_3: "match_3", get$max: "max", get$memberName: "memberName", get$message: "message", get$message_1: "message_1", get$message_2: "message_2", get$meta_3: "meta_3", get$min: "min", get$minimumVersion: "minimumVersion", get$model: "model", get$modifiedObject: "modifiedObject", get$movie: "movie", get$movie_1: "movie_1", get$movie_3: "movie_3", get$mustCopy_4: "mustCopy_4", get$name: "name", get$name_0: "name_0", get$namedArguments_0: "namedArguments_0", get$newTitle_1: "newTitle_1", get$next: "next", get$nextIsolateId: "nextIsolateId", get$nextManagerId: "nextManagerId", get$numCodes: "numCodes", get$object_0: "object_0", get$offsetLeft: "offsetLeft", get$offsetTop: "offsetTop", get$onCanRedo: "onCanRedo", get$onCanRedoSink: "onCanRedoSink", get$onCanUndo: "onCanUndo", get$onCanUndoSink: "onCanUndoSink", get$onChange: "onChange", get$onChangeSink: "onChangeSink", get$onFrameChange: "onFrameChange", get$onSettingChange: "onSettingChange", get$palette: "palette", get$palette_3: "palette_3", get$palette_8: "palette_8", get$pattern: "pattern", get$pixelStacks: "pixelStacks", get$pixelsize: "pixelsize", get$play: "play", get$player: "player", get$player_4: "player_4", get$player_5: "player_5", get$player_6: "player_6", get$player_8: "player_8", get$player_9: "player_9", get$port_1: "port_1", get$ports: "ports", get$pos_1: "pos_1", get$proxy: "proxy", get$proxy_0: "proxy_0", get$query: "query", get$r: "r", get$readSlot_6: "readSlot_6", get$redo_7: "redo_7", get$redos: "redos", get$replacementCodepoint: "replacementCodepoint", get$replyTo_1: "replyTo_1", get$replyTo_2: "replyTo_2", get$replyTo_3: "replyTo_3", get$request_0: "request_0", get$result_0: "result_0", get$result_1: "result_1", get$result_2: "result_2", get$result_5: "result_5", get$result_6: "result_6", get$reverse: "reverse", get$revive_0: "revive_0", get$rootContext: "rootContext", get$s_0: "s_0", get$sb: "sb", get$scheme: "scheme", get$search: "search", get$seen: "seen", get$selected: "selected", get$shared: "shared", get$shouldSerialize_5: "shouldSerialize_5", get$slider: "slider", get$src: "src", get$stackTrace_1: "stackTrace_1", get$start: "start", get$startIndex: "startIndex", get$step: "step", get$str: "str", get$strokeById: "strokeById", get$strokes: "strokes", get$sub_19: "sub_19", get$subs_3: "subs_3", get$subscription_0: "subscription_0", get$supportsWorkers: "supportsWorkers", get$table: "table", get$tagged: "tagged", get$target: "target", get$targetTouches: "targetTouches", get$textBox_4: "textBox_4", get$textBox_6: "textBox_6", get$this_0: "this_0", get$this_1: "this_1", get$this_11: "this_11", get$this_14: "this_14", get$this_17: "this_17", get$this_2: "this_2", get$this_3: "this_3", get$this_4: "this_4", get$this_6: "this_6", get$title: "title", get$title_0: "title_0", get$top: "top", get$topEventLoop: "topEventLoop", get$touches: "touches", get$type: "type", get$types: "types", get$undo_5: "undo_5", get$unsupportedObject: "unsupportedObject", get$userInfo: "userInfo", get$utf8EncodedBytesIterator: "utf8EncodedBytesIterator", get$value: "value", get$value_0: "value_0", get$value_1: "value_1", get$values: "values", get$values_0: "values_0", get$values_1: "values_1", get$variableName: "variableName", get$views: "views", get$visiting_2: "visiting_2", get$walk_8: "walk_8", get$wasPlaying_7: "wasPlaying_7", get$width: "width", get$withThis_1: "withThis_1", get$withThis_2: "withThis_2", get$writeSlot_7: "writeSlot_7", get$x: "x", get$xs: "xs", get$y: "y", get$ys: "ys", set$$$dom_attributes: "$dom_attributes=", set$$$dom_children: "$dom_children=", set$$$dom_className: "$dom_className=", set$ErrorType_3: "ErrorType_3=", set$_action: "_action=", set$_arguments: "_arguments=", set$_array: "_array=", set$_bitsPerCode: "_bitsPerCode=", set$_callback: "_callback=", set$_cancelOnChange: "_cancelOnChange=", set$_cell: "_cell=", set$_childElements: "_childElements=", set$_childNodes: "_childNodes=", set$_className: "_className=", set$_contents: "_contents=", set$_controller: "_controller=", set$_current: "_current=", set$_deletedCount: "_deletedCount=", set$_deserialized: "_deserialized=", set$_duration: "_duration=", set$_element: "_element=", set$_elementCssClassSetIterable: "_elementCssClassSetIterable=", set$_elementIterable: "_elementIterable=", set$_elements: "_elements=", set$_end: "_end=", set$_endOrLength: "_endOrLength=", set$_eventState: "_eventState=", set$_eventType: "_eventType=", set$_existingArgumentNames: "_existingArgumentNames=", set$_f: "_f=", set$_fingerpaint_13: "_fingerpaint_13=", set$_fingerpaint_9: "_fingerpaint_9=", set$_first: "_first=", set$_globalIds: "_globalIds=", set$_groups: "_groups=", set$_handle: "_handle=", set$_handleStack: "_handleStack=", set$_hasListener: "_hasListener=", set$_head: "_head=", set$_id: "_id=", set$_inEventLoop: "_inEventLoop=", set$_index: "_index=", set$_internalName: "_internalName=", set$_isCaseSensitive: "_isCaseSensitive=", set$_isClosed: "_isClosed=", set$_isComplete: "_isComplete=", set$_isMultiLine: "_isMultiLine=", set$_isolateId: "_isolateId=", set$_iterable: "_iterable=", set$_iterator: "_iterator=", set$_key: "_key=", set$_keys: "_keys=", set$_kind: "_kind=", set$_last: "_last=", set$_length: "_length=", set$_liblib$_current: "_current=", set$_liblib$_length: "_length=", set$_liblib$_name: "_name=", set$_liblib$_remaining: "_remaining=", set$_liblib$_source: "_source=", set$_liblib0$_current: "_current=", set$_liblib0$_element: "_element=", set$_liblib0$_length: "_length=", set$_liblib0$_position: "_position=", set$_liblib1$_arguments: "_arguments=", set$_liblib1$_current: "_current=", set$_liblib1$_receiver: "_receiver=", set$_liblib2$_callback: "_callback=", set$_liblib2$_deserialized: "_deserialized=", set$_liblib2$_id: "_id=", set$_liblib2$_isolateId: "_isolateId=", set$_liblib2$_iterator: "_iterator=", set$_liblib2$_nextFreeRefId: "_nextFreeRefId=", set$_liblib2$_receivePort: "_receivePort=", set$_liblib2$_target: "_target=", set$_liblib2$_visited: "_visited=", set$_liblib3$_callback: "_callback=", set$_liblib3$_id: "_id=", set$_liblib3$_port: "_port=", set$_liblib4$_element: "_element=", set$_liblib5$_next: "_next=", set$_liblib5$_onData: "_onData=", set$_liblib5$_previous: "_previous=", set$_liblib6$_current: "_current=", set$_liblib6$_end: "_end=", set$_liblib6$_length: "_length=", set$_liblib6$_offset: "_offset=", set$_liblib6$_source: "_source=", set$_liblib7$_map: "_map=", set$_liblib7$_port: "_port=", set$_list: "_list=", set$_littleEndian: "_littleEndian=", set$_location: "_location=", set$_manualDispose: "_manualDispose=", set$_map: "_map=", set$_memberName: "_memberName=", set$_modificationCount: "_modificationCount=", set$_modifications: "_modifications=", set$_mouseDownSub: "_mouseDownSub=", set$_mousepaint_16: "_mousepaint_16=", set$_mousepaint_4: "_mousepaint_4=", set$_name: "_name=", set$_namedArgumentNames: "_namedArgumentNames=", set$_namedArguments: "_namedArguments=", set$_namedIndices: "_namedIndices=", set$_nativeRegExp: "_nativeRegExp=", set$_next: "_next=", set$_nextFreeRefId: "_nextFreeRefId=", set$_nextId: "_nextId=", set$_nextListener: "_nextListener=", set$_node: "_node=", set$_nodeList: "_nodeList=", set$_nums: "_nums=", set$_offset: "_offset=", set$_onCancel: "_onCancel=", set$_onData: "_onData=", set$_onDone: "_onDone=", set$_onError: "_onError=", set$_onFrameChangeSink: "_onFrameChangeSink=", set$_onListen: "_onListen=", set$_onModelChange: "_onModelChange=", set$_onPause: "_onPause=", set$_onResume: "_onResume=", set$_onSettingChangeSink: "_onSettingChangeSink=", set$_onValue: "_onValue=", set$_once: "_once=", set$_path: "_path=", set$_pathSegments: "_pathSegments=", set$_pattern: "_pattern=", set$_pauseCount: "_pauseCount=", set$_pending: "_pending=", set$_pendingEvents: "_pendingEvents=", set$_playing: "_playing=", set$_port: "_port=", set$_portId: "_portId=", set$_portSubscription: "_portSubscription=", set$_position: "_position=", set$_previous: "_previous=", set$_ptr: "_ptr=", set$_queryParameters: "_queryParameters=", set$_queue: "_queue=", set$_re: "_re=", set$_receivePort: "_receivePort=", set$_receivePortId: "_receivePortId=", set$_receiver: "_receiver=", set$_registry: "_registry=", set$_remaining: "_remaining=", set$_rest: "_rest=", set$_resultOrListeners: "_resultOrListeners=", set$_reverse: "_reverse=", set$_scopeIndices: "_scopeIndices=", set$_self: "_self=", set$_set: "_set=", set$_sink: "_sink=", set$_skipCount: "_skipCount=", set$_source: "_source=", set$_stack: "_stack=", set$_start: "_start=", set$_state: "_state=", set$_str: "_str=", set$_stream: "_stream=", set$_string: "_string=", set$_strings: "_strings=", set$_strokes: "_strokes=", set$_subscription: "_subscription=", set$_table: "_table=", set$_tail: "_tail=", set$_takeCount: "_takeCount=", set$_target: "_target=", set$_test: "_test=", set$_this: "_this=", set$_ticker: "_ticker=", set$_touchedTimer: "_touchedTimer=", set$_transform: "_transform=", set$_typeName: "_typeName=", set$_useCapture: "_useCapture=", set$_value: "_value=", set$_visited: "_visited=", set$_window: "_window=", set$_workerId: "_workerId=", set$action: "action=", set$action_1: "action_1=", set$action_3: "action_3=", set$actions: "actions=", set$activeTimerCount: "activeTimerCount=", set$all: "all=", set$arg1_2: "arg1_2=", set$arg1_4: "arg1_4=", set$arg2_5: "arg2_5=", set$arguments_2: "arguments_2=", set$authorize_0: "authorize_0=", set$authorize_3: "authorize_3=", set$b: "b=", set$backdrop_1: "backdrop_1=", set$bgColor: "bgColor=", set$big_2: "big_2=", set$bits: "bits=", set$box_0: "box_0=", set$browserName: "browserName=", set$buf: "buf=", set$buffer_1: "buffer_1=", set$button: "button=", set$button_5: "button_5=", set$c_0: "c_0=", set$c_1: "c_1=", set$c_2: "c_2=", set$c_3: "c_3=", set$c_4: "c_4=", set$c_6: "c_6=", set$c_7: "c_7=", set$callback_0: "callback_0=", set$callback_1: "callback_1=", set$cause: "cause=", set$cells: "cells=", set$children: "children=", set$close_4: "close_4=", set$close_5: "close_5=", set$closure_0: "closure_0=", set$closure_1: "closure_1=", set$closure_3: "closure_3=", set$colorIndex: "colorIndex=", set$colorToIndex: "colorToIndex=", set$colors: "colors=", set$combine_1: "combine_1=", set$combine_3: "combine_3=", set$completer_0: "completer_0=", set$completer_1: "completer_1=", set$completer_2: "completer_2=", set$component_1: "component_1=", set$component_4: "component_4=", set$component_5: "component_5=", set$copies_1: "copies_1=", set$copies_2: "copies_2=", set$copies_3: "copies_3=", set$copies_4: "copies_4=", set$currentContext: "currentContext=", set$currentManagerId: "currentManagerId=", set$damage: "damage=", set$data: "data=", set$data_1: "data_1=", set$defaultText_10: "defaultText_10=", set$defaultText_8: "defaultText_8=", set$depth_0: "depth_0=", set$detail: "detail=", set$dialog_2: "dialog_2=", set$disabled: "disabled=", set$dispatch_1: "dispatch_1=", set$doc: "doc=", set$doc_0: "doc_0=", set$doc_1: "doc_1=", set$doc_2: "doc_2=", set$download: "download=", set$drive: "drive=", set$drive_1: "drive_1=", set$e_10: "e_10=", set$e_5: "e_5=", set$ed_4: "ed_4=", set$ed_6: "ed_6=", set$editable: "editable=", set$editor_12: "editor_12=", set$editor_15: "editor_15=", set$editor_18: "editor_18=", set$editor_2: "editor_2=", set$editor_7: "editor_7=", set$element_4: "element_4=", set$elt: "elt=", set$end: "end=", set$entry: "entry=", set$entryPoint_0: "entryPoint_0=", set$error: "error=", set$error_0: "error_0=", set$error_1: "error_1=", set$events: "events=", set$f_0: "f_0=", set$f_1: "f_1=", set$fileId: "fileId=", set$fileId_0: "fileId_0=", set$fileId_1: "fileId_1=", set$findSlot_5: "findSlot_5=", set$finish_11: "finish_11=", set$finish_5: "finish_5=", set$finish_7: "finish_7=", set$finish_9: "finish_9=", set$finishedBytes: "finishedBytes=", set$firstPendingEvent: "firstPendingEvent=", set$fn: "fn=", set$folderId: "folderId=", set$folderId_1: "folderId_1=", set$fps: "fps=", set$fragment: "fragment=", set$frame: "frame=", set$frameById: "frameById=", set$frames: "frames=", set$fromCommandLine: "fromCommandLine=", set$future: "future=", set$future_1: "future_1=", set$future_2: "future_2=", set$future_5: "future_5=", set$future_6: "future_6=", set$g: "g=", set$get_1: "get_1=", set$grid: "grid=", set$grids: "grids=", set$height: "height=", set$host: "host=", set$href: "href=", set$id: "id=", set$ids: "ids=", set$immediate_1: "immediate_1=", set$innerHtml: "innerHtml=", set$isLowerCaseHexDigit_3: "isLowerCaseHexDigit_3=", set$isNormalizedHexDigit_2: "isNormalizedHexDigit_2=", set$isWorker: "isWorker=", set$isolate: "isolate=", set$isolateStatics: "isolateStatics=", set$isolates: "isolates=", set$keys_0: "keys_0=", set$keys_1: "keys_1=", set$lastPendingEvent: "lastPendingEvent=", set$left: "left=", set$length: "length=", set$listener_1: "listener_1=", set$loc_0: "loc_0=", set$m: "m=", set$mainManager: "mainManager=", set$managers: "managers=", set$mapper_0: "mapper_0=", set$match_1: "match_1=", set$match_3: "match_3=", set$max: "max=", set$memberName: "memberName=", set$message: "message=", set$message_1: "message_1=", set$message_2: "message_2=", set$meta_3: "meta_3=", set$min: "min=", set$minimumVersion: "minimumVersion=", set$model: "model=", set$modifiedObject: "modifiedObject=", set$movie: "movie=", set$movie_1: "movie_1=", set$movie_3: "movie_3=", set$mustCopy_4: "mustCopy_4=", set$name: "name=", set$name_0: "name_0=", set$namedArguments_0: "namedArguments_0=", set$newTitle_1: "newTitle_1=", set$next: "next=", set$nextIsolateId: "nextIsolateId=", set$nextManagerId: "nextManagerId=", set$numCodes: "numCodes=", set$object_0: "object_0=", set$offsetLeft: "offsetLeft=", set$offsetTop: "offsetTop=", set$onCanRedo: "onCanRedo=", set$onCanRedoSink: "onCanRedoSink=", set$onCanUndo: "onCanUndo=", set$onCanUndoSink: "onCanUndoSink=", set$onChange: "onChange=", set$onChangeSink: "onChangeSink=", set$onFrameChange: "onFrameChange=", set$onSettingChange: "onSettingChange=", set$palette: "palette=", set$palette_3: "palette_3=", set$palette_8: "palette_8=", set$pattern: "pattern=", set$pixelStacks: "pixelStacks=", set$pixelsize: "pixelsize=", set$play: "play=", set$player: "player=", set$player_4: "player_4=", set$player_5: "player_5=", set$player_6: "player_6=", set$player_8: "player_8=", set$player_9: "player_9=", set$port_1: "port_1=", set$ports: "ports=", set$pos_1: "pos_1=", set$proxy: "proxy=", set$proxy_0: "proxy_0=", set$query: "query=", set$r: "r=", set$readSlot_6: "readSlot_6=", set$redo_7: "redo_7=", set$redos: "redos=", set$replacementCodepoint: "replacementCodepoint=", set$replyTo_1: "replyTo_1=", set$replyTo_2: "replyTo_2=", set$replyTo_3: "replyTo_3=", set$request_0: "request_0=", set$result_0: "result_0=", set$result_1: "result_1=", set$result_2: "result_2=", set$result_5: "result_5=", set$result_6: "result_6=", set$reverse: "reverse=", set$revive_0: "revive_0=", set$rootContext: "rootContext=", set$s_0: "s_0=", set$sb: "sb=", set$scheme: "scheme=", set$search: "search=", set$seen: "seen=", set$selected: "selected=", set$shared: "shared=", set$shouldSerialize_5: "shouldSerialize_5=", set$slider: "slider=", set$src: "src=", set$stackTrace_1: "stackTrace_1=", set$start: "start=", set$startIndex: "startIndex=", set$step: "step=", set$str: "str=", set$strokeById: "strokeById=", set$strokes: "strokes=", set$sub_19: "sub_19=", set$subs_3: "subs_3=", set$subscription_0: "subscription_0=", set$supportsWorkers: "supportsWorkers=", set$table: "table=", set$tagged: "tagged=", set$target: "target=", set$targetTouches: "targetTouches=", set$textBox_4: "textBox_4=", set$textBox_6: "textBox_6=", set$this_0: "this_0=", set$this_1: "this_1=", set$this_11: "this_11=", set$this_14: "this_14=", set$this_17: "this_17=", set$this_2: "this_2=", set$this_3: "this_3=", set$this_4: "this_4=", set$this_6: "this_6=", set$title: "title=", set$title_0: "title_0=", set$top: "top=", set$topEventLoop: "topEventLoop=", set$touches: "touches=", set$type: "type=", set$types: "types=", set$undo_5: "undo_5=", set$unsupportedObject: "unsupportedObject=", set$userInfo: "userInfo=", set$utf8EncodedBytesIterator: "utf8EncodedBytesIterator=", set$value: "value=", set$value_0: "value_0=", set$value_1: "value_1=", set$values: "values=", set$values_0: "values_0=", set$values_1: "values_1=", set$variableName: "variableName=", set$views: "views=", set$visiting_2: "visiting_2=", set$walk_8: "walk_8=", set$wasPlaying_7: "wasPlaying_7=", set$width: "width=", set$withThis_1: "withThis_1=", set$withThis_2: "withThis_2=", set$writeSlot_7: "writeSlot_7=", set$x: "x=", set$xs: "xs=", set$y: "y=", set$ys: "ys="};
 (function (reflectionData) {
   if (!init.libraries) init.libraries = [];
   if (!init.mangledNames) init.mangledNames = {};
@@ -5697,6 +5697,31 @@ JSArray: {"": "List/Interceptor;",
   "+elementAt:1:0": 0,
   sublist$2: function(receiver, start, end) {
     var t1;
+    if (typeof end !== "number")
+      return this.sublist$2$bailout(1, start, end, receiver);
+    if (start == null)
+      $.throwExpression(new $.ArgumentError(null));
+    if (typeof start !== "number" || Math.floor(start) !== start)
+      throw $.wrapException(new $.ArgumentError(start));
+    else
+      start;
+    if (start < 0 || start > receiver.length) {
+      t1 = receiver.length;
+      throw $.wrapException(new $.RangeError("value " + start + " not in range 0.." + t1));
+    }
+    if (typeof end !== "number" || Math.floor(end) !== end)
+      throw $.wrapException(new $.ArgumentError(end));
+    if (end < start || end > receiver.length) {
+      t1 = receiver.length;
+      throw $.wrapException(new $.RangeError("value " + end + " not in range " + start + ".." + t1));
+    }
+    if (start === end)
+      return [];
+    return receiver.slice(start, end);
+  },
+  "+sublist:1:1": 0,
+  sublist$2$bailout: function(state0, start, end, receiver) {
+    var t1;
     if (start == null)
       $.throwExpression(new $.ArgumentError(null));
     if (typeof start !== "number" || Math.floor(start) !== start)
@@ -5721,7 +5746,6 @@ JSArray: {"": "List/Interceptor;",
       return [];
     return receiver.slice(start, end);
   },
-  "+sublist:1:1": 0,
   get$last: function(receiver) {
     var t1 = receiver.length;
     if (t1 > 0)
@@ -16985,46 +17009,30 @@ _ListRangeIteratorImpl: {"": "Object;_liblib6$_source,_liblib6$_offset,_liblib6$
   get$current: function() {
     var t1, t2;
     t1 = this._liblib6$_source;
-    if (typeof t1 !== "string" && (typeof t1 !== "object" || t1 === null || t1.constructor !== Array && !$.isJsIndexable(t1, t1[$.dispatchPropertyName])))
-      return this.get$current$bailout(1, t1);
     t2 = this._liblib6$_offset;
-    if (t2 >>> 0 !== t2 || t2 >= t1.length)
+    if (t2 !== (t2 | 0))
+      return this.get$current$bailout(1, t1, t2);
+    if (t2 < 0 || t2 >= t1.length)
       throw $.ioore(t2);
     return t1[t2];
   },
   "+current": 0,
-  get$current$bailout: function(state0, t1) {
-    return $.$index$asx(t1, this._liblib6$_offset);
+  get$current$bailout: function(state0, t1, t2) {
+    if (t2 >>> 0 !== t2 || t2 >= t1.length)
+      throw $.ioore(t2);
+    return t1[t2];
   },
   moveNext$0: function() {
-    var t1, t2;
-    t1 = this._liblib6$_offset;
-    if (typeof t1 !== "number")
-      return this.moveNext$0$bailout(1, t1);
-    ++t1;
+    var t1 = this._liblib6$_offset + 1;
     this._liblib6$_offset = t1;
-    t2 = this._liblib6$_end;
-    if (typeof t2 !== "number")
-      return this.moveNext$0$bailout(2, t1, t2);
-    return t1 < t2;
+    return t1 < this._liblib6$_end;
   },
   "+moveNext:0:0": 0,
-  moveNext$0$bailout: function(state0, t1, t2) {
-    switch (state0) {
-      case 0:
-        t1 = this._liblib6$_offset;
-      case 1:
-        state0 = 0;
-        t1 = $.$add$ns(t1, 1);
-        this._liblib6$_offset = t1;
-        t2 = this._liblib6$_end;
-      case 2:
-        state0 = 0;
-        return $.$lt$n(t1, t2);
-    }
-  },
   skip$1: function(_, count) {
-    this._liblib6$_offset = $.$add$ns(this._liblib6$_offset, count);
+    var t1 = this._liblib6$_offset;
+    if (typeof count !== "number")
+      throw $.iae(count);
+    this._liblib6$_offset = t1 + count;
   },
   "+skip:0:1": 0
 },
@@ -17033,7 +17041,7 @@ Utf8Decoder: {"": "Object;utf8EncodedBytesIterator,replacementCodepoint,_liblib6
   decodeRest$0: function() {
     var t1, codepoints, i, i0, t2, truncCodepoints;
     t1 = this.utf8EncodedBytesIterator;
-    codepoints = $.List_List($.$sub$n($.$sub$n(t1._liblib6$_end, t1._liblib6$_offset), 1));
+    codepoints = $.List_List(t1._liblib6$_end - t1._liblib6$_offset - 1);
     for (t1 = codepoints.length, i = 0; this.moveNext$0(); i = i0) {
       i0 = i + 1;
       t2 = this._liblib6$_current;
@@ -17055,29 +17063,23 @@ Utf8Decoder: {"": "Object;utf8EncodedBytesIterator,replacementCodepoint,_liblib6
   },
   "+current": 0,
   moveNext$0: function() {
-    var t1, t2, t3, t4, t5, value, additionalBytes, j, nextValue, validSequence, nonOverlong, inRange;
+    var t1, t2, t3, t4, value, additionalBytes, j, nextValue, validSequence, nonOverlong, inRange;
     this._liblib6$_current = null;
     t1 = this.utf8EncodedBytesIterator;
-    t2 = t1._liblib6$_offset;
-    if (typeof t2 !== "number")
-      return this.moveNext$0$bailout(1, t1, t2);
-    ++t2;
+    t2 = t1._liblib6$_offset + 1;
     t1._liblib6$_offset = t2;
     t3 = t1._liblib6$_end;
-    if (typeof t3 !== "number")
-      return this.moveNext$0$bailout(2, t1, t2, t3);
     if (!(t2 < t3))
       return false;
     t2 = t1._liblib6$_source;
-    if (typeof t2 !== "string" && (typeof t2 !== "object" || t2 === null || t2.constructor !== Array && !$.isJsIndexable(t2, t2[$.dispatchPropertyName])))
-      return this.moveNext$0$bailout(3, t1, t2, t3);
     t4 = t1._liblib6$_offset;
-    t5 = $.getInterceptor(t2);
-    if (t4 >>> 0 !== t4 || t4 >= t2.length)
+    if (t4 !== (t4 | 0))
+      return this.moveNext$0$bailout(1, t1, t3, t2, t4);
+    if (t4 < 0 || t4 >= t2.length)
       throw $.ioore(t4);
     value = t2[t4];
     if (typeof value !== "number")
-      return this.moveNext$0$bailout(4, t1, t2, t3, t5, value);
+      return this.moveNext$0$bailout(2, t1, t3, t2, 0, value);
     if (value < 0) {
       this._liblib6$_current = this.replacementCodepoint;
       return true;
@@ -17111,10 +17113,7 @@ Utf8Decoder: {"": "Object;utf8EncodedBytesIterator,replacementCodepoint,_liblib6
     j = 0;
     while (true) {
       if (j < additionalBytes) {
-        t4 = t1._liblib6$_offset;
-        if (typeof t4 !== "number")
-          return this.moveNext$0$bailout(5, t1, t2, t3, t5, value, additionalBytes, j, t4);
-        ++t4;
+        t4 = t1._liblib6$_offset + 1;
         t1._liblib6$_offset = t4;
         t4 = t4 < t3;
       } else
@@ -17122,11 +17121,13 @@ Utf8Decoder: {"": "Object;utf8EncodedBytesIterator,replacementCodepoint,_liblib6
       if (!t4)
         break;
       t4 = t1._liblib6$_offset;
-      if (t4 >>> 0 !== t4 || t4 >= t2.length)
+      if (t4 !== (t4 | 0))
+        return this.moveNext$0$bailout(3, t1, t3, t2, t4, value, additionalBytes, j);
+      if (t4 < 0 || t4 >= t2.length)
         throw $.ioore(t4);
       nextValue = t2[t4];
       if (typeof nextValue !== "number")
-        return this.moveNext$0$bailout(6, t1, t2, t3, t5, value, additionalBytes, j, 0, nextValue);
+        return this.moveNext$0$bailout(4, t1, t3, t2, 0, value, additionalBytes, j, nextValue);
       if (nextValue > 127 && nextValue < 192)
         value = (value << 6 | nextValue & 63) >>> 0;
       else {
@@ -17158,53 +17159,50 @@ Utf8Decoder: {"": "Object;utf8EncodedBytesIterator,replacementCodepoint,_liblib6
     }
   },
   "+moveNext:0:0": 0,
-  moveNext$0$bailout: function(state0, t1, t2, t3, t4, value, additionalBytes, j, t5, nextValue) {
+  moveNext$0$bailout: function(state0, t1, t3, t2, t4, value, additionalBytes, j, nextValue) {
     switch (state0) {
       case 0:
         this._liblib6$_current = null;
         t1 = this.utf8EncodedBytesIterator;
-        t2 = t1._liblib6$_offset;
-      case 1:
-        state0 = 0;
-        t2 = $.$add$ns(t2, 1);
+        t2 = t1._liblib6$_offset + 1;
         t1._liblib6$_offset = t2;
         t3 = t1._liblib6$_end;
-      case 2:
-        state0 = 0;
-        if ($.$lt$n(t2, t3) !== true)
+        if (!(t2 < t3))
           return false;
         t2 = t1._liblib6$_source;
-      case 3:
+        t4 = t1._liblib6$_offset;
+      case 1:
         state0 = 0;
-        t4 = $.getInterceptor$asx(t2);
-        value = t4.$index(t2, t1._liblib6$_offset);
-      case 4:
+        if (t4 >>> 0 !== t4 || t4 >= t2.length)
+          throw $.ioore(t4);
+        value = t2[t4];
+      case 2:
         state0 = 0;
-        t5 = $.getInterceptor$n(value);
-        if (t5.$lt(value, 0) === true) {
+        t4 = $.getInterceptor$n(value);
+        if (t4.$lt(value, 0) === true) {
           this._liblib6$_current = this.replacementCodepoint;
           return true;
-        } else if (t5.$le(value, 127) === true) {
+        } else if (t4.$le(value, 127) === true) {
           this._liblib6$_current = value;
           return true;
-        } else if (t5.$lt(value, 192) === true) {
+        } else if (t4.$lt(value, 192) === true) {
           this._liblib6$_current = this.replacementCodepoint;
           return true;
-        } else if (t5.$lt(value, 224) === true) {
-          value = t5.$sub(value, 192);
+        } else if (t4.$lt(value, 224) === true) {
+          value = t4.$sub(value, 192);
           additionalBytes = 1;
-        } else if (t5.$lt(value, 240) === true) {
-          value = t5.$sub(value, 224);
+        } else if (t4.$lt(value, 240) === true) {
+          value = t4.$sub(value, 224);
           additionalBytes = 2;
-        } else if (t5.$lt(value, 248) === true) {
-          value = t5.$sub(value, 240);
+        } else if (t4.$lt(value, 248) === true) {
+          value = t4.$sub(value, 240);
           additionalBytes = 3;
-        } else if (t5.$lt(value, 252) === true) {
-          value = t5.$sub(value, 248);
+        } else if (t4.$lt(value, 252) === true) {
+          value = t4.$sub(value, 248);
           additionalBytes = 4;
         } else {
-          if (t5.$lt(value, 254) === true)
-            value = t5.$sub(value, 252);
+          if (t4.$lt(value, 254) === true)
+            value = t4.$sub(value, 252);
           else {
             this._liblib6$_current = this.replacementCodepoint;
             return true;
@@ -17213,46 +17211,35 @@ Utf8Decoder: {"": "Object;utf8EncodedBytesIterator,replacementCodepoint,_liblib6
         }
         j = 0;
       default:
+        var validSequence, nonOverlong, inRange;
         L0:
           while (true)
             switch (state0) {
               case 0:
-              case 5:
-                if (state0 === 5 || state0 === 0 && j < additionalBytes)
-                  switch (state0) {
-                    case 0:
-                      t5 = t1._liblib6$_offset;
-                    case 5:
-                      state0 = 0;
-                      t5 = $.$add$ns(t5, 1);
-                      t1._liblib6$_offset = t5;
-                      t5 = $.$lt$n(t5, t3) === true;
-                  }
-                else
-                  t5 = false;
-                if (!t5)
+                if (j < additionalBytes) {
+                  t4 = t1._liblib6$_offset + 1;
+                  t1._liblib6$_offset = t4;
+                  t4 = t4 < t3;
+                } else
+                  t4 = false;
+                if (!t4)
                   break L0;
-                nextValue = t4.$index(t2, t1._liblib6$_offset);
-              case 6:
+                t4 = t1._liblib6$_offset;
+              case 3:
                 state0 = 0;
-                t5 = $.getInterceptor$n(nextValue);
-              case 7:
-                if (state0 === 0 && t5.$gt(nextValue, 127) === true && t5.$lt(nextValue, 192) === true)
-                  value = $.$or$n($.$shl$n(value, 6), t5.$and(nextValue, 63));
-                else
-                  switch (state0) {
-                    case 0:
-                    case 7:
-                      if (state0 === 7 || state0 === 0 && t5.$ge(nextValue, 192) === true)
-                        switch (state0) {
-                          case 0:
-                            t2 = t1._liblib6$_offset;
-                          case 7:
-                            state0 = 0;
-                            t1._liblib6$_offset = $.$sub$n(t2, 1);
-                        }
-                      break L0;
-                  }
+                if (t4 >>> 0 !== t4 || t4 >= t2.length)
+                  throw $.ioore(t4);
+                nextValue = t2[t4];
+              case 4:
+                state0 = 0;
+                t4 = $.getInterceptor$n(nextValue);
+                if (t4.$gt(nextValue, 127) === true && t4.$lt(nextValue, 192) === true)
+                  value = $.$or$n($.$shl$n(value, 6), t4.$and(nextValue, 63));
+                else {
+                  if (t4.$ge(nextValue, 192) === true)
+                    t1._liblib6$_offset = t1._liblib6$_offset - 1;
+                  break L0;
+                }
                 ++j;
             }
         if (j === additionalBytes) {
@@ -17269,17 +17256,13 @@ Utf8Decoder: {"": "Object;utf8EncodedBytesIterator,replacementCodepoint,_liblib6
         else
           nonOverlong = true;
         inRange = $.$le$n(value, 1114111);
-      case 8:
-        var validSequence, nonOverlong, inRange;
-        if (state0 === 0 && validSequence && nonOverlong && inRange === true) {
+        if (validSequence && nonOverlong && inRange === true) {
           this._liblib6$_current = value;
           return true;
-        } else
-          switch (state0) {
-            case 0:
-              this._liblib6$_current = this.replacementCodepoint;
-              return true;
-          }
+        } else {
+          this._liblib6$_current = this.replacementCodepoint;
+          return true;
+        }
     }
   }
 },
@@ -17324,7 +17307,7 @@ _addToEncoding$bailout: function(state0, offset, bytes, value, buffer) {
 },
 
 codepointsToUtf8: function(codepoints, offset, $length) {
-  var source, t1, t2, t3, t4, t5, t6, t7, t8, encodedLength, t9, t10, value, encoded, insertAt, insertAt0;
+  var source, t1, t2, t3, t4, t5, t6, t7, encodedLength, t8, value, encoded, insertAt, insertAt0;
   source = $._ListRange$(codepoints, offset, $length);
   t1 = source._liblib6$_source;
   t2 = source._liblib6$_offset;
@@ -17335,27 +17318,16 @@ codepointsToUtf8: function(codepoints, offset, $length) {
   t5 = t2 + t3;
   t6 = new $._ListRangeIteratorImpl(t1, t4, t5);
   t7 = t6._liblib6$_source;
-  if (typeof t7 !== "string" && (typeof t7 !== "object" || t7 === null || t7.constructor !== Array && !$.isJsIndexable(t7, t7[$.dispatchPropertyName])))
-    return $.codepointsToUtf8$bailout(1, t6, t7, t1, t2, t3, t4);
-  t8 = $.getInterceptor(t7);
   encodedLength = 0;
-  while (true) {
-    t9 = t6._liblib6$_offset;
-    if (typeof t9 !== "number")
-      return $.codepointsToUtf8$bailout(2, t6, t7, t1, t2, t3, t4, t9, t8, encodedLength);
-    ++t9;
-    t6._liblib6$_offset = t9;
-    t10 = t6._liblib6$_end;
-    if (typeof t10 !== "number")
-      return $.codepointsToUtf8$bailout(3, t6, t7, t1, t2, t3, t4, t9, t8, encodedLength, t10);
-    if (!(t9 < t10))
-      break;
-    t9 = t6._liblib6$_offset;
-    if (t9 >>> 0 !== t9 || t9 >= t7.length)
-      throw $.ioore(t9);
-    value = t7[t9];
+  for (; t8 = t6._liblib6$_offset + 1, t6._liblib6$_offset = t8, t8 < t6._liblib6$_end;) {
+    t8 = t6._liblib6$_offset;
+    if (t8 !== (t8 | 0))
+      return $.codepointsToUtf8$bailout(1, t6, t7, t8, encodedLength, t1, t2, t3, t4);
+    if (t8 < 0 || t8 >= t7.length)
+      throw $.ioore(t8);
+    value = t7[t8];
     if (typeof value !== "number")
-      return $.codepointsToUtf8$bailout(4, t6, t7, t1, t2, t3, t4, 0, t8, encodedLength, 0, value);
+      return $.codepointsToUtf8$bailout(2, t6, t7, 0, encodedLength, t1, t2, t3, t4, value);
     if (value < 0 || value > 1114111)
       encodedLength += 3;
     else if (value <= 127)
@@ -17368,29 +17340,15 @@ codepointsToUtf8: function(codepoints, offset, $length) {
       encodedLength += 4;
   }
   encoded = $.List_List(encodedLength);
-  t1 = new $._ListRangeIteratorImpl(t1, t4, t5);
-  t2 = t1._liblib6$_source;
-  if (typeof t2 !== "string" && (typeof t2 !== "object" || t2 === null || t2.constructor !== Array && !$.isJsIndexable(t2, t2[$.dispatchPropertyName])))
-    return $.codepointsToUtf8$bailout(5, 0, 0, t1, t2, 0, 0, 0, 0, encodedLength, 0, 0, encoded);
-  t3 = $.getInterceptor(t2);
-  insertAt = 0;
-  while (true) {
-    t4 = t1._liblib6$_offset;
-    if (typeof t4 !== "number")
-      return $.codepointsToUtf8$bailout(6, 0, 0, t1, t2, t3, t4, 0, 0, encodedLength, 0, 0, encoded, insertAt);
-    ++t4;
-    t1._liblib6$_offset = t4;
-    t5 = t1._liblib6$_end;
-    if (typeof t5 !== "number")
-      return $.codepointsToUtf8$bailout(7, t5, 0, t1, t2, t3, t4, 0, 0, encodedLength, 0, 0, encoded, insertAt);
-    if (!(t4 < t5))
-      break;
-    t4 = t1._liblib6$_offset;
-    if (t4 >>> 0 !== t4 || t4 >= t2.length)
-      throw $.ioore(t4);
-    value = t2[t4];
+  for (t1 = new $._ListRangeIteratorImpl(t1, t4, t5), t2 = t1._liblib6$_source, insertAt = 0; t3 = t1._liblib6$_offset + 1, t1._liblib6$_offset = t3, t3 < t1._liblib6$_end;) {
+    t3 = t1._liblib6$_offset;
+    if (t3 !== (t3 | 0))
+      return $.codepointsToUtf8$bailout(3, 0, 0, 0, encodedLength, t1, t2, t3, 0, 0, encoded, insertAt);
+    if (t3 < 0 || t3 >= t2.length)
+      throw $.ioore(t3);
+    value = t2[t3];
     if (typeof value !== "number")
-      return $.codepointsToUtf8$bailout(8, 0, 0, t1, t2, t3, 0, 0, 0, encodedLength, 0, value, encoded, insertAt);
+      return $.codepointsToUtf8$bailout(4, 0, 0, 0, encodedLength, t1, t2, 0, 0, value, encoded, insertAt);
     if (value < 0 || value > 1114111) {
       insertAt0 = insertAt + 3;
       $.IterableMixinWorkaround_setRangeList(encoded, insertAt, insertAt0, [239, 191, 189], 0);
@@ -17401,35 +17359,35 @@ codepointsToUtf8: function(codepoints, offset, $length) {
       encoded[insertAt] = value;
       ++insertAt;
     } else if (value <= 2047) {
-      t4 = $._addToEncoding(insertAt, 1, value, encoded);
-      if (typeof t4 !== "number")
-        throw $.iae(t4);
+      t3 = $._addToEncoding(insertAt, 1, value, encoded);
+      if (typeof t3 !== "number")
+        throw $.iae(t3);
       if (insertAt >= encodedLength)
         throw $.ioore(insertAt);
-      encoded[insertAt] = (192 | 31 & t4) >>> 0;
+      encoded[insertAt] = (192 | 31 & t3) >>> 0;
       insertAt += 2;
     } else if (value <= 65535) {
-      t4 = $._addToEncoding(insertAt, 2, value, encoded);
-      if (typeof t4 !== "number")
-        throw $.iae(t4);
+      t3 = $._addToEncoding(insertAt, 2, value, encoded);
+      if (typeof t3 !== "number")
+        throw $.iae(t3);
       if (insertAt >= encodedLength)
         throw $.ioore(insertAt);
-      encoded[insertAt] = (224 | 15 & t4) >>> 0;
+      encoded[insertAt] = (224 | 15 & t3) >>> 0;
       insertAt += 3;
     } else if (value <= 1114111) {
-      t4 = $._addToEncoding(insertAt, 3, value, encoded);
-      if (typeof t4 !== "number")
-        throw $.iae(t4);
+      t3 = $._addToEncoding(insertAt, 3, value, encoded);
+      if (typeof t3 !== "number")
+        throw $.iae(t3);
       if (insertAt >= encodedLength)
         throw $.ioore(insertAt);
-      encoded[insertAt] = (240 | 7 & t4) >>> 0;
+      encoded[insertAt] = (240 | 7 & t3) >>> 0;
       insertAt += 4;
     }
   }
   return encoded;
 },
 
-codepointsToUtf8$bailout: function(state0, t5, t6, t1, t2, t3, t4, t8, t7, encodedLength, t9, value, encoded, insertAt) {
+codepointsToUtf8$bailout: function(state0, t5, t6, t7, encodedLength, t1, t2, t3, t4, value, encoded, insertAt) {
   switch (state0) {
     case 0:
       source = $._ListRange$(codepoints, offset, $length);
@@ -17441,101 +17399,92 @@ codepointsToUtf8$bailout: function(state0, t5, t6, t1, t2, t3, t4, t8, t7, encod
       t4 = t2 - 1;
       t5 = new $._ListRangeIteratorImpl(t1, t4, t2 + t3);
       t6 = t5._liblib6$_source;
-    case 1:
-      state0 = 0;
-      t7 = $.getInterceptor$asx(t6);
       encodedLength = 0;
     default:
       L0:
         while (true)
           switch (state0) {
             case 0:
-              t8 = t5._liblib6$_offset;
+              t7 = t5._liblib6$_offset + 1;
+              t5._liblib6$_offset = t7;
+              if (!(t7 < t5._liblib6$_end))
+                break L0;
+              t7 = t5._liblib6$_offset;
+            case 1:
+              state0 = 0;
+              if (t7 >>> 0 !== t7 || t7 >= t6.length)
+                throw $.ioore(t7);
+              value = t6[t7];
             case 2:
               state0 = 0;
-              t8 = $.$add$ns(t8, 1);
-              t5._liblib6$_offset = t8;
-              t9 = t5._liblib6$_end;
-            case 3:
-              state0 = 0;
-              if (!($.$lt$n(t8, t9) === true))
-                break L0;
-              value = t7.$index(t6, t5._liblib6$_offset);
-            case 4:
-              state0 = 0;
-              t8 = $.getInterceptor$n(value);
-              if (t8.$lt(value, 0) === true || t8.$gt(value, 1114111) === true)
+              t7 = $.getInterceptor$n(value);
+              if (t7.$lt(value, 0) === true || t7.$gt(value, 1114111) === true)
                 encodedLength += 3;
-              else if (t8.$le(value, 127) === true)
+              else if (t7.$le(value, 127) === true)
                 ++encodedLength;
-              else if (t8.$le(value, 2047) === true)
+              else if (t7.$le(value, 2047) === true)
                 encodedLength += 2;
-              else if (t8.$le(value, 65535) === true)
+              else if (t7.$le(value, 65535) === true)
                 encodedLength += 3;
-              else if (t8.$le(value, 1114111) === true)
+              else if (t7.$le(value, 1114111) === true)
                 encodedLength += 4;
           }
       encoded = $.List_List(encodedLength);
       t1 = new $._ListRangeIteratorImpl(t1, t4, t2 + t3);
       t2 = t1._liblib6$_source;
-    case 5:
-      state0 = 0;
-      t3 = $.getInterceptor$asx(t2);
       insertAt = 0;
-    case 6:
-    case 7:
-    case 8:
+    case 3:
+    case 4:
       var source, insertAt0;
       L1:
         while (true)
           switch (state0) {
             case 0:
-              t4 = t1._liblib6$_offset;
-            case 6:
-              state0 = 0;
-              t4 = $.$add$ns(t4, 1);
-              t1._liblib6$_offset = t4;
-              t5 = t1._liblib6$_end;
-            case 7:
-              state0 = 0;
-              if (!($.$lt$n(t4, t5) === true))
+              t3 = t1._liblib6$_offset + 1;
+              t1._liblib6$_offset = t3;
+              if (!(t3 < t1._liblib6$_end))
                 break L1;
-              value = t3.$index(t2, t1._liblib6$_offset);
-            case 8:
+              t3 = t1._liblib6$_offset;
+            case 3:
               state0 = 0;
-              t4 = $.getInterceptor$n(value);
-              if (t4.$lt(value, 0) === true || t4.$gt(value, 1114111) === true) {
+              if (t3 >>> 0 !== t3 || t3 >= t2.length)
+                throw $.ioore(t3);
+              value = t2[t3];
+            case 4:
+              state0 = 0;
+              t3 = $.getInterceptor$n(value);
+              if (t3.$lt(value, 0) === true || t3.$gt(value, 1114111) === true) {
                 insertAt0 = insertAt + 3;
                 $.IterableMixinWorkaround_setRangeList(encoded, insertAt, insertAt0, [239, 191, 189], 0);
                 insertAt = insertAt0;
-              } else if (t4.$le(value, 127) === true) {
+              } else if (t3.$le(value, 127) === true) {
                 if (insertAt >= encodedLength)
                   throw $.ioore(insertAt);
                 encoded[insertAt] = value;
                 ++insertAt;
-              } else if (t4.$le(value, 2047) === true) {
-                t4 = $._addToEncoding(insertAt, 1, value, encoded);
-                if (typeof t4 !== "number")
-                  throw $.iae(t4);
+              } else if (t3.$le(value, 2047) === true) {
+                t3 = $._addToEncoding(insertAt, 1, value, encoded);
+                if (typeof t3 !== "number")
+                  throw $.iae(t3);
                 if (insertAt >= encodedLength)
                   throw $.ioore(insertAt);
-                encoded[insertAt] = (192 | 31 & t4) >>> 0;
+                encoded[insertAt] = (192 | 31 & t3) >>> 0;
                 insertAt += 2;
-              } else if (t4.$le(value, 65535) === true) {
-                t4 = $._addToEncoding(insertAt, 2, value, encoded);
-                if (typeof t4 !== "number")
-                  throw $.iae(t4);
+              } else if (t3.$le(value, 65535) === true) {
+                t3 = $._addToEncoding(insertAt, 2, value, encoded);
+                if (typeof t3 !== "number")
+                  throw $.iae(t3);
                 if (insertAt >= encodedLength)
                   throw $.ioore(insertAt);
-                encoded[insertAt] = (224 | 15 & t4) >>> 0;
+                encoded[insertAt] = (224 | 15 & t3) >>> 0;
                 insertAt += 3;
-              } else if (t4.$le(value, 1114111) === true) {
-                t4 = $._addToEncoding(insertAt, 3, value, encoded);
-                if (typeof t4 !== "number")
-                  throw $.iae(t4);
+              } else if (t3.$le(value, 1114111) === true) {
+                t3 = $._addToEncoding(insertAt, 3, value, encoded);
+                if (typeof t3 !== "number")
+                  throw $.iae(t3);
                 if (insertAt >= encodedLength)
                   throw $.ioore(insertAt);
-                encoded[insertAt] = (240 | 7 & t4) >>> 0;
+                encoded[insertAt] = (240 | 7 & t3) >>> 0;
                 insertAt += 4;
               }
           }
@@ -17545,7 +17494,7 @@ codepointsToUtf8$bailout: function(state0, t5, t6, t1, t2, t3, t4, t8, t7, encod
 ["gif", "gif.dart", , {
 IndexedAnimation: {"": "Object;width>,height>,colors,frames",
   encodeUncompressedGif$1: function(fps) {
-    var delay, t1, t2, t3, bytes, i, frame, bytes0;
+    var delay, t1, t2, t3, bytes, t4, i, frame, bytes0;
     if (typeof fps !== "number")
       throw $.iae(fps);
     delay = $.JSInt_methods.$tdiv(100, fps);
@@ -17557,15 +17506,15 @@ IndexedAnimation: {"": "Object;width>,height>,colors,frames",
     bytes = $._header(t1, t2, t3.bits);
     $.JSArray_methods.addAll$1(bytes, t3.table);
     $.JSArray_methods.addAll$1(bytes, $._loop(0));
-    for (t3 = this.frames, i = 0; i < t3.length; ++i) {
-      frame = t3[i];
+    for (t4 = this.frames, i = 0; i < t4.length; ++i) {
+      frame = t4[i];
       bytes0 = [33, 249, 4, 0];
       $._addShort(bytes0, delay);
       bytes0.push(0);
       bytes0.push(0);
       $.JSArray_methods.addAll$1(bytes, bytes0);
       $.JSArray_methods.addAll$1(bytes, $._startImage(0, 0, t1, t2));
-      $.JSArray_methods.addAll$1(bytes, $._sevenBitPixels(frame));
+      $.JSArray_methods.addAll$1(bytes, $._pixels(frame, t3.bits));
     }
     $.JSArray_methods.addAll$1(bytes, [59]);
     return new Uint8Array(bytes);
@@ -17690,6 +17639,91 @@ ColorTable: {"": "Object;table,colorToIndex,bits",
   "+finish:0:0": 0
 },
 
+CodeBuffer: {"": "Object;finishedBytes,_bitsPerCode,numCodes,buf,bits",
+  add$1: function(_, code) {
+    var t1, t2;
+    if (typeof code !== "number")
+      return this.add$1$bailout(1, code);
+    t1 = this.buf;
+    if (typeof t1 !== "number")
+      return this.add$1$bailout(2, code, t1);
+    this.buf = (t1 | $.JSNumber_methods.$shl(code, this.bits)) >>> 0;
+    t1 = this.bits;
+    t2 = this._bitsPerCode;
+    if (typeof t2 !== "number")
+      throw $.iae(t2);
+    this.bits = t1 + t2;
+    for (t1 = this.finishedBytes; this.bits >= 8;) {
+      t2 = this.buf;
+      if (typeof t2 !== "number")
+        return this.add$1$bailout(3, 0, t1, t2);
+      t1.push(t2 & 255);
+      t2 = this.buf;
+      if (typeof t2 !== "number")
+        return this.add$1$bailout(4, 0, t1, t2);
+      this.buf = $.JSNumber_methods.$shr(t2, 8);
+      this.bits = this.bits - 8;
+    }
+  },
+  "+add:1:0": 0,
+  add$1$bailout: function(state0, code, t1, t2) {
+    switch (state0) {
+      case 0:
+      case 1:
+        state0 = 0;
+        t1 = this.buf;
+      case 2:
+        state0 = 0;
+        this.buf = $.$or$n(t1, $.$shl$n(code, this.bits));
+        t1 = this.bits;
+        t2 = this._bitsPerCode;
+        if (typeof t2 !== "number")
+          throw $.iae(t2);
+        this.bits = t1 + t2;
+        t1 = this.finishedBytes;
+      default:
+        L0:
+          while (true)
+            switch (state0) {
+              case 0:
+                if (!(this.bits >= 8))
+                  break L0;
+                t2 = this.buf;
+              case 3:
+                state0 = 0;
+                t1.push($.$and$n(t2, 255));
+                t2 = this.buf;
+              case 4:
+                state0 = 0;
+                this.buf = $.$shr$n(t2, 8);
+                this.bits = this.bits - 8;
+            }
+    }
+  },
+  finish$1: function(_, dest) {
+    var t1, len, i, t2, i0;
+    if (this.bits > 0)
+      this.finishedBytes.push(this.buf);
+    t1 = this.finishedBytes;
+    len = t1.length;
+    for (i = 0; i < len;) {
+      t2 = len - i;
+      if (t2 >= 255) {
+        dest.push(255);
+        i0 = i + 255;
+        $.JSArray_methods.addAll$1(dest, $.JSArray_methods.sublist$2(t1, i, i0));
+        i = i0;
+      } else {
+        dest.push(t2);
+        $.JSArray_methods.addAll$1(dest, $.JSArray_methods.sublist$2(t1, i, len));
+        i = len;
+      }
+    }
+    dest.push(0);
+  },
+  "+finish:1:0": 0
+},
+
 IndexedAnimation$: function(width, height, rgbaFrames) {
   var t1 = new $.IndexedAnimation(width, height, new $.ColorTable($.List_List($), new $.HashMap(0, null, null, null, null), null), $.List_List($));
   t1.IndexedAnimation$3(width, height, rgbaFrames);
@@ -17726,39 +17760,58 @@ _startImage: function(left, $top, width, height) {
   return bytes;
 },
 
-_sevenBitPixels: function(pixels) {
-  var bytes, chunk, t1, px, t2;
-  bytes = [7];
-  chunk = [];
-  for (t1 = $.get$iterator$ax(pixels); t1.moveNext$0() === true;) {
+_pixels: function(pixels, colorBits) {
+  var colors, end, chunkSize, t1, buf, codesSinceClear, px, bytes;
+  if (colorBits !== (colorBits | 0))
+    return $._pixels$bailout(1, pixels, colorBits);
+  if (colorBits < 2)
+    colorBits = 2;
+  colors = $.JSInt_methods.$shl(1, colorBits);
+  end = colors + 1;
+  chunkSize = colors - 2;
+  t1 = colorBits + 1;
+  buf = new $.CodeBuffer($.List_List($), null, null, 0, 0);
+  buf._bitsPerCode = t1;
+  buf.numCodes = $.JSInt_methods.$shl(1, t1);
+  buf.add$1(buf, colors);
+  for (t1 = $.get$iterator$ax(pixels), codesSinceClear = 0; t1.moveNext$0() === true;) {
     px = t1.get$current();
     if (typeof px !== "number")
-      return $._sevenBitPixels$bailout(1, chunk, t1, px, bytes);
-    chunk.push(px & 127);
-    t2 = chunk.length;
-    if (t2 === 120) {
-      bytes.push(t2 + 1);
-      bytes.push(128);
-      $.JSArray_methods.addAll$1(bytes, chunk);
-      chunk = [];
+      return $._pixels$bailout(2, 0, colorBits, colors, t1, buf, codesSinceClear, end, chunkSize, px);
+    buf.add$1(buf, px & 127);
+    ++codesSinceClear;
+    if (codesSinceClear === chunkSize) {
+      buf.add$1(buf, colors);
+      codesSinceClear = 0;
     }
   }
-  bytes.push(chunk.length + 2);
-  bytes.push(128);
-  $.JSArray_methods.addAll$1(bytes, chunk);
-  bytes.push(129);
-  bytes.push(0);
+  buf.add$1(buf, end);
+  bytes = [colorBits];
+  buf.finish$1(buf, bytes);
   return bytes;
 },
 
-_sevenBitPixels$bailout: function(state0, chunk, t1, px, bytes) {
+_pixels$bailout: function(state0, pixels, colorBits, colors, t1, buf, codesSinceClear, end, chunkSize, px) {
   switch (state0) {
     case 0:
-      bytes = [7];
-      chunk = [];
-      t1 = $.get$iterator$ax(pixels);
     case 1:
-      var t2;
+      state0 = 0;
+      if ($.$lt$n(colorBits, 2))
+        colorBits = 2;
+      if (typeof colorBits !== "number")
+        throw $.iae(colorBits);
+      colors = $.JSInt_methods.$shl(1, colorBits);
+      end = colors + 1;
+      chunkSize = colors - 2;
+      t1 = colorBits + 1;
+      buf = new $.CodeBuffer($.List_List($), null, null, 0, 0);
+      buf._bitsPerCode = t1;
+      buf.numCodes = $.JSInt_methods.$shl(1, t1);
+      buf.add$1(buf, colors);
+      t1 = $.get$iterator$ax(pixels);
+      codesSinceClear = 0;
+    case 2:
+      var bytes;
       L0:
         while (true)
           switch (state0) {
@@ -17766,22 +17819,18 @@ _sevenBitPixels$bailout: function(state0, chunk, t1, px, bytes) {
               if (!(t1.moveNext$0() === true))
                 break L0;
               px = t1.get$current();
-            case 1:
+            case 2:
               state0 = 0;
-              chunk.push($.$and$n(px, 127));
-              t2 = chunk.length;
-              if (t2 === 120) {
-                bytes.push(t2 + 1);
-                bytes.push(128);
-                $.JSArray_methods.addAll$1(bytes, chunk);
-                chunk = [];
+              buf.add$1(buf, $.$and$n(px, 127));
+              ++codesSinceClear;
+              if (codesSinceClear === chunkSize) {
+                buf.add$1(buf, colors);
+                codesSinceClear = 0;
               }
           }
-      bytes.push(chunk.length + 2);
-      bytes.push(128);
-      $.JSArray_methods.addAll$1(bytes, chunk);
-      bytes.push(129);
-      bytes.push(0);
+      buf.add$1(buf, end);
+      bytes = [colorBits];
+      buf.finish$1(buf, bytes);
       return bytes;
   }
 },
@@ -19172,30 +19221,35 @@ showPrompt_closure2: {"": "Closure;defaultText_10,finish_11",
   $isFunction: true
 },
 
-showDownloadPrompt_close: {"": "Closure;backdrop_0,dialog_1,subs_2",
+showDownloadPrompt_close: {"": "Closure;c_0,backdrop_1,dialog_2,subs_3",
   call$0: function() {
-    for (var t1 = this.subs_2, t1 = new $.ListIterator(t1, t1.length, 0, null); t1.moveNext$0();)
+    for (var t1 = this.subs_3, t1 = new $.ListIterator(t1, t1.length, 0, null); t1.moveNext$0();)
       $.cancel$0$x(t1._liblib$_current);
-    t1 = $.get$classes$x(this.backdrop_0);
+    t1 = $.get$classes$x(this.backdrop_1);
     t1.add$1(t1, "hidden");
-    t1 = $.get$classes$x(this.dialog_1.parentElement);
+    t1 = $.get$classes$x(this.dialog_2.parentElement);
     t1.add$1(t1, "hidden");
+    t1 = this.c_0;
+    if (t1._isComplete)
+      $.throwExpression(new $.StateError("Future already completed"));
+    t1._isComplete = true;
+    t1._setFutureValue$1(null);
   },
   "+call:0:0": 0,
   $isFunction: true
 },
 
-showDownloadPrompt_closure: {"": "Closure;close_3",
+showDownloadPrompt_closure: {"": "Closure;close_4",
   call$1: function(e) {
-    return this.close_3.call$0();
+    return this.close_4.call$0();
   },
   "+call:1:0": 0,
   $isFunction: true
 },
 
-showDownloadPrompt_closure0: {"": "Closure;close_4",
+showDownloadPrompt_closure0: {"": "Closure;close_5",
   call$1: function(e) {
-    return this.close_4.call$0();
+    return this.close_5.call$0();
   },
   "+call:1:0": 0,
   $isFunction: true
@@ -20982,19 +21036,30 @@ startPlayer_closure0: {"": "Closure;movie_3,player_4",
 
 startPlayer__closure: {"": "Closure;player_5",
   call$1: function(dataURL) {
-    this.player_5.set$playing(false);
-    $.showDownloadPrompt(dataURL, document.querySelector("#title").textContent);
+    var t1, wasPlaying;
+    t1 = this.player_5;
+    wasPlaying = t1._playing;
+    t1.set$playing(false);
+    $.showDownloadPrompt(dataURL, document.querySelector("#title").textContent).then$1(new $.startPlayer___closure(t1, wasPlaying));
   },
   "+call:1:0": 0,
   $isFunction: true
 },
 
-startPlayer_closure1: {"": "Closure;box_0,player_6",
+startPlayer___closure: {"": "Closure;player_6,wasPlaying_7",
+  call$1: function(x) {
+    this.player_6.set$playing(this.wasPlaying_7);
+  },
+  "+call:1:0": 0,
+  $isFunction: true
+},
+
+startPlayer_closure1: {"": "Closure;box_0,player_8",
   call$1: function(e) {
     var t1, t2;
     switch ($.get$keyCode$x(e)) {
       case 39:
-        t1 = this.player_6;
+        t1 = this.player_8;
         t1._step$1(1);
         t1.set$playing(false);
         break;
@@ -21002,10 +21067,10 @@ startPlayer_closure1: {"": "Closure;box_0,player_6",
         t1 = this.box_0;
         if (!t1.spaceDown_0) {
           t1.spaceDown_0 = true;
-          t2 = this.player_6;
+          t2 = this.player_8;
           t1.spaceDownFrame_1 = t2.frame;
           t2.set$reverse(true);
-          if (t2._playing)
+          if (t2._playing === true)
             t2.scheduleTick$0();
           if (t2._reverse)
             t2._step$1(-1);
@@ -21015,7 +21080,7 @@ startPlayer_closure1: {"": "Closure;box_0,player_6",
         }
         break;
       case 37:
-        t1 = this.player_6;
+        t1 = this.player_8;
         t1._step$1(-1);
         t1.set$playing(false);
         break;
@@ -21025,14 +21090,14 @@ startPlayer_closure1: {"": "Closure;box_0,player_6",
   $isFunction: true
 },
 
-startPlayer_closure2: {"": "Closure;box_0,player_7",
+startPlayer_closure2: {"": "Closure;box_0,player_9",
   call$1: function(e) {
     var t1, t2;
     switch ($.get$keyCode$x(e)) {
       case 32:
-        t1 = this.player_7;
+        t1 = this.player_9;
         t1.set$reverse(false);
-        if (t1._playing)
+        if (t1._playing === true)
           t1.scheduleTick$0();
         if (t1._reverse)
           t1._step$1(-1);
@@ -21061,12 +21126,12 @@ PlayerModel: {"": "Object;movie,frame@,onFrameChange,_onFrameChangeSink<,_playin
   "+setFramesPerSecond:1:0": 0,
   set$playing: function(newValue) {
     var t1;
-    if (this._playing === newValue)
+    if ($.$eq(this._playing, newValue))
       return;
     this._playing = newValue;
     t1 = this._onSettingChangeSink._sink;
     t1.add$1(t1, this);
-    if (this._playing)
+    if (this._playing === true)
       this.scheduleTick$0();
     if (this._reverse)
       this._step$1(-1);
@@ -21150,7 +21215,7 @@ PlayerView: {"": "Object;player<,elt<,step,play,slider<,reverse",
     var t1, t2;
     t1 = this.player;
     t2 = this.play;
-    if (t1._playing)
+    if (t1._playing === true)
       t2.textContent = "Stop";
     else
       t2.textContent = "Play";
@@ -21331,7 +21396,8 @@ showPrompt: function($prompt, defaultText) {
 },
 
 showDownloadPrompt: function(imageUrl, downloadName) {
-  var backdrop, dialog, anchor, image, t1, subs, t2, t3, t4;
+  var c, backdrop, dialog, anchor, image, t1, subs, t2, t3, t4;
+  c = new $._AsyncCompleter(new $._FutureImpl(0, null), false);
   backdrop = document.querySelector("#backdrop");
   dialog = document.querySelector("#downloadDialog");
   anchor = document.querySelector("#downloadAnchor");
@@ -21341,7 +21407,7 @@ showDownloadPrompt: function(imageUrl, downloadName) {
   t1.set$download(anchor, downloadName);
   $.set$src$x(image, imageUrl);
   subs = $.List_List($);
-  t1 = new $.showDownloadPrompt_close(backdrop, dialog, subs);
+  t1 = new $.showDownloadPrompt_close(c, backdrop, dialog, subs);
   t2 = document.querySelector("#downloadOk");
   t2.get$onClick;
   t3 = $.EventStreamProvider_click._eventType;
@@ -21362,6 +21428,7 @@ showDownloadPrompt: function(imageUrl, downloadName) {
   t1.remove$1(t1, "hidden");
   t1 = $.get$classes$x(dialog.parentElement);
   t1.remove$1(t1, "hidden");
+  return c.future;
 },
 
 Doc$: function(drive, fileId, jsDoc) {
