@@ -12,7 +12,7 @@ async.Future<String> makeSnapshot(List<ImageData> frames, int fps) {
     data.add(frame.data);
   }
   
-  var gifBytes = new gif.IndexedAnimation(width, height, data).encodeUncompressedGif(fps);
+  var gifBytes = new gif.IndexedAnimation(width, height, data).encodeGif(fps);
 
   var c = new async.Completer();
   var f = new FileReader(); 
