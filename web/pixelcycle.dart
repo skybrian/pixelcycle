@@ -3,7 +3,7 @@ import 'dart:html';
 import 'dart:async' as async;
 import 'dart:json' as json;
 import 'package:js/js.dart' as js;
-import 'gif.dart' as gif;
+import 'package:gifencoder/gifencoder.dart' as gif;
 
 part 'palette.dart';
 part 'player.dart';

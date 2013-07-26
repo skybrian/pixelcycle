@@ -3,5 +3,6 @@ author: Brian Slesinsky
 description: A lo res animation editor.
 dependencies:
   browser: any
+  gifencoder: any
   js: any
   unittest: any

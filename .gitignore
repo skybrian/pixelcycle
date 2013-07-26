@@ -1,0 +1,9 @@
+packages/
+pubspec.lock.old
+tmp/
+web/packages
+web/part.js
+web/part.js.map
+web/*.dart.js
+web/*.dart.js.deps
+web/*.dart.js.map
