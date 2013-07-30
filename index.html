@@ -22,11 +22,12 @@
       </div>
       <div id="frames"></div>
     </div>
-    <div id="grid"></div>
+    <div id="grid"></div>    
     <div>
-      <div id="undo" class="rightside"></div>
+      <div id="undo" class="rightside"></div>    
       <div class="rightside">
-         <button id="download" class="hidden">Download</button>
+         <button id="export" class="hidden">Export</button>
+         <a id="exportLink" class="hidden"></a>
       </div>
       <div id="palette"></div>
     </div>
@@ -34,27 +35,28 @@
 
     <script type="text/javascript">
     jsApiLoaded = false;
-
-    startDart = function() {}
-
+    
+    startDart = function() {} 
+    
     function onApiLoaded() {
       gapi.load("auth:client,drive-realtime", function() {
         jsApiLoaded = true;
         startDart();
       });
     }
-
+    
     function debug(x) {
       debugger;
     }
     </script>
-
+    
     <script type="text/javascript" src="https://apis.google.com/js/api.js?onload=onApiLoaded" async></script>
-    <script type="text/javascript" src="pixelcycle.dart.js"></script>
+    <script src="pixelcycle.dart.js"></script>
     <script src="packages/browser/dart.js"></script>
+    <script src="packages/browser/interop.js"></script>
 
     <div id="backdrop" class="hidden"></div>
-
+ 
     <div class="centerpoint hidden">
       <div id="promptDialog">
         <p id="promptMessage"></p>
@@ -65,15 +67,15 @@
       </div>
     </div>
 
-    <div class="centerpoint hidden">
+    <div class="centerpoint hidden">    
       <div id="downloadDialog">
         <p>Click the image to download the animation.</p>
         <a id="downloadAnchor"><img id="downloadImage"></a>
         <div>
         <button id="downloadOk">Done</button>
-        </div>
+        </div>      
       </div>
     </div>
-
+    
   </body>
 </html>
