@@ -45,7 +45,7 @@ async.Future<Drive> startDrive() {
 
 class Drive {
 
-  // Returns file id
+  /// Returns file id
   async.Future<String> createDoc(String title, String folderId) {
     var c = new async.Completer();
     _loadApi("drive", "v2").then((x) {
@@ -62,6 +62,52 @@ class Drive {
           c.complete(fileInfo["id"]);  
         }));      
     });
+    return c.future;
+  }
+  
+  // Returns file id
+  async.Future<String> createBinaryFile(String filename, String mimeType, List<int> bytes, String folderId) {
+    
+    var metadata = {
+      "title": filename,
+      "mimeType": mimeType,
+    };
+    
+    if (folderId != null) {
+      metadata["parents"] = [{'id': folderId}];
+    }
+    
+    var boundary = 'BOUNDARY';
+    
+    var multipartBody = '''\r
+--${boundary}\r
+Content-Type: application/json\r
+\r
+${json.stringify(metadata)}\r
+--${boundary}\r
+Content-Type: image/gif\r
+Content-Transfer-Encoding: base64\r
+\r
+${CryptoUtils.bytesToBase64(bytes)}\r
+--${boundary}--''';
+    
+    var request = gapi['client']['request'](js.map({
+      'path': '/upload/drive/v2/files',
+      'method': 'POST',
+      'params': js.map({'uploadType': 'multipart'}),
+      'headers': js.map({
+        'Content-Type': 'multipart/mixed; boundary="${boundary}"'
+      }),
+      'body': multipartBody
+    }));
+  
+    var c = new async.Completer();
+    
+    request.execute(once((fileInfo, unused) {
+      print("document ${fileInfo["id"]} created");        
+      c.complete(fileInfo["id"]);      
+    }));
+
     return c.future;
   }
   

@@ -4,6 +4,7 @@ import 'dart:async' as async;
 import 'dart:json' as json;
 import 'package:js/js.dart' as js;
 import 'package:gifencoder/gifencoder.dart' as gif;
+import "package:crypto/crypto.dart";
 
 part 'palette.dart';
 part 'player.dart';
@@ -187,17 +188,19 @@ void startPlayer(MovieModel movie, GridView big) {
   query("#player").append(new PlayerView(player).elt);
   query("#grid").append(big.elt);
   
-  ButtonElement downloadButton = query("#download");
-  downloadButton.onClick.listen((e) {
-    movie.snapshot(player.fps).then((String dataURL) {
-      var wasPlaying = player.playing;
-      player.playing = false;
-      showDownloadPrompt(dataURL, getTitle()).then((x) {
-        player.playing = wasPlaying;
-      });
-    });
+  ButtonElement exportButton = query("#export");
+  AnchorElement exportLink = query("#exportLink");
+  exportButton.onClick.listen((e) {
+    exportButton.disabled = true;
+    var filename = "${getTitle()}.gif";
+    movie.exportGif(filename, player.fps).then((fileId) {
+      exportLink.text = filename;
+      exportLink.href = "https://docs.google.com/file/d/${fileId}/edit";
+      exportLink.classes.remove("hidden");
+      exportButton.disabled = false;
+    }); 
   });
-  downloadButton.classes.remove("hidden");
+  exportButton.classes.remove("hidden");
   
   bool spaceDown = false;
   int spaceDownFrame = -1;

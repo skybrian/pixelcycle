@@ -17,9 +17,9 @@ class MovieModel {
     return new MovieModel(new PaletteModel.standard(), 60, 36, doc);
   }
 
-  async.Future<String> snapshot(int fps) {
+  async.Future<String> exportGif(String filename, int fps) {
     var bytes = makeSnapshot(grids, fps);
-    return createDataUrl(bytes);
+    return doc.drive.createBinaryFile(filename, "image/gif", bytes, null);
   }
 }
 

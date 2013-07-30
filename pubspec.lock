@@ -5,6 +5,10 @@ packages:
     description: browser
     source: hosted
     version: "0.6.9+2"
+  crypto:
+    description: crypto
+    source: hosted
+    version: "0.6.9+2"
   gifencoder:
     description: gifencoder
     source: hosted
