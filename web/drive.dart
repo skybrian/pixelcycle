@@ -66,16 +66,14 @@ class Drive {
   }
   
   // Returns file id
-  async.Future<String> createBinaryFile(String filename, String mimeType, List<int> bytes, String folderId) {
+  async.Future<String> createBinaryFile(String filename, String mimeType, List<int> bytes, 
+      {List<String> parents: const []}) {
     
     var metadata = {
       "title": filename,
       "mimeType": mimeType,
+      "parents": new List.from(parents.map((id) => {'id': id}))
     };
-    
-    if (folderId != null) {
-      metadata["parents"] = [{'id': folderId}];
-    }
     
     var boundary = 'BOUNDARY';
     
@@ -193,7 +191,11 @@ ${CryptoUtils.bytesToBase64(bytes)}\r
 class FileMeta {
   final String title;
   final bool editable;
-  FileMeta(js.Proxy file) : title = file["title"], editable = file["editable"];
+  final List<String> parents;
+  FileMeta(js.Proxy file) : 
+    title = file["title"], 
+    editable = file["editable"], 
+    parents = new List.generate(file["parents"].length, (i) => file["parents"][i]["id"]);
 }
 
 typedef void EventListener(js.Proxy p);

@@ -19,7 +19,14 @@ class MovieModel {
 
   async.Future<String> exportGif(String filename, int fps) {
     var bytes = makeSnapshot(grids, fps);
-    return doc.drive.createBinaryFile(filename, "image/gif", bytes, null);
+    var c = new async.Completer();
+    doc.loadFileMeta().then((m) {
+      print("parents: ${m.parents}");
+      return doc.drive.createBinaryFile(filename, "image/gif", bytes, parents: m.parents);
+    }).then((s) {
+      c.complete(s); 
+    });
+    return c.future; 
   }
 }
 
