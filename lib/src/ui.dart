@@ -60,7 +60,7 @@ void startEditor(Player player, Editor editor, Brush brush, util.Text status) {
 
   // speeds
 
-  List<DivElement> speedElts = querySelectorAll(".speed-display");
+  List<Element> speedElts = querySelectorAll(".speed-display");
   List<ButtonElement> reduceButtons = querySelectorAll(".reduce-speed");
   List<ButtonElement> increaseButtons = querySelectorAll(".increase-speed");
   player.onChange.listen((_) {
@@ -73,7 +73,7 @@ void startEditor(Player player, Editor editor, Brush brush, util.Text status) {
     } else {
       text = "${speed.toStringAsPrecision(2)} fps";
     }
-    for (DivElement elt in speedElts) {
+    for (Element elt in speedElts) {
       elt.text = text;
     }
     for (ButtonElement elt in reduceButtons) {
@@ -109,8 +109,8 @@ void startEditor(Player player, Editor editor, Brush brush, util.Text status) {
     }
   });
 
-  window.onBeforeUnload.listen((BeforeUnloadEvent e) {
-    if (!editor.saved) {
+  window.onBeforeUnload.listen((Event e) {
+    if (e is BeforeUnloadEvent && !editor.saved) {
       e.returnValue = "You have unsaved edits.";
     }
   });
@@ -326,6 +326,8 @@ class StripView {
   }
 }
 
+typedef ChangeHandler = void Function();
+
 /// A MovieView shows the current frame of a movie (according to the player).
 /// It renders whenever the frame changes (due to drawing) or the player's
 /// current frame changes. It uses requestAnimationFrame to avoid drawing too
@@ -340,7 +342,8 @@ class MovieView {
   StreamSubscription _frameSub;
   Rectangle _damage; // Area of the watched frame that needs re-rendering.
   DateTime _redrawWanted; // Non-null if a render was requested.
-  var _onFrameChange = () {};
+
+  ChangeHandler _onFrameChange = () {};
 
   StreamSubscription _moveSub;
 

@@ -39,7 +39,7 @@ class Movie {
 
   Frame operator[](int i) => _frames[i];
 
-  Iterable<Frame> get frames => _frames.toList(growable: false);
+  List<Frame> get frames => _frames.toList(growable: false);
 }
 
 class Frame {

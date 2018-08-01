@@ -166,8 +166,11 @@ class FrameStack {
 
   FrameStack(this.back, this.backBrightness, this.front, this.frontAlpha);
 
-  bool operator==(FrameStack other) {
-    return back==other.back && front==other.front && backBrightness == other.backBrightness && frontAlpha == other.frontAlpha;
+  bool operator==(other) {
+    if (other is FrameStack) {
+      return back==other.back && front==other.front && backBrightness == other.backBrightness && frontAlpha == other.frontAlpha;
+    }
+    return false;
   }
 
   int get hashCode {

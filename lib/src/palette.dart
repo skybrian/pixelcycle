@@ -88,7 +88,7 @@ List<Color> spectrum(double s, double v) {
   return result;
 }
 
-List<Color> hexColors(List<String> l) => l.map((s) => new Color.hex(s));
+List<Color> hexColors(List<String> l) => l.map((s) => new Color.hex(s)).toList();
 
 class Color {
   final int r;

@@ -3,3 +3,5 @@ web/packages
 *.dart.js
 *.dart.js.deps
 *.dart.js.map
+.dart_tool
+.packages
