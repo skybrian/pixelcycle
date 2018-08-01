@@ -1,7 +1,3 @@
-packages
-web/packages
-*.dart.js
-*.dart.js.deps
-*.dart.js.map
+build
 .dart_tool
 .packages

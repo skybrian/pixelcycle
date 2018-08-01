@@ -109,7 +109,7 @@ Player parse(String dataString) {
 
 /// Posts a string to the server and returns the response body as a string.
 Future<String> post(String url, String data) {
-  Completer done = new Completer();
+  var done = new Completer<String>();
 
   var r = new HttpRequest();
 

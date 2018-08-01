@@ -9,23 +9,19 @@ Try it out at http://pixelcycle.appspot.com/
 Setting up a Development Environment
 ------------------------------------
 
-Pixelcycle is written in Dart and Go and runs on App Engine. You will need the Dart Editor
-(which includes the Dart SDK) and the Go SDK for App Engine.
+Pixelcycle is written in Dart and Go and runs on App Engine. You will need the Dart SDK
+and the webdev command for Dart development, and the gcloud command for App Engine.
 
-In the Dart Editor, choose File -> Open Existing Folder and select the folder containing
-this README file and pubspec.yaml.
+For Dart development, run `webdev serve`. Then visit http://localhost:8080/main.html
 
-The Dart Editor contains an embedded web server that automatically runs the compiler when
-you reload the page. To try it out, right-click on web/main.html and choose "Run as JavaScript".
-It will open your browser on the correct page. After a few seconds looking at a page with a
-broken link, the compiler will finish and PixelCycle will start up with an empty canvas. You
-will be able to create an animation but the Save button won't work.
+After a few seconds looking at a page with a broken link, the compiler will finish and
+PixelCycle will start up with an empty canvas. You will be able to create an animation
+but the Save button won't work.
 
-(You can also use Dartium, but that requires editing the main.html file slightly.)
+To test loading and saving animations, you will need to run a development instance of App Engine.
 
-To test loading and saving animations, you will need to run a development instance of App Engine
-with a command like this.
+First, build the app by running `webdev build`. Then run dev_appserver with a command like:
 
-  {path-to-sdk}/dev_appserver.py web/app.yaml
+  {path-to-gcloud-sdk}/bin/dev_appserver.py build/app.yaml
 
 Then try it out at http://localhost:8080/.

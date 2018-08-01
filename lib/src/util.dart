@@ -7,7 +7,7 @@ class Text {
   String _value;
   final StreamController<String> _onChange = new StreamController<String>.broadcast();
 
-  Stream get onChange => _onChange.stream;
+  Stream<String> get onChange => _onChange.stream;
 
   String get value => _value;
 
