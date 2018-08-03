@@ -18,10 +18,24 @@ After a few seconds looking at a page with a broken link, the compiler will fini
 PixelCycle will start up with an empty canvas. You will be able to create an animation
 but the Save button won't work.
 
-To test loading and saving animations, you will need to run a development instance of App Engine.
+To test loading and saving animations, you will need to run a development instance of App Engine. First, build the app:
 
-First, build the app by running `webdev build`. Then run dev_appserver with a command like:
+  webdev build --output web:build/src/app
 
-  {path-to-gcloud-sdk}/bin/dev_appserver.py build/app.yaml
+Set GOPATH:
+
+  cd build
+  export GOPATH=`pwd`
+  cd ..
+
+Then run dev_appserver with a command like:
+
+  {path-to-gcloud-sdk}/bin/dev_appserver.py build/src/app/app.yaml
 
 Then try it out at http://localhost:8080/.
+
+Deploying to App Engine
+-----------------------
+
+  webdev build --output web:build/src/app
+  gcloud app deploy build/src/app/app.yaml --version=draft

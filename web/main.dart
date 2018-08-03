@@ -1,9 +1,7 @@
 import 'dart:html';
-import 'dart:async' show Future, Completer;
 
 import 'package:pixelcycle/src/editor.dart' show Editor;
-import 'package:pixelcycle/src/palette.dart' show Palette, Brush;
-import 'package:pixelcycle/src/movie.dart' show Movie, Frame, WIDTH, HEIGHT;
+import 'package:pixelcycle/src/palette.dart' show Brush;
 import 'package:pixelcycle/src/player.dart' show Player;
 import 'package:pixelcycle/src/server.dart' as server;
 import 'package:pixelcycle/src/ui.dart' as ui;
